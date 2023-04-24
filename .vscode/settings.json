@@ -7,8 +7,7 @@
     "html",
     "vue",
     "markdown",
-    "json",
-    "jsonc"
+    "json"
   ],
   "eslint.validate": [
     "javascript",
@@ -18,8 +17,7 @@
     "html",
     "vue",
     "markdown",
-    "json",
-    "jsonc"
+    "json"
   ],
   "npm.packageManager": "pnpm",
   // 保存的时候自动格式化
