@@ -17,8 +17,31 @@
     "sourceType": "module",
     "parser": "@typescript-eslint/parser"
   },
-  "plugins": ["vue", "@typescript-eslint"],
+  "plugins": ["vue", "@typescript-eslint", "markdown"],
   "rules": {
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
-  }
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "vue/multi-word-component-names": "off"
+  },
+  "overrides": [
+    {
+      // 2. Enable the Markdown processor for all .md files.
+      "files": ["**/*.md"],
+      "processor": "markdown/markdown"
+    },
+    {
+      // 3. Optionally, customize the configuration ESLint uses for ```js
+      // fenced code blocks inside .md files.
+      "files": ["**/*.md/*.js"],
+      "parserOptions": {
+        "ecmaFeatures": {
+          "impliedStrict": true
+        }
+      },
+      // ...
+      "rules": {
+        "no-console": "off",
+        "import/no-unresolved": "off"
+      }
+    }
+  ]
 }
