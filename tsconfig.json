@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "lib": ["dom", "ESNext", "DOM.Iterable"],
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "strict": true,
+    "noUnusedLocals": true
+  }
+}
