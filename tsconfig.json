@@ -7,6 +7,9 @@
     "sourceMap": false,
     "moduleResolution": "node",
     "strict": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "allowImportingTsExtensions": true
   }
 }

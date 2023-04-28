@@ -1,0 +1,7 @@
+{
+  "name": "@effortless-design/docs",
+  "private": true,
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  }
+}

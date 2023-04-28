@@ -24,6 +24,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.8",
+    "sass": "^1.62.1",
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-alpha.73",
     "vue": "^3.2.47",
@@ -33,5 +34,8 @@
     "*.{js,jsx,ts,tsx,md,json,vue}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "@effortless-design/utils": "workspace:^1.0.0"
   }
 }
