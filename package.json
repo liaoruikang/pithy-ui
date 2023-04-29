@@ -36,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "@effortless-design/icons": "workspace:^1.0.0",
     "@effortless-design/utils": "workspace:^1.0.0"
   }
 }

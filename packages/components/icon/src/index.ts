@@ -1,5 +1,3 @@
-import type { Component, PropType } from 'vue';
-
 export const iconProps = {
   color: {
     type: String,
@@ -8,9 +6,5 @@ export const iconProps = {
   size: {
     type: String,
     default: '16px',
-  },
-  iconComponent: {
-    type: Object as PropType<Component>,
-    required: true,
   },
 };

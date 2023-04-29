@@ -1,12 +1,9 @@
-<script setup lang="ts">
-import { EfInput } from '@effortless-design/components';
-import { ref } from 'vue';
-console.log(EfInput);
-const value = ref<string>('');
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <ef-input v-model="value"></ef-input>
+  <ef-icon>
+    <ef-sun></ef-sun>
+  </ef-icon>
 </template>
 
 <style scoped></style>
