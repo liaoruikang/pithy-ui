@@ -1,0 +1,59 @@
+@use '../vars/vars' as *;
+@use 'sass:map' as *;
+
+@mixin viewport_to_small() {
+  @media (max-width: $middle_width) {
+    @content;
+  }
+}
+@mixin viewport_to_middle() {
+  @media (min-width: $middle_width) and (max-width: $large_width) {
+    @content;
+  }
+}
+@mixin viewport_to_large() {
+  @media (min-width: $large_width) and (max-width: $super_width) {
+    @content;
+  }
+}
+
+@mixin viewport($maps) {
+  $attrs: get($maps, 'attrs');
+  $s_val: get($maps, 's_val');
+  $m_val: get($maps, 'm_val');
+  $l_val: get($maps, 'l_val');
+
+  @include viewport_to_small {
+    @each $attr in $attrs {
+      $i: index($attrs, $attr);
+      $val: if(
+        length($s_val) >= $i,
+        nth($s_val, $i),
+        nth($s_val, length($s_val))
+      );
+      #{$attr}: $val;
+    }
+  }
+  @include viewport_to_middle {
+    @each $attr in $attrs {
+      $i: index($attrs, $attr);
+      $val: if(
+        length($m_val) >= $i,
+        nth($m_val, $i),
+        nth($m_val, length($m_val))
+      );
+      #{$attr}: $val;
+    }
+  }
+  @include viewport_to_large {
+    @each $attr in $attrs {
+      $i: index($attrs, $attr);
+      $val: if(
+        length($l_val) >= $i,
+        nth($l_val, $i),
+        nth($l_val, length($l_val))
+      );
+      #{$attr}: $val;
+    }
+  }
+}

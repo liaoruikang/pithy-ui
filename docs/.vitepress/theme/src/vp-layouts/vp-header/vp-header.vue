@@ -6,17 +6,29 @@
         class="logo"
         alt="effortless-design"
         @click="push" />
+      <div class="ef-header__navigate">
+        <slot name="nav"></slot>
+      </div>
     </nav>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts">
 import { useData, useRouter } from 'vitepress';
+import { defineComponent } from 'vue';
 
-const router = useRouter();
+export default defineComponent({
+  name: 'vp-header',
+  setup() {
+    const router = useRouter();
+    const { theme } = useData();
+    const push = () => router.go('/');
 
-const { theme } = useData();
+    return {
+      theme,
+      push,
+    };
+  },
+});
 
 // 跳转到首页
-const push = () => router.go('/');
-console.log(theme.value);
 </script>

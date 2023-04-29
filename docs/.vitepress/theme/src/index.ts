@@ -1,4 +1,4 @@
 import './styles/index.scss';
-import Layout from './vp-layouts/index.vue';
+import Layout from './vp-app.vue';
 
 export { Layout };
