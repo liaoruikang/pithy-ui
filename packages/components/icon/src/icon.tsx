@@ -10,14 +10,17 @@ export default defineComponent({
     const styles = computed(() => {
       return {
         fontSize: size.value,
-        '--fill': color.value,
+        color: color.value,
       };
     });
-    // {{ default: () => slots.default() }}
+
+    const defaultSlot = slots.default?.().slice(0, 1);
+
+    if (!defaultSlot) return () => '';
 
     return () => (
       <i class='ef-icon' style={styles.value}>
-        {{ default: () => slots.default?.() }}
+        {{ default: () => defaultSlot }}
       </i>
     );
   },

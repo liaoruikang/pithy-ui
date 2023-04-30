@@ -1,11 +1,10 @@
 import { App } from 'vue';
 
 import { withInstallAll } from '@effortless-design/utils/withInstall';
-import EfSun from './sun';
 
-const components = [EfSun];
+import components from './src';
 
-export { EfSun };
+export * from './src';
 
 export default {
   version: 'V0.0.0',

@@ -8,6 +8,7 @@ importers:
       '@commitlint/cli': ^17.6.1
       '@commitlint/config-conventional': ^17.6.1
       '@effortless-design/icons': workspace:^1.0.0
+      '@effortless-design/theme': workspace:^1.0.0
       '@effortless-design/utils': workspace:^1.0.0
       '@typescript-eslint/eslint-plugin': ^5.59.0
       '@typescript-eslint/parser': ^5.59.0
@@ -26,6 +27,7 @@ importers:
       vue-eslint-parser: ^9.1.1
     dependencies:
       '@effortless-design/icons': link:packages/icons
+      '@effortless-design/theme': link:packages/theme
       '@effortless-design/utils': link:packages/utils
     devDependencies:
       '@algolia/client-search': 4.17.0
@@ -46,6 +48,12 @@ importers:
       vitepress: 1.0.0-alpha.73_4x5ve6hmlihdxhjqxwib4dhx3e
       vue: 3.2.47
       vue-eslint-parser: 9.1.1_eslint@8.39.0
+
+  docs:
+    specifiers:
+      normalize.css: ^8.0.1
+    dependencies:
+      normalize.css: 8.0.1
 
   packages/components:
     specifiers: {}
@@ -2885,6 +2893,10 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /normalize.css/8.0.1:
+    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
+    dev: false
 
   /npm-run-path/4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
