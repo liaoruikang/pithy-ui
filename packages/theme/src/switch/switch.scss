@@ -1,0 +1,49 @@
+@use '../function/function' as f;
+@use '../mixins/mixins' as m;
+@use '../mixins/vars';
+@use '../common/config' as c;
+
+@include vars.set_css_vars('switch');
+
+@include m.b('switch') {
+  display: inline-flex;
+  align-items: center;
+
+  &__box {
+    position: relative;
+    min-width: 42px;
+    height: 22px;
+    border-radius: 12px;
+    background-color: f.get_var(switch-bg-color);
+    border: 1px solid f.get_var(switch-bd-color);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    @include m.transition((background-color, border));
+
+    @include m.b('switch', 'check') {
+      @include m.center_position('vertical') {
+        left: 1px;
+      }
+
+      width: 18px;
+      height: 18px;
+      background-color: f.get_var(switch-check-bg-color);
+      border-radius: 50%;
+
+      @include m.transition((background-color, left, transform));
+
+      &.is-active {
+        transform: translate(calc(-100% - 1px), -50%);
+        left: 100%;
+      }
+    }
+  }
+
+  &__inactive,
+  &__active {
+    font-size: 14px;
+  }
+}
+
+// prefers-color-schem

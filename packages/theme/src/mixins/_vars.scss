@@ -1,0 +1,52 @@
+@use '../common/config' as *;
+@use '../vars/vars' as *;
+@use 'sass:map' as *;
+
+@mixin set_css_var($name, $value) {
+  --#{$namespace+$common-separator+$name}: #{$value};
+}
+
+// @mixin set_light_vars($field) {
+//   $temp: get($light, $field);
+//   @if ($temp) {
+//     @each $name, $value in $temp {
+//       @include set_css_var($name, $value);
+//     }
+//   }
+// }
+
+// @mixin set_drak_vars($field) {
+//   $temp: get($drak, $field);
+//   @if ($temp) {
+//     @each $name, $value in $temp {
+//       @include set_css_var($name, $value);
+//     }
+//   }
+// }
+
+@mixin set_css_vars($field) {
+  $temp: get($light, $field);
+  @if ($temp) {
+    :root {
+      @each $name, $value in $temp {
+        @include set_css_var($name, $value);
+      }
+    }
+  }
+  $temp: get($drak, $field);
+  @if ($temp) {
+    html.drak {
+      @each $name, $value in $temp {
+        @include set_css_var($name, $value);
+      }
+    }
+  }
+}
+
+// - <length>：表示长度值，如像素、百分比等。
+// - <color>：表示颜色值，如 RGB、HSL 等。
+// - <number>：表示数字值，如整数、小数等。
+// - <string>：表示字符串值，如文本、URL 等。
+// - <url>：表示 URL 值，如图片、字体等。
+// - <angle>：表示角度值，如度数、弧度等。
+// - <time>：表示时间值，如秒、毫秒等。

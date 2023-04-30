@@ -1,0 +1,24 @@
+$colors: (
+  primary: #a29bfe,
+);
+
+$light: (
+  common: (
+    text-color: #333,
+  ),
+  switch: (
+    switch-bg-color: #f1f1f1,
+    switch-bd-color: #b1b1b1,
+    switch-check-bg-color: #fff,
+  ),
+);
+$drak: (
+  common: (
+    text-color: #eee,
+  ),
+  switch: (
+    switch-bg-color: #3f3f3f,
+    switch-bd-color: #646464,
+    switch-check-bg-color: #1a1a1a,
+  ),
+);

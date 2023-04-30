@@ -1,0 +1,7 @@
+@forward './icon/icon.scss';
+@forward './switch/switch.scss';
+
+@use './mixins/vars' as *;
+
+@include set_css_vars('common');
+// @include test;

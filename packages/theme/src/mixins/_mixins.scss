@@ -1,0 +1,51 @@
+@use '../common/config';
+@use 'sass:string';
+
+@mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
+  $str: null;
+  @each $value in $attrs {
+    $str: $str + $value + ' ' + $duration + ' ' + $function + ',';
+  }
+  transition: string.unquote(string.slice($str, 1, -2));
+}
+
+// bem
+@mixin b($block: '', $element: '', $modifier: '', $state: '', $prefix: '') {
+  $b: '';
+  @if $block != '' {
+    $b: config.$namespace + config.$common-separator + $block;
+  }
+  @if $element != '' {
+    $b: $b + config.$element-separator + $element;
+  }
+  @if $modifier != '' {
+    $b: $b + config.$modifier-separator + $modifier;
+  }
+  @if $state != '' {
+    $b: config.$state-prefix + $state;
+  }
+  @if $prefix != '' {
+    $b: $prefix + $b;
+  } @else {
+    $b: '.' + $b;
+  }
+  #{string.unquote($b)} {
+    @content;
+  }
+}
+
+@mixin center_position($type: null) {
+  position: absolute;
+  @if ($type == 'across') {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else if($type == 'vertical') {
+    top: 50%;
+    transform: translateY(-50%);
+  } @else {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @content;
+}
