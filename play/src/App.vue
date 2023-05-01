@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 const toggle = () => {
   document.documentElement.classList.toggle('drak');
 };
+const value = ref('0');
 </script>
 
 <template>
@@ -12,5 +14,12 @@ const toggle = () => {
   <ef-icon color="blue">
     <ef-moon> </ef-moon>
   </ef-icon>
-  <ef-switch></ef-switch>
+  <ef-switch v-model="value" active-value="1" inactive-value="0"> </ef-switch>
 </template>
+
+<style lang="scss">
+body {
+  background-color: var(--ef-bg-color);
+  transition: 0.3s;
+}
+</style>

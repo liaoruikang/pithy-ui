@@ -1,5 +1,9 @@
 import sun from '../svg/sun.svg';
 import moon from '../svg/moon.svg';
+import loading from '../svg/loading.svg';
+import loading2 from '../svg/loading2.svg';
+import error from '../svg/error.svg';
+import success from '../svg/success.svg';
 import { Component } from 'vue';
 
 const options = [
@@ -10,6 +14,22 @@ const options = [
   {
     name: 'ef-moon',
     url: moon,
+  },
+  {
+    name: 'ef-loading',
+    url: loading,
+  },
+  {
+    name: 'ef-loading2',
+    url: loading2,
+  },
+  {
+    name: 'ef-error',
+    url: error,
+  },
+  {
+    name: 'ef-success',
+    url: success,
   },
 ];
 

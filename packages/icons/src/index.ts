@@ -14,8 +14,11 @@ const iconComponent = getIconCompoent(components);
 
 const EfSun = iconComponent['ef-sun'];
 const EfMoon = iconComponent['ef-moon'];
+const EfLoading = iconComponent['ef-loading'];
+const EfLoading2 = iconComponent['ef-loading2'];
+const EfSuccess = iconComponent['ef-success'];
+const EfError = iconComponent['ef-error'];
 
-export { EfSun };
-export { EfMoon };
+export { EfSun, EfMoon, EfLoading, EfLoading2, EfSuccess, EfError };
 
 export default components;

@@ -1,24 +1,42 @@
-$colors: (
-  primary: #a29bfe,
+@use 'sass:map';
+
+$colors: () !default;
+$colors: map.deep-merge(
+  (
+    primary-color: #a29bfe,
+  ),
+  $colors
 );
 
-$light: (
-  common: (
-    text-color: #333,
+$light: () !default;
+$light: map.deep-merge(
+  (
+    common: (
+      text-color: #333,
+      bg-color: #fff,
+      active-text-color: map.get($colors, 'primary-color'),
+    ),
+    switch: (
+      switch-bg-color: #f1f1f1,
+      switch-bd-color: #b1b1b1,
+      switch-check-bg-color: #fff,
+    ),
   ),
-  switch: (
-    switch-bg-color: #f1f1f1,
-    switch-bd-color: #b1b1b1,
-    switch-check-bg-color: #fff,
-  ),
+  $light
 );
-$drak: (
-  common: (
-    text-color: #eee,
+
+$drak: () !default;
+$drak: map.deep-merge(
+  (
+    common: (
+      text-color: #eee,
+      bg-color: #1a1a1a,
+    ),
+    switch: (
+      switch-bg-color: #3f3f3f,
+      switch-bd-color: #646464,
+      switch-check-bg-color: #1a1a1a,
+    ),
   ),
-  switch: (
-    switch-bg-color: #3f3f3f,
-    switch-bd-color: #646464,
-    switch-check-bg-color: #1a1a1a,
-  ),
+  $drak
 );

@@ -19,12 +19,18 @@
     box-sizing: border-box;
     cursor: pointer;
 
+    &:hover {
+      border-color: f.get_var(primary-color);
+    }
+
     @include m.transition((background-color, border));
 
     @include m.b('switch', 'check') {
       @include m.center_position('vertical') {
         left: 1px;
       }
+
+      @include m.center_flex;
 
       width: 18px;
       height: 18px;
@@ -33,7 +39,7 @@
 
       @include m.transition((background-color, left, transform));
 
-      &.is-active {
+      &.#{c.$state-prefix}active {
         transform: translate(calc(-100% - 1px), -50%);
         left: 100%;
       }
@@ -43,7 +49,19 @@
   &__inactive,
   &__active {
     font-size: 14px;
+    color: f.get_var(text-color);
+
+    @include m.transition(color);
+
+    &.#{c.$state-prefix}active {
+      color: f.get_var(active-text-color);
+    }
+  }
+
+  &__inactive {
+    margin-right: 8px;
+  }
+  &__active {
+    margin-left: 8px;
   }
 }
-
-// prefers-color-schem

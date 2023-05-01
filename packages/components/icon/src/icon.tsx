@@ -14,13 +14,9 @@ export default defineComponent({
       };
     });
 
-    const defaultSlot = slots.default?.().slice(0, 1);
-
-    if (!defaultSlot) return () => '';
-
     return () => (
       <i class='ef-icon' style={styles.value}>
-        {{ default: () => defaultSlot }}
+        {{ default: () => slots.default?.().slice(0, 1) }}
       </i>
     );
   },

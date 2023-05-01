@@ -1,0 +1,94 @@
+<svg viewBox="0 0 16 16" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		.rotate {
+      animation: spin 3s linear infinite;
+      transform-origin: center;
+    }
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }</style>
+	<g class="rotate" clip-path="url(#clip6_1)">
+		<g clip-path="url(#clip6_6)">
+			<rect x="10.566986" y="2.553833" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(30 10.566986 2.553833)"/>
+		</g>
+		<g clip-path="url(#clip6_52)">
+			<rect x="12.946167" y="4.566986" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(60 12.946167 4.566986)"/>
+		</g>
+		<g clip-path="url(#clip6_50)">
+			<rect x="13.446167" y="10.566986" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(120 13.446167 10.566986)"/>
+		</g>
+		<g clip-path="url(#clip6_48)">
+			<rect x="11.433014" y="12.946167" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(150 11.433014 12.946167)"/>
+		</g>
+		<g clip-path="url(#clip6_46)">
+			<rect x="14.000000" y="7.500000" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(90 14.000000 7.500000)"/>
+		</g>
+		<g clip-path="url(#clip6_44)">
+			<rect x="8.500000" y="14.000000" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(180 8.500000 14.000000)"/>
+		</g>
+		<g clip-path="url(#clip6_42)">
+			<rect x="5.433014" y="13.446167" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(-150 5.433014 13.446167)"/>
+		</g>
+		<g clip-path="url(#clip6_40)">
+			<rect x="3.053833" y="11.433014" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(-120 3.053833 11.433014)"/>
+		</g>
+		<g clip-path="url(#clip6_10)">
+			<rect x="2.000000" y="8.500000" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(-90 2.000000 8.500000)"/>
+		</g>
+		<g clip-path="url(#clip6_14)">
+			<rect x="2.553833" y="5.433014" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(-60 2.553833 5.433014)"/>
+		</g>
+		<g clip-path="url(#clip6_8)">
+			<rect x="4.566986" y="3.053833" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(-30 4.566986 3.053833)"/>
+		</g>
+		<g clip-path="url(#clip6_54)">
+			<rect x="7.500000" y="2.000000" rx="0.500000" width="1.000000" height="2.500000"/>
+		</g>
+	</g>
+	<defs>
+		<clipPath id="clip6_6">
+			<rect  width="16.000000" height="16.000000" transform="translate(5.071808 -2.928192) rotate(30.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_52">
+			<rect width="16.000000" height="16.000000" transform="translate(10.928192 -2.928192) rotate(60.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_50">
+			<rect width="16.000000" height="16.000000" transform="translate(18.928192 5.071808) rotate(120.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_48">
+			<rect width="16.000000" height="16.000000" transform="translate(18.928192 10.928192) rotate(149.999969)"/>
+		</clipPath>
+		<clipPath id="clip6_46">
+			<rect width="16.000000" height="16.000000" transform="translate(16.000000 0.000000) rotate(90.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_44">
+			<rect width="16.000000" height="16.000000" transform="translate(16.000000 16.000000) rotate(180.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_42">
+			<rect width="16.000000" height="16.000000" transform="translate(10.928192 18.928192) rotate(-149.999985)"/>
+		</clipPath>
+		<clipPath id="clip6_40">
+			<rect width="16.000000" height="16.000000" transform="translate(5.071808 18.928192) rotate(-120.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_10">
+			<rect width="16.000000" height="16.000000" transform="translate(0.000000 16.000000) rotate(-90.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_14">
+			<rect width="16.000000" height="16.000000" transform="translate(-2.928192 10.928192) rotate(-60.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_8">
+			<rect width="16.000000" height="16.000000" transform="translate(-2.928192 5.071808) rotate(-30.000000)"/>
+		</clipPath>
+		<clipPath id="clip6_54">
+			<rect width="16.000000" height="16.000000"/>
+		</clipPath>
+		<clipPath id="clip6_1">
+			<rect width="16.000000" height="16.000000"/>
+		</clipPath>
+	</defs>
+</svg>
