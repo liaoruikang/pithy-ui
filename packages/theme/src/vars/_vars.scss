@@ -3,7 +3,7 @@
 $colors: () !default;
 $colors: map.deep-merge(
   (
-    primary-color: #a29bfe,
+    primary-color: #19a7ce,
   ),
   $colors
 );
@@ -20,6 +20,9 @@ $light: map.deep-merge(
       switch-bg-color: #f1f1f1,
       switch-bd-color: #b1b1b1,
       switch-check-bg-color: #fff,
+      switch-active-color: map.get($colors, 'primary-color'),
+      switch-inactive-color: #333,
+      switch-loading-color: #f97b22,
     ),
   ),
   $light
@@ -36,6 +39,7 @@ $drak: map.deep-merge(
       switch-bg-color: #3f3f3f,
       switch-bd-color: #646464,
       switch-check-bg-color: #1a1a1a,
+      switch-inactive-color: #eee,
     ),
   ),
   $drak

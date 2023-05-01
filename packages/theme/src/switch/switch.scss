@@ -30,8 +30,7 @@
         left: 1px;
       }
 
-      @include m.center_flex;
-
+      overflow: hidden;
       width: 18px;
       height: 18px;
       background-color: f.get_var(switch-check-bg-color);
@@ -42,6 +41,53 @@
       &.#{c.$state-prefix}active {
         transform: translate(calc(-100% - 1px), -50%);
         left: 100%;
+        @include m.b('switch', 'check', 'box') {
+          transform: translateX(-50%);
+          .loading-icon {
+            transform: translateX(100%);
+          }
+        }
+      }
+      @include m.b('switch', 'check', 'box') {
+        @include m.center_flex('vertical');
+        @include m.transition(transform, 0.3s, ease-in-out);
+        width: calc(100% * 2);
+        height: inherit;
+
+        @include m.b('switch', 'check', 'icon') {
+          @include m.center_flex;
+
+          color: f.get_var(switch-inactive-color);
+          opacity: 0;
+          flex: 1;
+          max-width: 50%;
+          max-height: 100%;
+          font-style: normal;
+
+          @include m.transition((opacity, color), 0.2s);
+
+          &[aria-checked='true'] {
+            color: f.get_var(switch-active-color);
+            opacity: 1;
+          }
+          @include m.b('switch', 'check', 'wrap') {
+            @include m.center_flex;
+
+            width: 1em;
+            height: 1em;
+          }
+          &.loading-icon {
+            opacity: 1;
+            color: f.get_var(switch-loading-color);
+
+            @include m.transition(transform, 0.3s, ease-in-out);
+
+            @include m.b('switch', 'check', 'wrap') {
+              width: 1.25em;
+              height: 1.25em;
+            }
+          }
+        }
       }
     }
   }
@@ -49,12 +95,12 @@
   &__inactive,
   &__active {
     font-size: 14px;
-    color: f.get_var(text-color);
+    color: f.get_var(switch-inactive-color);
 
     @include m.transition(color);
 
     &.#{c.$state-prefix}active {
-      color: f.get_var(active-text-color);
+      color: f.get_var(switch-active-color);
     }
   }
 

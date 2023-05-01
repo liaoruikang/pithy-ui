@@ -1,10 +1,13 @@
+import { ExtractPropTypes } from 'vue';
+
 export const iconProps = {
   color: {
     type: String,
-    default: '#000',
   },
   size: {
     type: String,
-    default: '16px',
+    default: '1em',
   },
 };
+
+export type switchProps = ExtractPropTypes<typeof iconProps>;

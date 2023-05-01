@@ -1,7 +1,7 @@
-<svg viewBox="0 0 16 16" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 	<style>
 		.rotate {
-      animation: spin 3s linear infinite;
+      animation: spin 2s linear infinite;
       transform-origin: center;
     }
     @keyframes spin {
@@ -11,7 +11,8 @@
       to {
         transform: rotate(360deg);
       }
-    }</style>
+    }
+		</style>
 	<g class="rotate" clip-path="url(#clip6_1)">
 		<g clip-path="url(#clip6_6)">
 			<rect x="10.566986" y="2.553833" rx="0.500000" width="1.000000" height="2.500000" transform="rotate(30 10.566986 2.553833)"/>

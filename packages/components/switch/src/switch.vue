@@ -1,69 +1,122 @@
 <template>
   <div class="ef-switch">
     <span
+      v-if="inactiveText"
       class="ef-switch__inactive"
       :class="{
         'is-active': !activeState,
       }"
-      >关闭</span
+      >{{ inactiveText }}</span
     >
     <button class="ef-switch__box" @click="change">
-      1321321
-      <span
-        class="ef-switch__check"
-        :class="{
-          'is-active': activeState,
-        }">
-        <EfIcon>
-          <slot name="check-active">
-            <ef-success v-show="activeState"></ef-success>
-          </slot>
-          <slot name="check-inactive">
-            <ef-error v-show="!activeState"></ef-error>
-          </slot>
-        </EfIcon>
-      </span>
+      <Transition name="check">
+        <span
+          class="ef-switch__check"
+          :class="{
+            'is-active': activeState,
+          }">
+          <span class="ef-switch__check--box">
+            <i v-show="loading" class="ef-switch__check--icon loading-icon">
+              <span class="ef-switch__check--wrap">
+                <ef-loading2></ef-loading2>
+              </span>
+            </i>
+            <i
+              v-show="!loading"
+              class="ef-switch__check--icon inactive-icon"
+              :aria-checked="!activeState">
+              <span class="ef-switch__check--wrap">
+                <slot name="check-inactive">
+                  <ef-error></ef-error>
+                </slot>
+              </span>
+            </i>
+            <i
+              v-show="!loading"
+              class="ef-switch__check--icon active-icon"
+              :aria-checked="activeState">
+              <span class="ef-switch__check--wrap">
+                <slot name="check-active">
+                  <ef-success></ef-success>
+                </slot>
+              </span>
+            </i>
+          </span>
+        </span>
+      </Transition>
     </button>
     <span
+      v-if="activeText"
       class="ef-switch__active"
       :class="{
         'is-active': activeState,
       }"
-      >开启</span
+      >{{ activeText }}</span
     >
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { switchProps, switchEmits } from '.';
-import EfIcon from '../../icon';
-import { EfSuccess, EfError } from '@effortless-design/icons';
+import { computed, defineComponent, ref } from 'vue';
+import { switchProps, switchEmits, switchModelValue } from '.';
+import { EfSuccess, EfError, EfLoading2 } from '@effortless-design/icons';
+import { isPromise } from '@effortless-design/utils';
 
 export default defineComponent({
   name: 'ef-switch',
   props: switchProps,
   emits: switchEmits,
-  components: { EfIcon, EfSuccess, EfError },
+  components: { EfSuccess, EfError, EfLoading2 },
   setup(props, { emit }) {
     const active = computed({
-      get(): boolean | string | number {
+      get(): switchModelValue {
         return props.modelValue;
       },
-      set(value: boolean | string | number) {
+      set(value: switchModelValue) {
         emit('update:model-value', value);
       },
     });
 
+    const beforeLoading = ref<boolean>(false);
+
     const activeState = computed(() => active.value == props.activeValue);
 
+    const updateValue = computed(() =>
+      activeState.value ? props.inactiveValue : props.activeValue,
+    );
+
+    const loading = computed(
+      () => (props.beforeLoading && beforeLoading.value) || props.loading,
+    );
+
     const change = () => {
-      active.value =
-        active.value == props.activeValue
-          ? props.inactiveValue
-          : props.activeValue;
+      updateLoadingState(true);
+      if (props.beforChange) {
+        const returnedValue = props.beforChange(updateValue.value);
+
+        if (isPromise(returnedValue)) {
+          returnedValue.then(
+            () => updateState(),
+            () => updateLoadingState(false),
+          );
+        } else if (returnedValue) {
+          updateState();
+          updateLoadingState(true);
+        }
+      } else {
+        updateState();
+        updateLoadingState(true);
+      }
     };
-    return { active, change, activeState };
+
+    const updateLoadingState = (value: boolean) => {
+      beforeLoading.value = value;
+    };
+
+    const updateState = () => {
+      active.value = updateValue.value;
+    };
+    return { active, change, activeState, loading };
   },
 });
 </script>

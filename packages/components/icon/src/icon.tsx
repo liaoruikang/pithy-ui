@@ -13,10 +13,9 @@ export default defineComponent({
         color: color.value,
       };
     });
-
     return () => (
       <i class='ef-icon' style={styles.value}>
-        {{ default: () => slots.default?.().slice(0, 1) }}
+        {{ default: () => slots.default?.() }}
       </i>
     );
   },

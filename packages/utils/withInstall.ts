@@ -14,7 +14,5 @@ export const withInstall = (component: Component): Component => {
 };
 
 export const withInstallAll = (app: App, components: Component[]): void => {
-  console.log(components);
-
   components.forEach(component => registerComponent(app, component));
 };

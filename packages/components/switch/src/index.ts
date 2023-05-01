@@ -1,4 +1,6 @@
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
+
+export type switchModelValue = boolean | string | number;
 
 export const switchProps = {
   modelValue: {
@@ -13,6 +15,23 @@ export const switchProps = {
     type: [Boolean, String, Number],
     default: false,
   },
+  activeText: {
+    type: [Boolean, String, Number],
+  },
+  inactiveText: {
+    type: [Boolean, String, Number],
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  beforeLoading: {
+    type: Boolean,
+    default: true,
+  },
+  beforChange: Function as PropType<
+    (value: switchModelValue) => Promise<any> | boolean
+  >,
 };
 
 export const switchEmits = {

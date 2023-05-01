@@ -1,75 +1,42 @@
-import {
-  defineComponent,
-  Component,
-  Suspense,
-  h,
-  FunctionalComponent,
-  defineAsyncComponent,
-} from 'vue';
+import { defineComponent, Component, h, VNode } from 'vue';
 
-interface Attrs {
-  [key: string]: unknown;
-}
+const map = new Map<string, VNode>();
 
 export default (name: string, url: string): Component => {
-  const AsyncIconComponent = createIconComponent(url);
-
   return defineComponent({
     name,
-    setup(props, { attrs }) {
-      const property: Attrs = {
-        style: {
-          fill: 'currentColor',
-        },
-      };
-
-      return () => (
-        <Suspense>
-          <AsyncIconComponent {...attrs} {...property}></AsyncIconComponent>
-        </Suspense>
-      );
+    setup() {
+      let vnode: VNode | undefined;
+      if (!map.has(url)) {
+        vnode = toVnode(getSvgElement(url)) as VNode;
+        map.set(url, vnode);
+      } else {
+        vnode = map.get(url);
+      }
+      return () => vnode;
     },
   });
 };
 
-const createIconComponent = (url: string): FunctionalComponent => {
-  return defineAsyncComponent(async () => {
-    const vnode = toVnode(await createIconElement(url));
-    return vnode;
-  });
-};
-
-const createIconElement = async (url: string): Promise<SVGElement> => {
-  return new Promise(resolve => {
-    const objEl = document.createElement('object');
-    const onLoad = () => {
-      resolve(
-        objEl.contentDocument
-          ?.querySelector('svg')
-          ?.cloneNode(true) as SVGElement,
-      );
-      objEl.remove();
-    };
-    objEl.data = url;
-    objEl.type = 'image/svg+xml';
-    objEl.onload = onLoad;
-    objEl.style.position = 'absolute';
-    objEl.style.visibility = 'hidden';
-    document.body.appendChild(objEl);
-  });
-};
-
-const toVnode = (el: HTMLElement | SVGElement): any => {
-  if (el.nodeType === Node.TEXT_NODE) {
+const toVnode = (el: HTMLElement | SVGElement): VNode | string | null => {
+  if (el.nodeType === 3) {
     return el.textContent;
-  } else if (el.nodeType === Node.ELEMENT_NODE) {
-    const props: Attrs = {};
-    for (const attr of el.attributes) {
-      props[attr.nodeName] = attr.nodeValue;
-    }
-    const children = Array.from(el.childNodes).map(el =>
-      toVnode(el as HTMLElement),
-    );
-    return h(el.tagName.toLowerCase(), props, children);
   }
+  const props: { [key: string]: any } = {};
+  for (const attr of el.attributes) {
+    props[attr.nodeName] = attr.nodeValue;
+  }
+  const children = Array.from(el.childNodes).map(el =>
+    toVnode(el as HTMLElement),
+  );
+  return h(el.tagName.toLowerCase(), props, children);
+};
+
+const getSvgElement = (url: string): SVGElement => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send();
+  const el = document.createElement('span');
+  el.innerHTML = xhr.responseText;
+  return el.querySelector('svg')?.cloneNode(true) as SVGElement;
 };
