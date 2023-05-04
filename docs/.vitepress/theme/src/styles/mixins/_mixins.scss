@@ -1,0 +1,21 @@
+@use 'sass:string';
+@mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
+  $str: null;
+  @each $value in $attrs {
+    $str: $str + $value + ' ' + $duration + ' ' + $function + ',';
+  }
+  transition: string.unquote(string.slice($str, 1, -2));
+}
+
+@mixin center_flex($type: null, $display-type: flex) {
+  display: $display-type;
+  @if ($type == 'across') {
+    justify-content: center;
+  } @else if($type == 'vertical') {
+    align-items: center;
+  } @else {
+    justify-content: center;
+    align-items: center;
+  }
+  @content;
+}

@@ -1,8 +1,8 @@
 <template>
-  <div class="ef-nav">
-    <ul class="ef-menu">
+  <div class="s-nav">
+    <ul class="s-menu__normal">
       <li
-        class="ef-menu__item"
+        class="s-menu__item"
         :class="{
           active: currentPath == item.link,
         }"
@@ -10,12 +10,14 @@
         :key="item.link">
         <a :href="item.link">{{ item.text }}</a>
       </li>
+      <s-switch v-model="drakTheme"></s-switch>
     </ul>
   </div>
 </template>
 <script lang="ts">
 import { useData, useRoute } from 'vitepress';
 import { computed, defineComponent } from 'vue';
+import { useDrak } from '@swift/hooks';
 export default defineComponent({
   name: 'vp-navbar',
   setup() {
@@ -23,31 +25,47 @@ export default defineComponent({
     const route = useRoute();
     const currentPath = computed(() => route.path.split('.')[0]);
 
-    return { theme, currentPath };
+    const drakTheme = useDrak(false);
+
+    return { theme, currentPath, drakTheme };
   },
 });
 </script>
 <style lang="scss" scoped>
-.ef-nav {
+@use '../../styles/mixins/reactive' as *;
+@use '../../styles/mixins/mixins' as *;
+
+.s-nav {
+  @include center_flex('vertical');
+
   height: 100%;
-  .ef-menu {
+  .s-menu__normal {
     display: flex;
     height: 100%;
-    &__item {
+
+    @include viewport_to_small {
+      display: none;
+    }
+
+    .s-menu__item {
       display: flex;
       align-items: center;
       vertical-align: middle;
-      padding: 0 10px;
+      padding: 0 15px;
       height: 100%;
-      border-bottom: 1px solid transparent;
+      border-bottom: 2px solid transparent;
       box-sizing: border-box;
-      transition: border-bottom 0.3s;
+      @include transition(border-bottom);
       &.active {
         border-bottom: 2px solid #a29bfe;
       }
       a {
         color: #333;
       }
+    }
+    :deep(.s-switch) {
+      padding: 0 15px;
+      transform: scale(0.875);
     }
   }
 }

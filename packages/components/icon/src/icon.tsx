@@ -2,7 +2,7 @@ import { defineComponent, toRefs, computed } from 'vue';
 import { iconProps } from '.';
 
 export default defineComponent({
-  name: 'ef-icon',
+  name: 's-icon',
   props: iconProps,
   setup(props, { slots }) {
     const { color, size } = toRefs(props);
@@ -14,7 +14,7 @@ export default defineComponent({
       };
     });
     return () => (
-      <i class='ef-icon' style={styles.value}>
+      <i class='s-icon' style={styles.value}>
         {{ default: () => slots.default?.() }}
       </i>
     );

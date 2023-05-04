@@ -1,6 +1,7 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes } from 'vue';
+import { emitsVerify } from '../../../utils/vue';
 
-export type switchModelValue = boolean | string | number;
+export type switchValueType = boolean | string | number;
 
 export const switchProps = {
   modelValue: {
@@ -29,15 +30,28 @@ export const switchProps = {
     type: Boolean,
     default: true,
   },
-  beforChange: Function as PropType<
-    (value: switchModelValue) => Promise<any> | boolean
-  >,
+  checkAnimation: {
+    type: Boolean,
+    default: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 };
 
 export const switchEmits = {
-  'update:model-value': (val: boolean | string | number) =>
-    ['string', 'boolean', 'number'].includes(typeof val),
+  'update:model-value': emitsVerify<switchValueType>([
+    'string',
+    'boolean',
+    'number',
+  ]),
+  change: emitsVerify<switchValueType>(['string', 'boolean', 'number']),
+  beforChange: emitsVerify<switchValueType>(['string', 'boolean', 'number']),
 };
 
 export type switchProps = ExtractPropTypes<typeof switchProps>;
-export type switchEmits = typeof switchEmits;
+export type beforeChangeType =
+  | ((value: switchValueType) => Promise<any> | boolean)
+  | null
+  | undefined;

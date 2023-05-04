@@ -1,12 +1,12 @@
 <template>
-  <div class="ef-header__conatiner">
-    <nav class="ef-header__nav">
+  <div class="s-header__conatiner">
+    <nav class="s-header__nav">
       <img
         :src="theme.logo"
         class="logo"
         alt="effortless-design"
         @click="push" />
-      <div class="ef-header__navigate">
+      <div class="s-header__navigate">
         <slot name="nav"></slot>
       </div>
     </nav>

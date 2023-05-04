@@ -1,8 +1,8 @@
 {
-  "name": "effortless-design",
+  "name": "swift-ui",
   "version": "1.0.0",
   "scripts": {
-    "play": "pnpm -F @effortless-design/play play",
+    "play": "pnpm -F @swift/play play",
     "prepare": "husky install",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -36,8 +36,8 @@
     ]
   },
   "dependencies": {
-    "@effortless-design/icons": "workspace:^1.0.0",
-    "@effortless-design/theme": "workspace:^1.0.0",
-    "@effortless-design/utils": "workspace:^1.0.0"
+    "@swift/icons": "workspace:^1.0.0",
+    "@swift/theme": "workspace:^1.0.0",
+    "@swift/utils": "workspace:^1.0.0"
   }
 }

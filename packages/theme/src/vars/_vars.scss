@@ -15,6 +15,8 @@ $light: map.deep-merge(
       text-color: #333,
       bg-color: #fff,
       active-text-color: map.get($colors, 'primary-color'),
+      disabled-filter: grayscale(1),
+      disabled-opacity: 0.7,
     ),
     switch: (
       switch-bg-color: #f1f1f1,
@@ -34,6 +36,8 @@ $drak: map.deep-merge(
     common: (
       text-color: #eee,
       bg-color: #1a1a1a,
+      disabled-filter: grayscale(0),
+      disabled-opacity: 0.3,
     ),
     switch: (
       switch-bg-color: #3f3f3f,

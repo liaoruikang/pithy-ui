@@ -1,5 +1,5 @@
 {
-  "name": "@effortless-design/play",
+  "name": "@swift/play",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@effortless-design/components": "workspace:^1.0.0",
+    "@swift/components": "workspace:^1.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "vue": "^3.2.47"
   },

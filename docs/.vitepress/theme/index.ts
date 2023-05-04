@@ -2,11 +2,13 @@
 // import Layout from './Layout.vue';
 import { App } from 'vue';
 import { Layout } from './src';
+import '@swift/theme';
+import SwiftUi from '@swift/components';
 
 export default {
   Layout,
   enhanceApp({ app }: { app: App }) {
     // ...
-    console.log(app);
+    app.use(SwiftUi);
   },
 };

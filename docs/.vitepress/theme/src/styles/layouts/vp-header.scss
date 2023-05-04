@@ -1,15 +1,21 @@
 @use '../vars/vars' as *;
 @use '../mixins/reactive' as *;
+@use '../mixins/mixins' as *;
 
-.ef-header__conatiner {
+.s-header__conatiner {
   height: 50px;
-  background-image: linear-gradient(to bottom, transparent 50%, #fff 51%, #fff);
+  background-image: linear-gradient(
+    to bottom,
+    transparent 50%,
+    var(--s-bg-color) 51%,
+    var(--s-bg-color)
+  );
   backdrop-filter: blur(10px);
   background-repeat: repeat-y;
   background-size: 100% 3px;
   border-bottom: 1px solid $main_border_color;
 
-  .ef-header__nav {
+  .s-header__nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -22,7 +28,7 @@
       cursor: pointer;
       margin: 0 10px;
     }
-    .ef-header__navigate {
+    .s-header__navigate {
       height: 100%;
     }
   }

@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -24,6 +25,11 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide' },
       { text: '组件', link: '/components' },
+      { text: '工具', link: '/utils' },
+      { text: 'Hooks', link: '/hooks' },
     ],
+  },
+  vite: {
+    plugins: [vueJsx()],
   },
 });

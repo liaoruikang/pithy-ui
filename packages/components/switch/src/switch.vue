@@ -1,53 +1,61 @@
 <template>
-  <div class="ef-switch">
+  <div
+    class="s-switch"
+    :class="{
+      'is-disabled': disabled,
+    }">
     <span
       v-if="inactiveText"
-      class="ef-switch__inactive"
+      class="s-switch__inactive"
       :class="{
         'is-active': !activeState,
       }"
       >{{ inactiveText }}</span
     >
-    <button class="ef-switch__box" @click="change">
-      <Transition name="check">
-        <span
-          class="ef-switch__check"
-          :class="{
-            'is-active': activeState,
-          }">
-          <span class="ef-switch__check--box">
-            <i v-show="loading" class="ef-switch__check--icon loading-icon">
-              <span class="ef-switch__check--wrap">
-                <ef-loading2></ef-loading2>
-              </span>
-            </i>
-            <i
-              v-show="!loading"
-              class="ef-switch__check--icon inactive-icon"
-              :aria-checked="!activeState">
-              <span class="ef-switch__check--wrap">
-                <slot name="check-inactive">
-                  <ef-error></ef-error>
-                </slot>
-              </span>
-            </i>
-            <i
-              v-show="!loading"
-              class="ef-switch__check--icon active-icon"
-              :aria-checked="activeState">
-              <span class="ef-switch__check--wrap">
-                <slot name="check-active">
-                  <ef-success></ef-success>
-                </slot>
-              </span>
-            </i>
-          </span>
+    <button
+      class="s-switch__box"
+      @click="change"
+      :class="{
+        'is-loading': loading,
+      }">
+      <span
+        class="s-switch__check"
+        :class="{
+          'is-active': activeState,
+          'is-animation': checkAnimation,
+        }">
+        <span class="s-switch__check--box">
+          <i v-show="loading" class="s-switch__check--icon loading-icon">
+            <span class="s-switch__check--wrap">
+              <s-loading2></s-loading2>
+            </span>
+          </i>
+          <i
+            v-show="!loading"
+            class="s-switch__check--icon inactive-icon"
+            :aria-checked="!activeState">
+            <span class="s-switch__check--wrap">
+              <slot name="check-inactive">
+                <s-error></s-error>
+              </slot>
+            </span>
+          </i>
+          <i
+            v-show="!loading"
+            class="s-switch__check--icon active-icon"
+            :aria-checked="activeState">
+            <span class="s-switch__check--wrap">
+              <slot name="check-active">
+                <s-success></s-success>
+              </slot>
+            </span>
+          </i>
         </span>
-      </Transition>
+      </span>
     </button>
     <span
       v-if="activeText"
-      class="ef-switch__active"
+      class="s-switch__active"
       :class="{
         'is-active': activeState,
       }"
@@ -57,22 +65,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { switchProps, switchEmits, switchModelValue } from '.';
-import { EfSuccess, EfError, EfLoading2 } from '@effortless-design/icons';
-import { isPromise } from '@effortless-design/utils';
+import { computed, defineComponent, ref, getCurrentInstance } from 'vue';
+import { switchProps, switchEmits, switchValueType, beforeChangeType } from '.';
+import { SSuccess, SError, SLoading2 } from '@swift/icons';
+import { isPromise } from '@swift/utils';
 
 export default defineComponent({
-  name: 'ef-switch',
+  name: 's-switch',
   props: switchProps,
   emits: switchEmits,
-  components: { EfSuccess, EfError, EfLoading2 },
+  components: { SSuccess, SError, SLoading2 },
   setup(props, { emit }) {
+    const instance = getCurrentInstance();
+
+    const beforeChange: beforeChangeType =
+      instance?.vnode.props?.onBeforeChange;
+
     const active = computed({
-      get(): switchModelValue {
+      get(): switchValueType {
         return props.modelValue;
       },
-      set(value: switchModelValue) {
+      set(value: switchValueType) {
         emit('update:model-value', value);
       },
     });
@@ -90,22 +103,23 @@ export default defineComponent({
     );
 
     const change = () => {
+      if (props.disabled) return;
       updateLoadingState(true);
-      if (props.beforChange) {
-        const returnedValue = props.beforChange(updateValue.value);
+      if (beforeChange) {
+        const returnedValue = beforeChange(updateValue.value);
+        console.log(returnedValue);
 
-        if (isPromise(returnedValue)) {
-          returnedValue.then(
-            () => updateState(),
-            () => updateLoadingState(false),
-          );
-        } else if (returnedValue) {
+        if (isPromise(returnedValue))
+          return returnedValue
+            .then(() => updateState())
+            .finally(() => updateLoadingState(false));
+        if (returnedValue) {
           updateState();
-          updateLoadingState(true);
         }
+        updateLoadingState(false);
       } else {
         updateState();
-        updateLoadingState(true);
+        updateLoadingState(false);
       }
     };
 
@@ -115,6 +129,7 @@ export default defineComponent({
 
     const updateState = () => {
       active.value = updateValue.value;
+      emit('change', active.value);
     };
     return { active, change, activeState, loading };
   },

@@ -1,7 +1,14 @@
 {
-  "name": "@effortless-design/docs",
+  "name": "@swift/docs",
   "private": true,
   "dependencies": {
+    "@swift/components": "workspace:^1.0.0",
+    "@swift/hooks": "workspace:^1.0.0",
     "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "vite": "^4.3.0",
+    "vue": "^3.2.47"
   }
 }

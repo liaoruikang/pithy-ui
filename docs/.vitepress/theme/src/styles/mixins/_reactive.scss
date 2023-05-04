@@ -1,6 +1,12 @@
 @use '../vars/vars' as *;
 @use 'sass:map' as *;
 
+@mixin viewport_to_mini() {
+  @media (max-width: $small_width) {
+    @content;
+  }
+}
+
 @mixin viewport_to_small() {
   @media (max-width: $middle_width) {
     @content;

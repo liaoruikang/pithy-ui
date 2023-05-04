@@ -8,27 +8,27 @@ import { Component } from 'vue';
 
 const options = [
   {
-    name: 'ef-sun',
+    name: 's-sun',
     url: sun,
   },
   {
-    name: 'ef-moon',
+    name: 's-moon',
     url: moon,
   },
   {
-    name: 'ef-loading',
+    name: 's-loading',
     url: loading,
   },
   {
-    name: 'ef-loading2',
+    name: 's-loading2',
     url: loading2,
   },
   {
-    name: 'ef-error',
+    name: 's-error',
     url: error,
   },
   {
-    name: 'ef-success',
+    name: 's-success',
     url: success,
   },
 ];

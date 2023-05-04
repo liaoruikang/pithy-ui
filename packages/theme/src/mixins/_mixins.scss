@@ -1,5 +1,6 @@
-@use '../common/config';
+@use '../common/config' as *;
 @use 'sass:string';
+@use '../function/function' as *;
 
 @mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
   $str: null;
@@ -13,16 +14,16 @@
 @mixin b($block: '', $element: '', $modifier: '', $state: '', $prefix: '') {
   $b: '';
   @if $block != '' {
-    $b: config.$namespace + config.$common-separator + $block;
+    $b: $namespace + $common-separator + $block;
   }
   @if $element != '' {
-    $b: $b + config.$element-separator + $element;
+    $b: $b + $element-separator + $element;
   }
   @if $modifier != '' {
-    $b: $b + config.$modifier-separator + $modifier;
+    $b: $b + $modifier-separator + $modifier;
   }
   @if $state != '' {
-    $b: config.$state-prefix + $state;
+    $b: $state-prefix + $state;
   }
   @if $prefix != '' {
     $b: $prefix + $b;
@@ -50,8 +51,8 @@
   @content;
 }
 
-@mixin center_flex($type: null) {
-  display: flex;
+@mixin center_flex($type: null, $display-type: flex) {
+  display: $display-type;
   @if ($type == 'across') {
     justify-content: center;
   } @else if($type == 'vertical') {
@@ -61,4 +62,13 @@
     align-items: center;
   }
   @content;
+}
+
+@mixin disabled($selector) {
+  #{unquote($selector)} {
+    opacity: get_var(disabled-opacity);
+    filter: get_var(disabled-filter);
+    cursor: not-allowed;
+    @content;
+  }
 }

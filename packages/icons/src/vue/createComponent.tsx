@@ -5,6 +5,11 @@ const map = new Map<string, VNode>();
 export default (name: string, url: string): Component => {
   return defineComponent({
     name,
+    props: {
+      customIcon: {
+        type: [SVGElement, String],
+      },
+    },
     setup() {
       let vnode: VNode | undefined;
       if (!map.has(url)) {

@@ -1,7 +1,7 @@
 import Icon from './src/icon';
-import { withInstall } from '@effortless-design/utils/withInstall';
+import { withInstall } from '@swift/utils/vue';
 
-const EfIcon = withInstall(Icon);
+const SIcon = withInstall(Icon);
 
-export { EfIcon };
-export default EfIcon;
+export { SIcon };
+export default SIcon;

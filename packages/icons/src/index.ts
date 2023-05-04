@@ -1,4 +1,4 @@
-import { withInstall } from '@effortless-design/utils/withInstall';
+import { withInstall } from '@swift/utils/vue';
 import createComponent from './vue/createComponent';
 import { getIconCompoent, options } from './vue/iconComponents';
 
@@ -12,13 +12,13 @@ options.forEach(option =>
 
 const iconComponent = getIconCompoent(components);
 
-const EfSun = iconComponent['ef-sun'];
-const EfMoon = iconComponent['ef-moon'];
-const EfLoading = iconComponent['ef-loading'];
-const EfLoading2 = iconComponent['ef-loading2'];
-const EfSuccess = iconComponent['ef-success'];
-const EfError = iconComponent['ef-error'];
+const SSun = iconComponent['s-sun'];
+const SMoon = iconComponent['s-moon'];
+const SLoading = iconComponent['s-loading'];
+const SLoading2 = iconComponent['s-loading2'];
+const SSuccess = iconComponent['s-success'];
+const SError = iconComponent['s-error'];
 
-export { EfSun, EfMoon, EfLoading, EfLoading2, EfSuccess, EfError };
+export { SSun, SMoon, SLoading, SLoading2, SSuccess, SError };
 
 export default components;

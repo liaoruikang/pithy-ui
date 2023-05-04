@@ -1,3 +1,5 @@
+@use '../mixins/mixins' as *;
+
 a {
   text-decoration: none;
 }
@@ -9,4 +11,11 @@ a {
 
 li {
   list-style: none;
+}
+
+body {
+  background-color: var(--s-bg-color);
+  font-size: 14px;
+  color: var(--s-text-color);
+  @include transition((background-color, color));
 }

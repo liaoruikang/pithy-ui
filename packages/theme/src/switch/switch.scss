@@ -6,10 +6,16 @@
 @include vars.set_css_vars('switch');
 
 @include m.b('switch') {
-  display: inline-flex;
-  align-items: center;
+  @include m.center_flex(null, inline-flex);
 
-  &__box {
+  @include m.disabled('&.#{c.$state-prefix}disabled') {
+    @include m.b('switch', 'box') {
+      border: 1px solid f.get_var(switch-bd-color);
+      cursor: not-allowed;
+    }
+  }
+
+  &#{c.$element-separator}box {
     position: relative;
     min-width: 42px;
     height: 22px;
@@ -21,6 +27,10 @@
 
     &:hover {
       border-color: f.get_var(primary-color);
+    }
+
+    &.#{c.$state-prefix}loading {
+      pointer-events: none;
     }
 
     @include m.transition((background-color, border));
@@ -48,9 +58,20 @@
           }
         }
       }
+      &.#{c.$state-prefix}animation {
+        @include m.b('switch', 'check', 'box') {
+          @include m.transition(transform, 0.3s, ease-in-out);
+
+          @include m.b('switch', 'check', 'icon') {
+            @include m.transition((opacity, color), 0.2s);
+          }
+          &.loading-icon {
+            @include m.transition(transform, 0.3s, ease-in-out);
+          }
+        }
+      }
       @include m.b('switch', 'check', 'box') {
         @include m.center_flex('vertical');
-        @include m.transition(transform, 0.3s, ease-in-out);
         width: calc(100% * 2);
         height: inherit;
 
@@ -63,8 +84,6 @@
           max-width: 50%;
           max-height: 100%;
           font-style: normal;
-
-          @include m.transition((opacity, color), 0.2s);
 
           &[aria-checked='true'] {
             color: f.get_var(switch-active-color);
@@ -79,8 +98,6 @@
           &.loading-icon {
             opacity: 1;
             color: f.get_var(switch-loading-color);
-
-            @include m.transition(transform, 0.3s, ease-in-out);
 
             @include m.b('switch', 'check', 'wrap') {
               width: 1.25em;

@@ -1,14 +1,18 @@
 import { createApp } from 'vue';
 
-import EffortlessDesign from '@effortless-design/components';
-import EffortlessDesignIcons from '@effortless-design/icons';
-import '@effortless-design/theme';
+import SwiftUi from '@swift/components';
+import SwiftUiIcons from '@swift/icons';
+import '@swift/theme';
 
 import App from './App.vue';
 
 const app = createApp(App);
 
-app.use(EffortlessDesign);
-app.use(EffortlessDesignIcons);
+SwiftUi.setOptions({
+  namespace: 'v',
+});
+
+app.use(SwiftUi);
+app.use(SwiftUiIcons);
 
 app.mount('#app');

@@ -1,8 +1,8 @@
 import Switch from './src/switch.vue';
 
-import { withInstall } from '@effortless-design/utils/withInstall';
+import { withInstall } from '@swift/utils/vue';
 
-const EfSwitch = withInstall(Switch);
+const SSwitch = withInstall(Switch);
 
-export { EfSwitch };
-export default EfSwitch;
+export { SSwitch };
+export default SSwitch;
