@@ -1,8 +1,10 @@
-@use '../vars/vars' as *;
+@use '../vars/_vars' as *;
 @use '../mixins/reactive' as *;
 @use '../mixins/mixins' as *;
+@use '../function/function' as *;
 
-.s-header__conatiner {
+.vp-header__conatiner {
+  // box-sizing: border-box;
   height: 50px;
   background-image: linear-gradient(
     to bottom,
@@ -13,22 +15,26 @@
   backdrop-filter: blur(10px);
   background-repeat: repeat-y;
   background-size: 100% 3px;
-  border-bottom: 1px solid $main_border_color;
+  border-bottom: 1px solid get_var(bd-color);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px 0 get_var(shadow-color);
 
-  .s-header__nav {
+  @include transition(box-shadow);
+
+  .vp-header__nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
     margin: 0 auto;
-    max-width: $super_width;
+    max-width: $super_size;
 
     .logo {
       height: 60%;
       cursor: pointer;
       margin: 0 10px;
     }
-    .s-header__navigate {
+    .vp-header__navigate {
       height: 100%;
     }
   }

@@ -1,5 +1,5 @@
 import { withInstall } from '@swift/utils/vue';
-import createComponent from './vue/createComponent';
+import createComponent, { createIconComponent } from './vue/createComponent';
 import { getIconCompoent, options } from './vue/iconComponents';
 
 import { Component } from 'vue';
@@ -7,7 +7,9 @@ import { Component } from 'vue';
 const components: Component[] = [];
 
 options.forEach(option =>
-  components.push(withInstall(createComponent(option.name, option.url))),
+  components.push(
+    withInstall(createComponent(option.name, option.url), 'icons'),
+  ),
 );
 
 const iconComponent = getIconCompoent(components);
@@ -20,5 +22,6 @@ const SSuccess = iconComponent['s-success'];
 const SError = iconComponent['s-error'];
 
 export { SSun, SMoon, SLoading, SLoading2, SSuccess, SError };
+export { createIconComponent };
 
 export default components;

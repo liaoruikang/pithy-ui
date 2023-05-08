@@ -1,43 +1,69 @@
-import { defineComponent, Component, h, VNode } from 'vue';
+import {
+  defineComponent,
+  Component,
+  VNode,
+  PropType,
+  isVNode,
+  watchEffect,
+} from 'vue';
+import { isString } from '@swift/utils/vue';
+import { toVnode } from '@swift/utils';
 
 const map = new Map<string, VNode>();
 
-export default (name: string, url: string): Component => {
+export const createIconComponent = (): Component => {
   return defineComponent({
-    name,
     props: {
-      customIcon: {
-        type: [SVGElement, String],
+      icon: {
+        type: [SVGElement, String, Object] as PropType<
+          (SVGElement | string | VNode)[]
+        >,
+        required: true,
       },
     },
-    setup() {
-      let vnode: VNode | undefined;
-      if (!map.has(url)) {
-        vnode = toVnode(getSvgElement(url)) as VNode;
-        map.set(url, vnode);
-      } else {
-        vnode = map.get(url);
-      }
+    setup(props) {
+      let vnode: VNode | null = null;
+      watchEffect(() => {
+        if (isString(props.icon)) {
+          if (props.icon.includes('/')) {
+            vnode = toVnode(getSvgElement(props.icon)) as VNode;
+          } else {
+            vnode = toVnode(document.querySelector(props.icon)) as VNode;
+          }
+        } else if (props.icon instanceof SVGElement) {
+          vnode = toVnode(props.icon) as VNode;
+        } else if (isVNode(props.icon)) {
+          vnode = props.icon;
+        } else {
+          vnode = null;
+        }
+      });
       return () => vnode;
     },
   });
 };
+const customIconComponent = createIconComponent();
 
-const toVnode = (el: HTMLElement | SVGElement): VNode | string | null => {
-  if (el.nodeType === 3) {
-    return el.textContent;
-  }
-  const props: { [key: string]: any } = {};
-  for (const attr of el.attributes) {
-    props[attr.nodeName] = attr.nodeValue;
-  }
-  const children = Array.from(el.childNodes).map(el =>
-    toVnode(el as HTMLElement),
-  );
-  return h(el.tagName.toLowerCase(), props, children);
+export default (name: string, url: string): Component => {
+  return defineComponent({
+    name,
+    components: { customIconComponent },
+    setup() {
+      let vnode: VNode | null = null;
+
+      if (!map.has(url)) {
+        vnode = toVnode(getSvgElement(url)) as VNode;
+        map.set(url, vnode);
+      } else {
+        vnode = map.get(url) as VNode;
+      }
+
+      return () => <customIconComponent icon={vnode} />;
+    },
+  });
 };
 
-const getSvgElement = (url: string): SVGElement => {
+export const getSvgElement = (url: string): SVGElement => {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url, false);
   xhr.send();

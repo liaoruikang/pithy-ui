@@ -1,12 +1,8 @@
 <template>
-  <div class="s-header__conatiner">
-    <nav class="s-header__nav">
-      <img
-        :src="theme.logo"
-        class="logo"
-        alt="effortless-design"
-        @click="push" />
-      <div class="s-header__navigate">
+  <div class="vp-header__conatiner">
+    <nav class="vp-header__nav">
+      <img :src="theme.logo" class="logo" alt="Swift UI" @click="push" />
+      <div class="vp-header__navigate">
         <slot name="nav"></slot>
       </div>
     </nav>

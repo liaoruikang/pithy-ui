@@ -1,0 +1,38 @@
+@use 'sass:map';
+
+$colors: (
+  primary-color: #a29bfe,
+);
+
+$small_size: 540px;
+$middle_size: 800px;
+$large_size: 1100px;
+$super_size: 1480px;
+
+$light: () !default;
+$light: map.deep-merge(
+  (
+    common: (
+      bd-color: #dbdbdb,
+      bg-color: #d8d5d5,
+      text-color: #666,
+      shadow-color: #fff,
+      shadow-color2: #9b9b9b,
+    ),
+  ),
+  $light
+);
+
+$drak: () !default;
+$drak: map.deep-merge(
+  (
+    common: (
+      bd-color: #8f8f8f,
+      bg-color: #5a5a5a,
+      text-color: #bbbbbb,
+      shadow-color: #1a1a1a,
+      shadow-color2: #9b9b9b,
+    ),
+  ),
+  $drak
+);

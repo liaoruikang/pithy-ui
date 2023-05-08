@@ -1,4 +1,5 @@
 @use 'sass:string';
+@use '../common/config' as *;
 @mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
   $str: null;
   @each $value in $attrs {
@@ -18,4 +19,45 @@
     align-items: center;
   }
   @content;
+}
+
+// bem
+@mixin b(
+  $block: '',
+  $element: '',
+  $modifier: '',
+  $state: '',
+  $prefix: '',
+  $this: ''
+) {
+  $b: '';
+
+  @if $block != '' {
+    $b: '.' + $namespace + $common-separator + $block;
+    @if $element != '' {
+      $b: $b + $element-separator + $element;
+      @if $modifier != '' {
+        $b: $b + $modifier-separator + $modifier;
+      }
+    }
+  }
+
+  @if $this != '' {
+    @each $val in $this {
+      $b: $b + $val;
+    }
+    @if $element != '' {
+      $b: $b + $element-separator + $element;
+    }
+    @if $modifier != '' {
+      $b: $b + $modifier-separator + $modifier;
+    }
+    @if $state != '' {
+      $b: '.' + $state-prefix + $state;
+    }
+  }
+
+  #{string.unquote($b)} {
+    @content;
+  }
 }

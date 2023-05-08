@@ -1,3 +1,4 @@
 ---
-title: Effortless
+title: Swift UI
+layout: home
 ---

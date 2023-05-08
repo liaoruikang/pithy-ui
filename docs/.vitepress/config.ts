@@ -3,9 +3,11 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Effortless',
-  titleTemplate: 'Vue 3 UI 框架',
-  description: 'Vue 3 UI 框架',
+  cleanUrls: true,
+
+  title: 'Swift UI',
+  titleTemplate: 'Vue3 framework',
+  description: 'Vue3 framework',
   lastUpdated: true,
 
   head: [
@@ -23,6 +25,7 @@ export default defineConfig({
     logo: '/logo.svg',
 
     nav: [
+      // { text: '首页', link: '/zh-CN' },
       { text: '指南', link: '/guide' },
       { text: '组件', link: '/components' },
       { text: '工具', link: '/utils' },

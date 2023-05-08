@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript",
+    "@vue/babel-preset-jsx"
+  ],
+  "plugins": [
+    ["@vue/babel-plugin-jsx", { "mergeProps": false, "vModel": true }]
+  ]
+}

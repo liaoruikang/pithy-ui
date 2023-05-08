@@ -29,6 +29,7 @@ const change = (val: any) => {
     active-value="1"
     inactive-value="0">
   </v-switch>
+  <ABC></ABC>
 </template>
 
 <style lang="scss">

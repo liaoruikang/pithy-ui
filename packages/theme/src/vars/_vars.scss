@@ -25,6 +25,7 @@ $light: map.deep-merge(
       switch-active-color: map.get($colors, 'primary-color'),
       switch-inactive-color: #333,
       switch-loading-color: #f97b22,
+      switch-hover-color: map.get($colors, 'primary-color'),
     ),
   ),
   $light
@@ -44,6 +45,7 @@ $drak: map.deep-merge(
       switch-bd-color: #646464,
       switch-check-bg-color: #1a1a1a,
       switch-inactive-color: #eee,
+      switch-hover-color: #999999,
     ),
   ),
   $drak

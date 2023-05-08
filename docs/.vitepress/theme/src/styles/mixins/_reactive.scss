@@ -2,23 +2,23 @@
 @use 'sass:map' as *;
 
 @mixin viewport_to_mini() {
-  @media (max-width: $small_width) {
+  @media (max-width: $small_size) {
     @content;
   }
 }
 
 @mixin viewport_to_small() {
-  @media (max-width: $middle_width) {
+  @media (max-width: $middle_size) {
     @content;
   }
 }
 @mixin viewport_to_middle() {
-  @media (min-width: $middle_width) and (max-width: $large_width) {
+  @media (min-width: $middle_size) and (max-width: $large_size) {
     @content;
   }
 }
 @mixin viewport_to_large() {
-  @media (min-width: $large_width) and (max-width: $super_width) {
+  @media (min-width: $large_size) and (max-width: $super_size) {
     @content;
   }
 }

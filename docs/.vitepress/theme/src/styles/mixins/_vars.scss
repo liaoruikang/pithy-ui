@@ -1,0 +1,34 @@
+@use '../common/config' as *;
+@use '../vars/vars' as *;
+@use 'sass:map' as *;
+
+@mixin set_css_var($name, $value) {
+  --#{$namespace+$common-separator+$name}: #{$value};
+}
+
+@mixin set_css_vars($field) {
+  $temp: get($light, $field);
+  @if ($temp) {
+    :root {
+      @each $name, $value in $temp {
+        @include set_css_var($name, $value);
+      }
+    }
+  }
+  $temp: get($drak, $field);
+  @if ($temp) {
+    html.drak {
+      @each $name, $value in $temp {
+        @include set_css_var($name, $value);
+      }
+    }
+  }
+}
+
+@include set_css_vars('common');
+
+:root {
+  @each $name, $value in $colors {
+    @include set_css_var($name, $value);
+  }
+}

@@ -26,7 +26,7 @@
     cursor: pointer;
 
     &:hover {
-      border-color: f.get_var(primary-color);
+      border-color: f.get_var(switch-hover-color);
     }
 
     &.#{c.$state-prefix}loading {
@@ -86,8 +86,11 @@
           font-style: normal;
 
           &[aria-checked='true'] {
-            color: f.get_var(switch-active-color);
+            // color: f.get_var(switch-active-color);
             opacity: 1;
+          }
+          &.active-icon {
+            color: f.get_var(switch-active-color);
           }
           @include m.b('switch', 'check', 'wrap') {
             @include m.center_flex;

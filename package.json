@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "play": "pnpm -F @swift/play play",
+    "build": "pnpm -F @swift/build build",
     "prepare": "husky install",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -38,6 +39,7 @@
   "dependencies": {
     "@swift/icons": "workspace:^1.0.0",
     "@swift/theme": "workspace:^1.0.0",
-    "@swift/utils": "workspace:^1.0.0"
+    "@swift/utils": "workspace:^1.0.0",
+    "vue-template-compiler": "^2.7.14"
   }
 }
