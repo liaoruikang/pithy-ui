@@ -1,9 +1,7 @@
 {
-  "name": "swift-ui",
-  "version": "1.0.0",
   "scripts": {
-    "play": "pnpm -F @swift/play play",
-    "build": "pnpm -F @swift/build build",
+    "play": "pnpm -F @pithy-ui/play play",
+    "build": "pnpm -F @pithy-ui/build build",
     "prepare": "husky install",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -26,10 +24,12 @@
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.8",
     "sass": "^1.62.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.2",
     "vitepress": "1.0.0-alpha.73",
     "vue": "^3.2.47",
-    "vue-eslint-parser": "^9.1.1"
+    "vue-eslint-parser": "^9.1.1",
+    "vue-tsc": "^1.2.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json,vue}": [
@@ -37,9 +37,11 @@
     ]
   },
   "dependencies": {
-    "@swift/icons": "workspace:^1.0.0",
-    "@swift/theme": "workspace:^1.0.0",
-    "@swift/utils": "workspace:^1.0.0",
-    "vue-template-compiler": "^2.7.14"
+    "@pithy-ui/components": "workspace:^1.0.0",
+    "@pithy-ui/hooks": "workspace:^1.0.0",
+    "@pithy-ui/icons": "workspace:^1.0.0",
+    "@pithy-ui/theme": "workspace:^1.0.0",
+    "@pithy-ui/utils": "workspace:^1.0.0",
+    "pithy-ui": "workspace:^1.0.0"
   }
 }

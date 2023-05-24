@@ -1,16 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "jsx": "preserve",
-    "lib": ["dom", "ESNext", "DOM.Iterable"],
-    "sourceMap": false,
-    "moduleResolution": "node",
-    "strict": true,
-    "noUnusedLocals": true,
-    "emitDeclarationOnly": true,
-    "declaration": true,
-    "allowImportingTsExtensions": true,
-    "allowSyntheticDefaultImports": true
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.web.json"
+    },
+    {
+      "path": "./tsconfig.type.json"
+    },
+    {
+      "path": "./tsconfig.play.json"
+    },
+    {
+      "path": "./tsconfig.icons.json"
+    }
+  ]
 }

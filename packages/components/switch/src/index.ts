@@ -1,5 +1,5 @@
 import type { ExtractPropTypes } from 'vue';
-import { emitsVerify } from '../../../utils/vue';
+import { emitsVerify } from '@pithy-ui/utils/vue';
 
 export type switchValueType = boolean | string | number;
 

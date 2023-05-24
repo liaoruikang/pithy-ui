@@ -23,11 +23,11 @@
   }
 }
 
-@mixin viewport($maps) {
-  $attrs: get($maps, 'attrs');
-  $s_val: get($maps, 's_val');
-  $m_val: get($maps, 'm_val');
-  $l_val: get($maps, 'l_val');
+@mixin viewport($map) {
+  $attrs: get($map, 'attrs');
+  $s_val: get($map, 's_val');
+  $m_val: get($map, 'm_val');
+  $l_val: get($map, 'l_val');
 
   @include viewport_to_small {
     @each $attr in $attrs {

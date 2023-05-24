@@ -1,8 +1,6 @@
 import Switch from './src/switch.vue';
 
-import { withInstall } from '@swift/utils/vue';
+import { withInstall } from '@pithy-ui/utils/vue';
 
-const SSwitch = withInstall(Switch);
-
-export { SSwitch };
-export default SSwitch;
+export const PtSwitch = withInstall(Switch);
+export default PtSwitch;

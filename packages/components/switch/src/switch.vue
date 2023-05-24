@@ -1,52 +1,75 @@
 <template>
   <div
-    class="s-switch"
     :class="{
-      'is-disabled': disabled,
+      [b('switch')]: true,
+      [s('disabled')]: disabled,
     }">
     <span
       v-if="inactiveText"
-      class="s-switch__inactive"
       :class="{
-        'is-active': !activeState,
+        [b('switch', 'inactive')]: true,
+        [s('active')]: !activeState,
       }"
       >{{ inactiveText }}</span
     >
     <button
-      class="s-switch__box"
       @click="change"
       :class="{
-        'is-loading': loading,
+        [b('switch', 'box')]: true,
+        [s('loading')]: loading,
       }">
       <span
-        class="s-switch__check"
         :class="{
-          'is-active': activeState,
-          'is-animation': checkAnimation,
+          [b('switch', 'check')]: true,
+          [s('active')]: activeState,
+          [s('animation')]: checkAnimation,
         }">
-        <span class="s-switch__check--box">
-          <i v-show="loading" class="s-switch__check--icon loading-icon">
-            <span class="s-switch__check--wrap">
-              <s-loading2></s-loading2>
+        <span
+          :class="{
+            [b('switch', 'check', 'box')]: true,
+          }">
+          <i
+            v-show="loading"
+            class="loading-icon"
+            :class="{
+              [b('switch', 'check', 'icon')]: true,
+            }">
+            <span
+              :class="{
+                [b('switch', 'check', 'wrap')]: true,
+              }">
+              <pt-loading2></pt-loading2>
             </span>
           </i>
           <i
             v-show="!loading"
-            class="s-switch__check--icon inactive-icon"
+            class="inactive-icon"
+            :class="{
+              [b('switch', 'check', 'icon')]: true,
+            }"
             :aria-checked="!activeState">
-            <span class="s-switch__check--wrap">
+            <span
+              :class="{
+                [b('switch', 'check', 'wrap')]: true,
+              }">
               <slot name="check-inactive">
-                <s-error></s-error>
+                <pt-error></pt-error>
               </slot>
             </span>
           </i>
           <i
             v-show="!loading"
-            class="s-switch__check--icon active-icon"
+            class="active-icon"
+            :class="{
+              [b('switch', 'check', 'icon')]: true,
+            }"
             :aria-checked="activeState">
-            <span class="s-switch__check--wrap">
+            <span
+              :class="{
+                [b('switch', 'check', 'wrap')]: true,
+              }">
               <slot name="check-active">
-                <s-success></s-success>
+                <pt-success></pt-success>
               </slot>
             </span>
           </i>
@@ -55,9 +78,9 @@
     </button>
     <span
       v-if="activeText"
-      class="s-switch__active"
       :class="{
-        'is-active': activeState,
+        [b('switch', 'active')]: true,
+        [s('active')]: activeState,
       }"
       >{{ activeText }}</span
     >
@@ -67,14 +90,15 @@
 <script lang="ts">
 import { computed, defineComponent, ref, getCurrentInstance } from 'vue';
 import { switchProps, switchEmits, switchValueType, beforeChangeType } from '.';
-import { SSuccess, SError, SLoading2 } from '@swift/icons';
-import { isPromise } from '@swift/utils';
+import { PtSuccess, PtError, PtLoading2 } from '@pithy-ui/icons';
+import { isPromise } from '@pithy-ui/utils';
+import { b, s, basespace } from '@pithy-ui/utils/vue';
 
 export default defineComponent({
-  name: 's-switch',
+  name: `${basespace}-switch`,
   props: switchProps,
   emits: switchEmits,
-  components: { SSuccess, SError, SLoading2 },
+  components: { PtSuccess, PtError, PtLoading2 },
   setup(props, { emit }) {
     const instance = getCurrentInstance();
 
@@ -131,7 +155,7 @@ export default defineComponent({
       active.value = updateValue.value;
       emit('change', active.value);
     };
-    return { active, change, activeState, loading };
+    return { active, change, activeState, loading, s, b };
   },
 });
 </script>

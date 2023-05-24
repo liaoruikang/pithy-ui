@@ -1,0 +1,132 @@
+@use '../function/function' as f;
+@use '../mixins/mixins' as m;
+@use '../mixins/vars';
+@use '../common/config' as c;
+
+@include vars.set_css_vars('switch');
+
+@include m.b('switch') {
+  @include m.center_flex(null, inline-flex);
+
+  @include m.disabled('&.#{c.$state-prefix}disabled') {
+    @include m.b('switch', 'box') {
+      border: 1px solid f.get_var(switch-bd-color);
+      cursor: not-allowed;
+    }
+  }
+
+  &#{c.$element-separator}box {
+    position: relative;
+    min-width: 42px;
+    height: 22px;
+    border-radius: 12px;
+    background-color: f.get_var(switch-bg-color);
+    border: 1px solid f.get_var(switch-bd-color);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+      border-color: f.get_var(switch-hover-color);
+    }
+
+    &.#{c.$state-prefix}loading {
+      pointer-events: none;
+    }
+
+    @include m.transition((background-color, border));
+
+    @include m.b('switch', 'check') {
+      @include m.center_position('vertical') {
+        left: 1px;
+      }
+
+      overflow: hidden;
+      width: 18px;
+      height: 18px;
+      background-color: f.get_var(switch-check-bg-color);
+      border-radius: 50%;
+
+      @include m.transition((background-color, left, transform));
+
+      &.#{c.$state-prefix}active {
+        transform: translate(calc(-100% - 1px), -50%);
+        left: 100%;
+        @include m.b('switch', 'check', 'box') {
+          transform: translateX(-50%);
+          .loading-icon {
+            transform: translateX(100%);
+          }
+        }
+      }
+      &.#{c.$state-prefix}animation {
+        @include m.b('switch', 'check', 'box') {
+          @include m.transition(transform, 0.3s, ease-in-out);
+
+          @include m.b('switch', 'check', 'icon') {
+            @include m.transition((opacity, color), 0.2s);
+          }
+          &.loading-icon {
+            @include m.transition(transform, 0.3s, ease-in-out);
+          }
+        }
+      }
+      @include m.b('switch', 'check', 'box') {
+        @include m.center_flex('vertical');
+        width: calc(100% * 2);
+        height: inherit;
+
+        @include m.b('switch', 'check', 'icon') {
+          @include m.center_flex;
+
+          color: f.get_var(switch-inactive-color);
+          opacity: 0;
+          flex: 1;
+          max-width: 50%;
+          max-height: 100%;
+          font-style: normal;
+
+          &[aria-checked='true'] {
+            opacity: 1;
+          }
+          &.active-icon {
+            color: f.get_var(switch-active-color);
+          }
+          @include m.b('switch', 'check', 'wrap') {
+            @include m.center_flex;
+
+            width: 1em;
+            height: 1em;
+          }
+          &.loading-icon {
+            opacity: 1;
+            color: f.get_var(switch-loading-color);
+
+            @include m.b('switch', 'check', 'wrap') {
+              width: 1.25em;
+              height: 1.25em;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__inactive,
+  &__active {
+    font-size: 14px;
+    color: f.get_var(switch-inactive-color);
+
+    @include m.transition(color);
+
+    &.#{c.$state-prefix}active {
+      color: f.get_var(switch-active-color);
+    }
+  }
+
+  &__inactive {
+    margin-right: 8px;
+  }
+  &__active {
+    margin-left: 8px;
+  }
+}

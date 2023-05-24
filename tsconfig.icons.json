@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.type.json",
+  "include": ["packages/icons", "packages/utils"],
+  "exclude": []
+}

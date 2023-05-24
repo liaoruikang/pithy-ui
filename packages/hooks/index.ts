@@ -1,1 +1,2 @@
-export * from './useDrak';
+export * from './useTheme';
+export type * from './useTheme';

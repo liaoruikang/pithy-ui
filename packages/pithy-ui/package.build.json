@@ -1,0 +1,26 @@
+{
+  "name": "pithy-ui",
+  "version": "1.0.0",
+  "description": "Vue3 framework",
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./es/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./es": "./es/index.mjs",
+    "./lib": "./lib/index.js"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47"
+  },
+  "dependencies": {
+    "@pithy-ui/icons": "^1.0.0"
+  },
+  "keywords": ["vue", "vue3", "typescript", "Ui", "pithy-ui"],
+  "author": "Lrk",
+  "license": "MIT"
+}

@@ -1,10 +1,9 @@
-import { VNode, h } from 'vue';
-export const toVnode = (
-  el: HTMLElement | SVGElement | null,
-): VNode | string | null => {
+import { h, VNode } from 'vue';
+
+export const toVnode = (el: Element): VNode | string | null => {
   if (!el) return el;
   if (el.nodeType === 3) {
-    return el.textContent;
+    return el?.textContent;
   }
   const props: { [key: string]: any } = {};
   for (const attr of el.attributes) {

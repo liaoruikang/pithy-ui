@@ -1,5 +1,6 @@
 {
-  "name": "@swift/theme",
+  "name": "@pithy-ui/theme",
   "version": "1.0.0",
+  "main": "index.scss",
   "license": "MIT"
 }

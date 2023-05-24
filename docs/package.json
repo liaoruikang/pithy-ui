@@ -1,10 +1,7 @@
 {
-  "name": "@swift/docs",
+  "name": "@pithy-ui/docs",
   "private": true,
   "dependencies": {
-    "@swift/components": "workspace:^1.0.0",
-    "@swift/hooks": "workspace:^1.0.0",
-    "@swift/icons": "workspace:^1.0.0",
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {

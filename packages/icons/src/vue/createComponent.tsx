@@ -1,17 +1,10 @@
-import {
-  defineComponent,
-  Component,
-  VNode,
-  PropType,
-  isVNode,
-  watchEffect,
-} from 'vue';
-import { isString } from '@swift/utils/vue';
-import { toVnode } from '@swift/utils';
+import { defineComponent, VNode, PropType, isVNode, watchEffect } from 'vue';
+import { isString } from '@pithy-ui/utils/vue';
+import { toVnode } from '@pithy-ui/utils';
 
 const map = new Map<string, VNode>();
 
-export const createIconComponent = (): Component => {
+export const createIconComponent = () => {
   return defineComponent({
     props: {
       icon: {
@@ -28,10 +21,12 @@ export const createIconComponent = (): Component => {
           if (props.icon.includes('/')) {
             vnode = toVnode(getSvgElement(props.icon)) as VNode;
           } else {
-            vnode = toVnode(document.querySelector(props.icon)) as VNode;
+            vnode = toVnode(
+              document.querySelector(props.icon) as SVGElement,
+            ) as VNode;
           }
         } else if (props.icon instanceof SVGElement) {
-          vnode = toVnode(props.icon) as VNode;
+          vnode = toVnode(props.icon as SVGElement) as VNode;
         } else if (isVNode(props.icon)) {
           vnode = props.icon;
         } else {
@@ -44,7 +39,7 @@ export const createIconComponent = (): Component => {
 };
 const customIconComponent = createIconComponent();
 
-export default (name: string, url: string): Component => {
+export default (name: string, url: string) => {
   return defineComponent({
     name,
     components: { customIconComponent },
@@ -63,7 +58,7 @@ export default (name: string, url: string): Component => {
   });
 };
 
-export const getSvgElement = (url: string): SVGElement => {
+const getSvgElement = (url: string): SVGElement => {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url, false);
   xhr.send();

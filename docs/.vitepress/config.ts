@@ -5,7 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 export default defineConfig({
   cleanUrls: true,
 
-  title: 'Swift UI',
+  title: 'Pithy UI',
   titleTemplate: 'Vue3 framework',
   description: 'Vue3 framework',
   lastUpdated: true,

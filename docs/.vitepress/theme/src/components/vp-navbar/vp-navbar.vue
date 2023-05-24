@@ -10,18 +10,17 @@
         :key="item.link">
         <a :href="item.link">{{ item.text }}</a>
       </li>
-      <s-switch v-model="drakTheme">
-        <template #check-active> <s-moon></s-moon> </template>
-
-        <template #check-inactive> <s-sun></s-sun> </template>
-      </s-switch>
+      <pt-switch v-model="pageTheme" active-value="dark" inactive-value="light">
+        <template #check-active> <pt-moon></pt-moon> </template>
+        <template #check-inactive> <pt-sun></pt-sun> </template>
+      </pt-switch>
     </ul>
     <div class="vp-link__icon">
-      <s-icon
+      <pt-icon
         custom-icon="/github.svg"
         class="vp-link__github"
-        @click="jump('https://github.com/liaoruikang/swift-ui')">
-      </s-icon>
+        @click="jump('https://github.com/liaoruikang/pithy-ui')">
+      </pt-icon>
     </div>
     <div class="vp-menu__small">
       <div
@@ -51,15 +50,18 @@
           </li>
           <li class="vp-menu__item vp-menu__theme">
             <span> 主题 </span>
-            <s-switch v-model="drakTheme">
+            <pt-switch
+              v-model="pageTheme"
+              active-value="dark"
+              inactive-value="light">
               <template #check-active>
-                <s-moon></s-moon>
+                <pt-moon></pt-moon>
               </template>
 
               <template #check-inactive>
-                <s-sun></s-sun>
+                <pt-sun></pt-sun>
               </template>
-            </s-switch>
+            </pt-switch>
           </li>
         </ul>
       </div>
@@ -69,17 +71,17 @@
 <script lang="ts">
 import { useData, useRoute } from 'vitepress';
 import { computed, defineComponent, ref } from 'vue';
-import { useDrak } from '@swift/hooks';
-import { SSun, SMoon } from '@swift/icons';
+import { useTheme } from '@pithy-ui/hooks';
+import { PtSun, PtMoon } from '@pithy-ui/icons';
 export default defineComponent({
   name: 'vp-navbar',
-  components: { SMoon, SSun },
+  components: { PtSun, PtMoon },
   setup() {
     const { theme } = useData();
     const route = useRoute();
     const currentPath = computed(() => route.path.split('.')[0]);
 
-    const drakTheme = useDrak(false);
+    const { theme: pageTheme } = useTheme();
 
     const menuActive = ref<boolean>(false);
 
@@ -87,7 +89,7 @@ export default defineComponent({
       open(url, '_blank');
     };
 
-    return { theme, currentPath, drakTheme, jump, menuActive };
+    return { theme, currentPath, pageTheme, jump, menuActive };
   },
 });
 </script>
@@ -131,7 +133,7 @@ export default defineComponent({
         color: get_var(text-color);
       }
     }
-    :deep(.s-switch) {
+    :deep(.pt-switch) {
       padding: 0 15px;
       transform: scale(0.875);
     }
@@ -197,7 +199,7 @@ export default defineComponent({
       width: 100%;
       height: 0;
       overflow: hidden;
-      background-color: var(--s-bg-color);
+      background-color: var(--pt-bg-color);
 
       @include transition(height);
 

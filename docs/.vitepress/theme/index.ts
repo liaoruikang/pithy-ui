@@ -2,13 +2,13 @@
 // import Layout from './Layout.vue';
 import { App } from 'vue';
 import { Layout } from './src';
-import '@swift/theme';
-import SwiftUi from '@swift/components';
+import '@pithy-ui/theme';
+import PithyUi from 'pithy-ui';
 
 export default {
   Layout,
   enhanceApp({ app }: { app: App }) {
     // ...
-    app.use(SwiftUi);
+    app.use(PithyUi);
   },
 };

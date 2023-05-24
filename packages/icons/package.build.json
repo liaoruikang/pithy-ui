@@ -1,0 +1,22 @@
+{
+  "name": "@pithy-ui/icons",
+  "description": "Vue3 icons framework",
+  "version": "1.0.0",
+  "main": "lib/icons/index.js",
+  "module": "es/icons/index.mjs",
+  "types": "types/index.d.ts",
+  "author": "Lrk",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./es/icons/index.mjs",
+      "require": "./lib/icons/index.js"
+    },
+    "./es": "./es/icons/index.mjs",
+    "./lib": "./lib/icons/index.js"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47"
+  }
+}

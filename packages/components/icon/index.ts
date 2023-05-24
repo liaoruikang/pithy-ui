@@ -1,7 +1,5 @@
 import Icon from './src/icon';
-import { withInstall } from '@swift/utils/vue';
+import { withInstall } from '@pithy-ui/utils/vue';
 
-const SIcon = withInstall(Icon);
-
-export { SIcon };
-export default SIcon;
+export const PtIcon = withInstall(Icon);
+export default PtIcon;

@@ -1,6 +1,11 @@
 {
-  "name": "@swift/icons",
+  "name": "pithy-icons",
+  "description": "Vue3 icons framework",
   "version": "1.0.0",
   "main": "index.ts",
-  "license": "MIT"
+  "author": "Lrk",
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.2.47"
+  }
 }

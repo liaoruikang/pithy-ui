@@ -1,5 +1,5 @@
 {
-  "name": "@swift/play",
+  "name": "@pithy-ui/play",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@swift/components": "workspace:^1.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "vue": "^3.2.47"
   },

@@ -30,5 +30,6 @@
   },
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "editor.fontFamily": "'JetBrains Mono',’Fira Code‘,Consolas, 'Courier New', monospace"
 }

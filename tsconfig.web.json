@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2018"],
+    "types": ["./types/vue-shims.d.ts", "./types/svg.d.ts"]
+  },
+  "include": ["packages"]
+}

@@ -4,48 +4,44 @@ import loading from '../svg/loading.svg';
 import loading2 from '../svg/loading2.svg';
 import error from '../svg/error.svg';
 import success from '../svg/success.svg';
-import { Component } from 'vue';
+import { ComponentPlugin, basespace } from '@pithy-ui/utils/vue';
 
 const options = [
   {
-    name: 's-sun',
+    name: `${basespace}-sun`,
     url: sun,
   },
   {
-    name: 's-moon',
+    name: `${basespace}-moon`,
     url: moon,
   },
   {
-    name: 's-loading',
+    name: `${basespace}-loading`,
     url: loading,
   },
   {
-    name: 's-loading2',
+    name: `${basespace}-loading2`,
     url: loading2,
   },
   {
-    name: 's-error',
+    name: `${basespace}-error`,
     url: error,
   },
   {
-    name: 's-success',
+    name: `${basespace}-success`,
     url: success,
   },
 ];
 
-interface iconComponent {
-  [key: string]: Component;
-}
-
-const getIconCompoent = (components: Component[]): iconComponent => {
-  const iconComponent: iconComponent = {};
-
+const getIconCompoents = <T>(
+  components: ComponentPlugin<T>[],
+): { [key: string]: ComponentPlugin<T> } => {
+  const iconComponents: { [key: string]: ComponentPlugin<T> } = {};
   components.forEach(
     component =>
-      (iconComponent[(component as { name: string }).name] = component),
+      (iconComponents[(component as { name: string }).name] = component),
   );
-
-  return iconComponent;
+  return iconComponents;
 };
 
-export { options, getIconCompoent };
+export { options, getIconCompoents };

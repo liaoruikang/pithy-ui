@@ -1,11 +1,12 @@
 import { defineComponent, toRefs, computed } from 'vue';
 import { iconProps } from '.';
-import { createIconComponent } from '@swift/icons/src';
+import { createIconComponent } from '@pithy-ui/icons';
+import { b, basespace } from '@pithy-ui/utils/vue';
 
 const iconComponent = createIconComponent();
 
 export default defineComponent({
-  name: 's-icon',
+  name: `${basespace}-icon`,
   props: iconProps,
   components: { iconComponent },
   setup(props, { slots }) {
@@ -19,7 +20,7 @@ export default defineComponent({
     });
 
     return () => (
-      <i class='s-icon' style={styles.value}>
+      <i class={b('icon')} style={styles.value}>
         {props.customIcon ? (
           <iconComponent icon={props.customIcon} />
         ) : (

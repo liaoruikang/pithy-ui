@@ -1,0 +1,8 @@
+{
+  "name": "pithy-ui",
+  "version": "1.0.0",
+  "description": "Vue3 framework",
+  "main": "index.ts",
+  "author": "Lrk",
+  "license": "MIT"
+}
