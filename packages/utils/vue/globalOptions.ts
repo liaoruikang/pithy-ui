@@ -1,6 +1,5 @@
 export interface globalOptionsType {
   namespace?: string;
-  style?: boolean;
 }
 
 export const basespace = 'pt';
@@ -12,11 +11,10 @@ const separator = {
 };
 const statePrefix = 'is-';
 export let globalOptions: globalOptionsType = {
-  style: false,
+  namespace: basespace,
 };
 
 export const setOptions = (options: globalOptionsType): void => {
-  options.namespace = options.namespace ?? basespace;
   globalOptions = {
     ...globalOptions,
     ...options,
@@ -29,10 +27,7 @@ export const b = (
   modifier?: string,
 ): string => {
   if (!block) return '';
-  let namespace = basespace;
-  if (globalOptions.style && globalOptions.namespace) {
-    namespace = globalOptions.namespace;
-  }
+  const namespace = globalOptions.namespace;
   let selector = `${namespace}${separator.common}${block}`;
   if (!element) return selector;
   selector += `${separator.element}${element}`;

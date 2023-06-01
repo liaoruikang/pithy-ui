@@ -12,6 +12,9 @@
     },
     {
       "path": "./tsconfig.icons.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
     }
   ]
 }

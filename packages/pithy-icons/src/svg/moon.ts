@@ -1,4 +1,4 @@
-<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+export const moon = `<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
 	<g clip-path="url(#clip3_1)">
 		<path d="M4.29871 3.22406C5.71771 1.69772 4.68839 2.92221 4.90262 4.91141C5.03937 6.18109 5.90869 8.19019 6.82159 9.10309C7.67313 9.95462 9.14978 10.8906 10.4291 11.0341C12.3368 11.2481 14.1481 10.3181 12.784 11.7094C10.4409 14.0525 6.64185 14.0525 4.29871 11.7094C1.95557 9.36621 1.95557 5.56723 4.29871 3.22406Z" fill-rule="evenodd" />
 	</g>
@@ -7,4 +7,4 @@
 			<rect  width="16.000000" height="16.000000" />
 		</clipPath>
 	</defs>
-</svg>
+</svg>`;

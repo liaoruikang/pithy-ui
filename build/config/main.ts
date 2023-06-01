@@ -4,8 +4,9 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import path, { basename } from 'path';
-import { rollupPluginVue as vue, rollupPluginSvg as svg } from '../plugins';
+import { rollupPluginVue as vue } from '../plugins';
 import { rootPath } from '../utils';
+import { externals } from './config';
 
 export interface BuildRollupOptions {
   inputOptions: InputOptions;
@@ -40,11 +41,10 @@ export const getMainOptions = (
 ): BuildRollupOptions => {
   const inputOptions: InputOptions = {
     input,
-    external: ['vue', /@pithy-ui\/icons/],
+    external: externals,
     plugins: [
       resolve(),
       vue(),
-      svg(),
       typescript({
         tsconfig: path.resolve(rootPath, 'tsconfig.web.json'),
         include: ['*.ts+(|x)', '**/*.ts+(|x)'],

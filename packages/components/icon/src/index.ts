@@ -9,10 +9,8 @@ export const iconProps = {
     default: '1em',
   },
   customIcon: {
-    type: [SVGElement, String, Object] as PropType<
-      (SVGElement | string | VNode)[]
-    >,
+    type: [SVGElement, String, Object] as PropType<SVGElement | string | VNode>,
   },
 };
 
-export type switchProps = ExtractPropTypes<typeof iconProps>;
+export type iconProps = ExtractPropTypes<typeof iconProps>;

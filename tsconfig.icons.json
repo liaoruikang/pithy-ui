@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.type.json",
-  "include": ["packages/icons", "packages/utils"],
+  "include": ["packages/pithy-icons", "packages/utils"],
   "exclude": []
 }

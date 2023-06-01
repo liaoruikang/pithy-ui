@@ -10,7 +10,7 @@ export const PtSun = iconComponents[`${basespace}-sun`];
 export const PtMoon = iconComponents[`${basespace}-moon`];
 export const PtLoading = iconComponents[`${basespace}-loading`];
 export const PtLoading2 = iconComponents[`${basespace}-loading2`];
-export const PtSuccess = iconComponents[`${basespace}-error`];
-export const PtError = iconComponents[`${basespace}-success`];
+export const PtSuccess = iconComponents[`${basespace}-success`];
+export const PtError = iconComponents[`${basespace}-error`];
 
 export { createIconComponent };

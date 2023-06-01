@@ -6,7 +6,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:vue/vue3-essential",
+    "plugin:vue/vue3-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:markdown/recommended",
     "plugin:prettier/recommended"
@@ -45,5 +45,8 @@
         "import/no-unresolved": "off"
       }
     }
-  ]
+  ],
+  "globals": {
+    "defineOptions": "readonly"
+  }
 }

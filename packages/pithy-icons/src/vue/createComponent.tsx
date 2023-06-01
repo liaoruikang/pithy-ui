@@ -9,22 +9,17 @@ export const createIconComponent = () => {
     props: {
       icon: {
         type: [SVGElement, String, Object] as PropType<
-          (SVGElement | string | VNode)[]
+          SVGElement | string | VNode
         >,
         required: true,
       },
     },
-    setup(props) {
+    setup(props, { expose }) {
+      expose();
       let vnode: VNode | null = null;
       watchEffect(() => {
         if (isString(props.icon)) {
-          if (props.icon.includes('/')) {
-            vnode = toVnode(getSvgElement(props.icon)) as VNode;
-          } else {
-            vnode = toVnode(
-              document.querySelector(props.icon) as SVGElement,
-            ) as VNode;
-          }
+          vnode = toVnode(getSvgElement(props.icon) as Element) as VNode;
         } else if (props.icon instanceof SVGElement) {
           vnode = toVnode(props.icon as SVGElement) as VNode;
         } else if (isVNode(props.icon)) {
@@ -33,6 +28,7 @@ export const createIconComponent = () => {
           vnode = null;
         }
       });
+
       return () => vnode;
     },
   });
@@ -43,11 +39,13 @@ export default (name: string, url: string) => {
   return defineComponent({
     name,
     components: { customIconComponent },
-    setup() {
+    setup(_, { expose }) {
+      expose();
+
       let vnode: VNode | null = null;
 
       if (!map.has(url)) {
-        vnode = toVnode(getSvgElement(url)) as VNode;
+        vnode = toVnode(getSvgElement(url) as Element) as VNode;
         map.set(url, vnode);
       } else {
         vnode = map.get(url) as VNode;
@@ -58,11 +56,21 @@ export default (name: string, url: string) => {
   });
 };
 
-const getSvgElement = (url: string): SVGElement => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', url, false);
-  xhr.send();
+const getSvgElement = (url: string): SVGElement | string => {
   const el = document.createElement('span');
-  el.innerHTML = xhr.responseText;
-  return el.querySelector('svg')?.cloneNode(true) as SVGElement;
+  el.innerHTML = url;
+  if (el.querySelector('svg')) {
+    return el.querySelector('svg')?.cloneNode(true) as SVGElement;
+  } else if (document.querySelector(url)) {
+    return document.querySelector(url)?.cloneNode(true) as SVGElement;
+  }
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    el.innerHTML = xhr.responseText;
+    return el.querySelector('svg')?.cloneNode(true) as SVGElement;
+  } catch (error) {
+    return '';
+  }
 };

@@ -1,12 +1,16 @@
 import type { ExtractPropTypes } from 'vue';
-import { emitsVerify } from '@pithy-ui/utils/vue';
+import { definePropType, emitsVerify } from '@pithy-ui/utils/vue';
 
-export type switchValueType = boolean | string | number;
+export type SwitchValue = boolean | string | number;
 
 export const switchProps = {
   modelValue: {
     type: [Boolean, String, Number],
-    default: false,
+    default: undefined,
+  },
+  value: {
+    type: [Boolean, String, Number],
+    default: undefined,
   },
   activeValue: {
     type: [Boolean, String, Number],
@@ -26,6 +30,11 @@ export const switchProps = {
     type: Boolean,
     default: false,
   },
+  beforeChange: {
+    type: definePropType<(val: SwitchValue) => Promise<boolean> | boolean>(
+      Function,
+    ),
+  },
   beforeLoading: {
     type: Boolean,
     default: true,
@@ -41,17 +50,13 @@ export const switchProps = {
 };
 
 export const switchEmits = {
-  'update:model-value': emitsVerify<switchValueType>([
+  'update:model-value': emitsVerify<SwitchValue>([
     'string',
     'boolean',
     'number',
   ]),
-  change: emitsVerify<switchValueType>(['string', 'boolean', 'number']),
-  beforChange: emitsVerify<switchValueType>(['string', 'boolean', 'number']),
+  change: emitsVerify<SwitchValue>(['string', 'boolean', 'number']),
+  beforChange: emitsVerify<SwitchValue>(['string', 'boolean', 'number']),
 };
 
-export type switchProps = ExtractPropTypes<typeof switchProps>;
-export type beforeChangeType =
-  | ((value: switchValueType) => Promise<any> | boolean)
-  | null
-  | undefined;
+export type SwitchProps = ExtractPropTypes<typeof switchProps>;

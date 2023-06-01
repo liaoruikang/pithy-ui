@@ -9,7 +9,7 @@ export const typesPath = resolve(rootPath, 'types');
 export const swiftlyUiPath = resolve(pkgPath, projectName);
 export const distMainPath = resolve(distPath, projectName);
 
-export const iconsPath = resolve(pkgPath, 'icons');
+export const iconsPath = resolve(pkgPath, projectIconsName);
 export const distIconsPath = resolve(distPath, projectIconsName);
 
 export const themePath = resolve(pkgPath, 'theme');

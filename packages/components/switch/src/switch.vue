@@ -13,11 +13,11 @@
       >{{ inactiveText }}</span
     >
     <button
-      @click="change"
       :class="{
         [b('switch', 'box')]: true,
         [s('loading')]: loading,
-      }">
+      }"
+      @click="change">
       <span
         :class="{
           [b('switch', 'check')]: true,
@@ -87,75 +87,76 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, getCurrentInstance } from 'vue';
-import { switchProps, switchEmits, switchValueType, beforeChangeType } from '.';
+<script setup lang="ts">
+import { computed, ref, watchEffect } from 'vue';
+import { switchProps, switchEmits, SwitchValue } from '.';
 import { PtSuccess, PtError, PtLoading2 } from '@pithy-ui/icons';
 import { isPromise } from '@pithy-ui/utils';
 import { b, s, basespace } from '@pithy-ui/utils/vue';
 
-export default defineComponent({
+defineOptions({
   name: `${basespace}-switch`,
-  props: switchProps,
-  emits: switchEmits,
-  components: { PtSuccess, PtError, PtLoading2 },
-  setup(props, { emit }) {
-    const instance = getCurrentInstance();
+});
 
-    const beforeChange: beforeChangeType =
-      instance?.vnode.props?.onBeforeChange;
+const props = defineProps(switchProps);
+const emit = defineEmits(switchEmits);
 
-    const active = computed({
-      get(): switchValueType {
-        return props.modelValue;
-      },
-      set(value: switchValueType) {
-        emit('update:model-value', value);
-      },
-    });
+const switchValue = ref(props.value);
+watchEffect(() => {
+  switchValue.value = props.value;
+});
 
-    const beforeLoading = ref<boolean>(false);
-
-    const activeState = computed(() => active.value == props.activeValue);
-
-    const updateValue = computed(() =>
-      activeState.value ? props.inactiveValue : props.activeValue,
-    );
-
-    const loading = computed(
-      () => (props.beforeLoading && beforeLoading.value) || props.loading,
-    );
-
-    const change = () => {
-      if (props.disabled) return;
-      updateLoadingState(true);
-      if (beforeChange) {
-        const returnedValue = beforeChange(updateValue.value);
-        console.log(returnedValue);
-
-        if (isPromise(returnedValue))
-          return returnedValue
-            .then(() => updateState())
-            .finally(() => updateLoadingState(false));
-        if (returnedValue) {
-          updateState();
-        }
-        updateLoadingState(false);
-      } else {
-        updateState();
-        updateLoadingState(false);
-      }
-    };
-
-    const updateLoadingState = (value: boolean) => {
-      beforeLoading.value = value;
-    };
-
-    const updateState = () => {
-      active.value = updateValue.value;
-      emit('change', active.value);
-    };
-    return { active, change, activeState, loading, s, b };
+const active = computed({
+  get(): SwitchValue {
+    return props.modelValue ?? switchValue.value ?? false;
+  },
+  set(value: SwitchValue) {
+    if (props.modelValue !== undefined) {
+      emit('update:model-value', value);
+    } else {
+      switchValue.value = value;
+    }
   },
 });
+
+const beforeLoading = ref<boolean>(false);
+
+const activeState = computed(() => active.value === props.activeValue);
+
+const updateValue = computed(() =>
+  activeState.value ? props.inactiveValue : props.activeValue,
+);
+
+const loading = computed(
+  () => (props.beforeLoading && beforeLoading.value) || props.loading,
+);
+
+const change = () => {
+  if (props.disabled) return;
+  updateLoadingState(true);
+  if (props.beforeChange) {
+    const returnedValue = props.beforeChange(updateValue.value);
+
+    if (isPromise(returnedValue))
+      return returnedValue
+        .then(() => updateState())
+        .finally(() => updateLoadingState(false));
+    if (returnedValue) {
+      updateState();
+    }
+    updateLoadingState(false);
+  } else {
+    updateState();
+    updateLoadingState(false);
+  }
+};
+
+const updateLoadingState = (value: boolean) => {
+  beforeLoading.value = value;
+};
+
+const updateState = () => {
+  active.value = updateValue.value;
+  emit('change', active.value);
+};
 </script>

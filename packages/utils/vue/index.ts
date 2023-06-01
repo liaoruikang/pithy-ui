@@ -1,4 +1,4 @@
-export * from './emitsVerify';
+export * from './util';
 export * from './withInstall';
-export * from './globalOption';
+export * from './globalOptions';
 export * from './typeGuard';

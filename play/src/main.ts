@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 
-import PithyUi from '../../dist/pithy-ui';
-import PithyIcons from '../../dist/pithy-icons';
+import PithyUi from 'pithy-ui';
+import PithyIcons from '@pithy-ui/icons';
 import './index.scss';
 
 // PithyUi.setOptions({

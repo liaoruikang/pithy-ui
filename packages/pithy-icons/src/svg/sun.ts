@@ -1,4 +1,4 @@
-<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+export const sun = `<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 	<g clip-path="url(#clip2_1)">
 		<g clip-path="url(#clip2_5)">
 			<rect  x="12.596191" y="2.696686" rx="0.500000" width="1.000000" height="2.000000" transform="rotate(45 12.596191 2.696686)" />
@@ -55,4 +55,4 @@
 			<rect id="sun" width="16.000000" height="16.000000" />
 		</clipPath>
 	</defs>
-</svg>
+</svg>`;

@@ -1,7 +1,7 @@
 {
   "name": "pithy-ui",
-  "version": "1.0.0",
-  "description": "Vue3 framework",
+  "version": "1.0.3",
+  "description": "Pithy-UI is an open source component library based on Vue3 that provides a variety of common UI components and tools to easily build great web applications.",
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "types/index.d.ts",
@@ -12,13 +12,18 @@
       "require": "./lib/index.js"
     },
     "./es": "./es/index.mjs",
-    "./lib": "./lib/index.js"
+    "./lib": "./lib/index.js",
+    "./theme": "./theme/css/index.css",
+    "./theme/*": "./theme/css/*",
+    "./theme/scss": "./theme/scss/index.css",
+    "./theme/scss/*": "./theme/scss/*",
+    "./*": "./*"
   },
   "peerDependencies": {
-    "vue": "^3.2.47"
+    "vue": "^3.2.0"
   },
   "dependencies": {
-    "@pithy-ui/icons": "^1.0.0"
+    "pithy-icons": "^1.0.0"
   },
   "keywords": ["vue", "vue3", "typescript", "Ui", "pithy-ui"],
   "author": "Lrk",

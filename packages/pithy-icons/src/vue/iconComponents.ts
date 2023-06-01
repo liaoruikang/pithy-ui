@@ -1,9 +1,4 @@
-import sun from '../svg/sun.svg';
-import moon from '../svg/moon.svg';
-import loading from '../svg/loading.svg';
-import loading2 from '../svg/loading2.svg';
-import error from '../svg/error.svg';
-import success from '../svg/success.svg';
+import { sun, moon, loading, loading2, error, success } from '../svg';
 import { ComponentPlugin, basespace } from '@pithy-ui/utils/vue';
 
 const options = [

@@ -7,9 +7,10 @@ const iconComponent = createIconComponent();
 
 export default defineComponent({
   name: `${basespace}-icon`,
-  props: iconProps,
   components: { iconComponent },
-  setup(props, { slots }) {
+  props: iconProps,
+  setup(props, { slots, expose }) {
+    expose();
     const { color, size } = toRefs(props);
 
     const styles = computed(() => {

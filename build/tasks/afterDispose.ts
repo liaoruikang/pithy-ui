@@ -11,7 +11,7 @@ import {
 } from '../utils';
 
 import { resolve } from 'path';
-import { formatMap, projectName } from '../config';
+import { formatMap, projectName, projectIconsName } from '../config';
 
 const getReg = (reg: string, flags?: string): RegExp => {
   return new RegExp(reg.replace('$p', projectName), flags);
@@ -92,7 +92,7 @@ export const dispose = (): TaskFunction => {
 export const iconsDispose = (): TaskFunction => {
   return async () => {
     await transfer(
-      resolve(distTypesPath, 'packages', 'icons'),
+      resolve(distTypesPath, 'packages', projectIconsName),
       resolve(distTypesPath, 'packages'),
       {
         search: getReg(`('|")@$p[^'"]+('|")`, 'g'),

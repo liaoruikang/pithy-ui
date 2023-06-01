@@ -6,6 +6,8 @@ const { theme } = useTheme();
 
 const value = ref('0');
 
+const switchRef = ref();
+
 const beforeChange = (): Promise<any> => {
   return new Promise(resolve => setTimeout(resolve, 500));
 };
@@ -20,14 +22,14 @@ const beforeChange = (): Promise<any> => {
       <pt-moon></pt-moon>
     </template>
   </pt-switch>
-  <pt-icon color="red">
-    <!-- <pt-sun style="color: skyblue"></pt-sun> -->
+  <pt-icon ref="switchRef" color="red">
+    <pt-sun></pt-sun>
   </pt-icon>
   <pt-switch
-    @beforeChange="beforeChange"
     v-model="value"
     active-value="1"
-    inactive-value="0">
+    inactive-value="0"
+    :before-change="beforeChange">
   </pt-switch>
 </template>
 
