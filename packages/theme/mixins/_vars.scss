@@ -31,4 +31,7 @@
   @each $name, $value in $colors {
     @include set_css_var($name, $value);
   }
+  @each $name, $value in $common {
+    @include set_css_var($name, $value);
+  }
 }

@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { definePropType, emitsVerify } from '@pithy-ui/utils/vue';
 
 export type SwitchValue = boolean | string | number;
@@ -46,6 +46,12 @@ export const switchProps = {
   disabled: {
     type: Boolean,
     default: false,
+  },
+  size: {
+    type: [String, Number, Array] as PropType<
+      string | number | [string | number, string | number]
+    >,
+    default: 1,
   },
 };
 

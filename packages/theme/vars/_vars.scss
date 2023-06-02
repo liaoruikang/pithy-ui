@@ -8,6 +8,11 @@ $colors: map.deep-merge(
   $colors
 );
 
+$common: (
+  width-size: 1,
+  height-size: 1,
+) !default;
+
 $light: () !default;
 $light: map.deep-merge(
   (

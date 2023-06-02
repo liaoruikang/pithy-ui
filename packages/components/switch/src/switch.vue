@@ -3,7 +3,8 @@
     :class="{
       [b('switch')]: true,
       [s('disabled')]: disabled,
-    }">
+    }"
+    :style="computedSize.styles">
     <span
       v-if="inactiveText"
       :class="{
@@ -93,6 +94,7 @@ import { switchProps, switchEmits, SwitchValue } from '.';
 import { PtSuccess, PtError, PtLoading2 } from '@pithy-ui/icons';
 import { isPromise } from '@pithy-ui/utils';
 import { b, s, basespace } from '@pithy-ui/utils/vue';
+import { useSize } from '@pithy-ui/hooks';
 
 defineOptions({
   name: `${basespace}-switch`,
@@ -100,6 +102,8 @@ defineOptions({
 
 const props = defineProps(switchProps);
 const emit = defineEmits(switchEmits);
+
+const computedSize = useSize(props, 'size');
 
 const switchValue = ref(props.value);
 watchEffect(() => {

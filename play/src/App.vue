@@ -14,7 +14,11 @@ const beforeChange = (): Promise<any> => {
 </script>
 
 <template>
-  <pt-switch v-model="theme" active-value="dark" inactive-value="light">
+  <pt-switch
+    v-model="theme"
+    :size="0"
+    active-value="dark"
+    inactive-value="light">
     <template #check-inactive>
       <pt-sun></pt-sun>
     </template>
@@ -27,9 +31,12 @@ const beforeChange = (): Promise<any> => {
   </pt-icon>
   <pt-switch
     v-model="value"
+    :size="1"
     active-value="1"
     inactive-value="0"
-    :before-change="beforeChange">
+    :before-change="beforeChange"
+    inactive-text="关闭"
+    active-text="开启">
   </pt-switch>
 </template>
 

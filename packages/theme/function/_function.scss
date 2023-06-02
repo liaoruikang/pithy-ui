@@ -2,3 +2,22 @@
 @function get_var($name) {
   @return var(--#{config.$namespace}-#{$name});
 }
+
+@function compute_w_size($value) {
+  @return calc($value * get_var(width-size));
+}
+
+@function compute_h_size($value) {
+  @return calc($value * get_var(height-size));
+}
+
+@function compute_size($value) {
+  @return calc(
+    $value *
+      (
+        max(get_var(height-size), get_var(width-size)) *
+          min(get_var(height-size), get_var(width-size)) /
+          max(get_var(height-size), get_var(width-size))
+      )
+  );
+}

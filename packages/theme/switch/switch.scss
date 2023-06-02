@@ -17,9 +17,9 @@
 
   &#{c.$element-separator}box {
     position: relative;
-    min-width: 42px;
-    height: 22px;
-    border-radius: 12px;
+    min-width: f.compute_w_size(42px);
+    height: f.compute_h_size(22px);
+    border-radius: f.compute_h_size(12px);
     background-color: f.get_var(switch-bg-color);
     border: 1px solid f.get_var(switch-bd-color);
     box-sizing: border-box;
@@ -37,19 +37,21 @@
 
     @include m.b('switch', 'check') {
       @include m.center_position('vertical') {
-        left: 1px;
+        left: f.compute_h_size(2px);
       }
 
       overflow: hidden;
-      width: 18px;
-      height: 18px;
+      width: f.compute_size(18px);
+      height: f.compute_size(18px);
+      max-width: 100%;
+      max-height: 100%;
       background-color: f.get_var(switch-check-bg-color);
       border-radius: 50%;
 
       @include m.transition((background-color, left, transform));
 
       &.#{c.$state-prefix}active {
-        transform: translate(calc(-100% - 1px), -50%);
+        transform: translate(calc(-100% - f.compute_h_size(2px)), -50%);
         left: 100%;
         @include m.b('switch', 'check', 'box') {
           transform: translateX(-50%);
@@ -94,16 +96,16 @@
           @include m.b('switch', 'check', 'wrap') {
             @include m.center_flex;
 
-            width: 1em;
-            height: 1em;
+            width: f.compute_size(1em);
+            height: f.compute_size(1em);
           }
           &.loading-icon {
             opacity: 1;
             color: f.get_var(switch-loading-color);
 
             @include m.b('switch', 'check', 'wrap') {
-              width: 1.25em;
-              height: 1.25em;
+              width: f.compute_size(1.25em);
+              height: f.compute_size(1.25em);
             }
           }
         }
@@ -113,7 +115,7 @@
 
   &__inactive,
   &__active {
-    font-size: 14px;
+    font-size: f.compute_size(14px);
     color: f.get_var(switch-inactive-color);
 
     @include m.transition(color);
@@ -124,9 +126,9 @@
   }
 
   &__inactive {
-    margin-right: 8px;
+    margin-right: f.compute_size(8px);
   }
   &__active {
-    margin-left: 8px;
+    margin-left: f.compute_size(8px);
   }
 }

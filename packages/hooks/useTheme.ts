@@ -40,14 +40,14 @@ watchEffect(() => {
   localStorage.setItem('theme', theme.value);
 });
 
-export interface ThemeOptions {
+export interface ThemeOption {
   label: '亮色' | '深色' | '自动';
   value: Theme;
 }
 
 export interface ThemeReturn {
   theme: Ref<Theme>;
-  options: ThemeOptions[];
+  options: ThemeOption[];
 }
 
 export const useTheme = (): ThemeReturn => {
