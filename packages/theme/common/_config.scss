@@ -3,3 +3,4 @@ $common-separator: '-';
 $element-separator: '__';
 $modifier-separator: '--';
 $state-prefix: 'is-';
+$prefix: $namespace + $common-separator;

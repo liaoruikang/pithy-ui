@@ -1,9 +1,9 @@
-import { PtIcon, PtSwitch } from '@pithy-ui/components';
+import { PtIcon, PtSwitch, PtForm, PtFormItem } from '@pithy-ui/components';
 import { withInstallAll, setOptions } from '@pithy-ui/utils/vue';
 import { App } from 'vue';
 
-const components = [PtIcon, PtSwitch];
-export { PtIcon, PtSwitch };
+const components = [PtIcon, PtSwitch, PtForm, PtFormItem];
+export { PtIcon, PtSwitch, PtForm, PtFormItem };
 export { setOptions };
 
 export default {

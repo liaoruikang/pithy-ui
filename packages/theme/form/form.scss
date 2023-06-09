@@ -1,0 +1,79 @@
+@use '../function/function' as f;
+@use '../mixins/mixins' as m;
+@use '../mixins/vars';
+@use '../common/config' as c;
+
+@include m.b('form-item') {
+  display: flex;
+  line-height: f.get_var(form-item-height);
+  font-size: f.get_var(font-size);
+
+  @include m.b('form-item', 'label') {
+    @include m.center_flex('vertical');
+    padding-right: 20px;
+    height: f.get_var(form-item-height);
+    box-sizing: border-box;
+
+    @include m.b('form-item', 'label', 'text') {
+      @include m.text_overflow();
+      @include m.transition(color);
+      width: 100%;
+      color: f.get_var(text-color);
+
+      &.#{c.$state-prefix}required-left {
+        &::before {
+          content: '*';
+          margin-right: 4px;
+          color: f.get_var(danger-color);
+        }
+      }
+      &.#{c.$state-prefix}required-right {
+        &::after {
+          content: '*';
+          margin-left: 4px;
+          color: f.get_var(danger-color);
+        }
+      }
+    }
+  }
+
+  @include m.b('form-item', 'content') {
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    @include m.b('form-item', 'content', 'error') {
+      @include m.text_overflow();
+      color: f.get_var(danger-color);
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .v-leave-active,
+    .v-enter-active {
+      @include m.transition(height opacity);
+    }
+
+    .v-enter-from,
+    .v-leave-to {
+      height: 0;
+      opacity: 0;
+    }
+    .v-enter-to,
+    .v-leave-from {
+      height: 1em;
+    }
+  }
+
+  &.vertical-label {
+    flex-direction: column;
+    @include m.b('form-item', 'label') {
+      display: inline-flex;
+      width: auto;
+      padding-right: 0;
+    }
+  }
+
+  &.inline {
+    display: inline-flex;
+  }
+}

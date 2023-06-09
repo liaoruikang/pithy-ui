@@ -34,4 +34,9 @@
   @each $name, $value in $common {
     @include set_css_var($name, $value);
   }
+  @each $field, $list in $vars {
+    @each $name, $value in $list {
+      @include set_css_var($name, $value);
+    }
+  }
 }

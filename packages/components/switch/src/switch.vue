@@ -2,28 +2,37 @@
   <div
     :class="{
       [b('switch')]: true,
-      [s('disabled')]: disabled,
+      [is('disabled')]: disabled,
     }"
     :style="computedSize.styles">
     <span
       v-if="inactiveText"
       :class="{
         [b('switch', 'inactive')]: true,
-        [s('active')]: !activeState,
+        [is('active')]: !activeState,
       }"
       >{{ inactiveText }}</span
     >
-    <button
+    <input
+      v-show="false"
+      :id="id"
+      :checked="activeState"
+      type="checkbox"
+      :aria-checked="activeState"
+      @change="change" />
+    <label
+      :for="id"
       :class="{
         [b('switch', 'box')]: true,
-        [s('loading')]: loading,
+        [is('loading')]: loading,
       }"
-      @click="change">
+      tabindex="1"
+      @keyup.enter="change">
       <span
         :class="{
           [b('switch', 'check')]: true,
-          [s('active')]: activeState,
-          [s('animation')]: checkAnimation,
+          [is('active')]: activeState,
+          [is('animation')]: checkAnimation,
         }">
         <span
           :class="{
@@ -76,12 +85,12 @@
           </i>
         </span>
       </span>
-    </button>
+    </label>
     <span
       v-if="activeText"
       :class="{
         [b('switch', 'active')]: true,
-        [s('active')]: activeState,
+        [is('active')]: activeState,
       }"
       >{{ activeText }}</span
     >
@@ -89,16 +98,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue';
+import { computed, inject, ref, watchEffect } from 'vue';
 import { switchProps, switchEmits, SwitchValue } from '.';
 import { PtSuccess, PtError, PtLoading2 } from '@pithy-ui/icons';
-import { isPromise } from '@pithy-ui/utils';
-import { b, s, basespace } from '@pithy-ui/utils/vue';
+import {
+  isPromise,
+  getSoleId,
+  b,
+  is,
+  basespace,
+  formIdKey,
+} from '@pithy-ui/utils';
 import { useSize } from '@pithy-ui/hooks';
 
 defineOptions({
   name: `${basespace}-switch`,
 });
+
+const id = inject(formIdKey, undefined) ?? `pt-form-${getSoleId()}`;
 
 const props = defineProps(switchProps);
 const emit = defineEmits(switchEmits);
@@ -136,7 +153,7 @@ const loading = computed(
 );
 
 const change = () => {
-  if (props.disabled) return;
+  if (props.disabled || loading.value) return;
   updateLoadingState(true);
   if (props.beforeChange) {
     const returnedValue = props.beforeChange(updateValue.value);

@@ -72,3 +72,9 @@
     @content;
   }
 }
+
+@mixin text_overflow() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

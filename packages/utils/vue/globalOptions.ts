@@ -36,7 +36,7 @@ export const b = (
   return selector;
 };
 
-export const s = (state: string): string => {
+export const is = (state: string): string => {
   if (!state) return '';
   return `${statePrefix}${state}`;
 };

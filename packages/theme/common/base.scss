@@ -1,0 +1,14 @@
+@use './config' as *;
+@use '../mixins/mixins' as *;
+
+.#{$prefix}zoom-top-leave-active,
+.#{$prefix}zoom-top-enter-active {
+  @include transition(transform opacity);
+  transform-origin: 50% 0%;
+}
+
+.#{$prefix}zoom-top-enter-from,
+.#{$prefix}zoom-top-leave-to {
+  transform: scaleY(0);
+  opacity: 0;
+}

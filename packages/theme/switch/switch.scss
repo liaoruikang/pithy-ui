@@ -15,10 +15,12 @@
     }
   }
 
+  vertical-align: middle;
+
   &#{c.$element-separator}box {
     position: relative;
-    min-width: f.compute_w_size(42px);
-    height: f.compute_h_size(22px);
+    min-width: f.compute_w_size(40px);
+    height: f.compute_h_size(20px);
     border-radius: f.compute_h_size(12px);
     background-color: f.get_var(switch-bg-color);
     border: 1px solid f.get_var(switch-bd-color);
@@ -37,12 +39,12 @@
 
     @include m.b('switch', 'check') {
       @include m.center_position('vertical') {
-        left: f.compute_h_size(2px);
+        left: f.compute_size(1px);
       }
 
       overflow: hidden;
-      width: f.compute_size(18px);
-      height: f.compute_size(18px);
+      width: f.compute_size(16px);
+      height: f.compute_size(16px);
       max-width: 100%;
       max-height: 100%;
       background-color: f.get_var(switch-check-bg-color);
@@ -51,7 +53,7 @@
       @include m.transition((background-color, left, transform));
 
       &.#{c.$state-prefix}active {
-        transform: translate(calc(-100% - f.compute_h_size(2px)), -50%);
+        transform: translate(calc(-100% - f.compute_size(1px)), -50%);
         left: 100%;
         @include m.b('switch', 'check', 'box') {
           transform: translateX(-50%);
@@ -115,7 +117,7 @@
 
   &__inactive,
   &__active {
-    font-size: f.compute_size(14px);
+    font-size: f.compute_size(f.get_var(font-size));
     color: f.get_var(switch-inactive-color);
 
     @include m.transition(color);

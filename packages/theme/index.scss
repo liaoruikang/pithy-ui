@@ -1,3 +1,5 @@
 @forward './common/config';
-@forward './icon/icon.scss';
-@forward './switch/switch.scss';
+@forward './common/base';
+@forward './icon/icon';
+@forward './switch/switch';
+@forward './form/form';

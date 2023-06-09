@@ -1,9 +1,15 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-import { definePropType, emitsVerify } from '@pithy-ui/utils/vue';
+import type { ExtractPropTypes } from 'vue';
+import {
+  SizeProp,
+  buildProps,
+  definePropType,
+  emitsVerify,
+  events,
+} from '@pithy-ui/utils/vue';
 
 export type SwitchValue = boolean | string | number;
 
-export const switchProps = {
+export const switchProps = buildProps({
   modelValue: {
     type: [Boolean, String, Number],
     default: undefined,
@@ -48,21 +54,17 @@ export const switchProps = {
     default: false,
   },
   size: {
-    type: [String, Number, Array] as PropType<
-      string | number | [string | number, string | number]
-    >,
+    type: [String, Number, Array] as SizeProp,
     default: 1,
   },
-};
+});
+
+const verify = emitsVerify<SwitchValue>(['string', 'boolean', 'number']);
 
 export const switchEmits = {
-  'update:model-value': emitsVerify<SwitchValue>([
-    'string',
-    'boolean',
-    'number',
-  ]),
-  change: emitsVerify<SwitchValue>(['string', 'boolean', 'number']),
-  beforChange: emitsVerify<SwitchValue>(['string', 'boolean', 'number']),
+  [events.VMODEL]: verify,
+  [events.CHANGE]: verify,
+  [events.BEFORECHANGE]: verify,
 };
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;

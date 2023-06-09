@@ -10,8 +10,8 @@ export default defineComponent({
   components: { iconComponent },
   props: iconProps,
   setup(props, { slots, expose }) {
-    expose();
     const { color, size } = toRefs(props);
+    expose();
 
     const styles = computed(() => {
       return {

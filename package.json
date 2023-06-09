@@ -18,11 +18,13 @@
     "@algolia/client-search": "^4.17.0",
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@types/lodash-es": "^4.17.7",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vue/test-utils": "^2.3.2",
+    "async-validator": "^4.2.5",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-markdown": "3.0.0",
@@ -53,6 +55,9 @@
     "@pithy-ui/icons": "workspace:^1.0.0",
     "@pithy-ui/theme": "workspace:^1.0.0",
     "@pithy-ui/utils": "workspace:^1.0.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.3",
     "pithy-ui": "workspace:^1.0.0"
   }
 }

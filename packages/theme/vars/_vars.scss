@@ -4,6 +4,7 @@ $colors: () !default;
 $colors: map.deep-merge(
   (
     primary-color: #19a7ce,
+    danger-color: #f45050,
   ),
   $colors
 );
@@ -11,7 +12,18 @@ $colors: map.deep-merge(
 $common: (
   width-size: 1,
   height-size: 1,
+  font-size: 14px,
 ) !default;
+
+$vars: () !default;
+$vars: map.deep-merge(
+  (
+    form: (
+      form-item-height: 40px,
+    ),
+  ),
+  $vars
+);
 
 $light: () !default;
 $light: map.deep-merge(
