@@ -1,10 +1,12 @@
 @use 'sass:map';
+@use 'sass:color';
 
 $colors: () !default;
 $colors: map.deep-merge(
   (
     primary-color: #19a7ce,
     danger-color: #f45050,
+    warning-color: #f79327,
   ),
   $colors
 );
@@ -20,6 +22,7 @@ $vars: map.deep-merge(
   (
     form: (
       form-item-height: 40px,
+      form-label-width: 80px,
     ),
   ),
   $vars

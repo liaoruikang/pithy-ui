@@ -1,40 +1,41 @@
 <template>
   <div
+    ref="formItem"
     :class="{
-      [b('form-item')]: true,
-      'vertical-label': MergeProps.verticalLabel,
-      inline: inline,
+      [ns.b()]: true,
+      'vertical-label': mergeProps.verticalLabel,
+      inline: mergeProps.inline,
     }"
-    tabindex="1"
-    @blur="blur">
+    :style="compoutedSizeStyles">
     <div
       :class="{
-        [b('form-item', 'label')]: true,
+        [ns.e('label')]: true,
       }"
       :style="{
-        width: MergeProps.labelWidth,
-        textAlign: MergeProps.align,
+        [ns.cssVar('form-label-width')]: mergeProps.labelWidth,
+        textAlign: mergeProps.labelAlign,
       }">
       <label
         :class="{
-          [b('form-item', 'label', 'text')]: true,
-          [is(`required-${MergeProps.requiredAsteriskLocation}`)]:
-            MergeProps.required,
+          [ns.m('text')]: true,
+          [ns.is(`required-${mergeProps.requiredAsteriskLocation}`)]:
+            mergeProps.required,
         }"
-        :for="MergeProps.labelFocus ? id : ''">
-        {{ label }}{{ MergeProps.requiredAsteriskLocation }}
+        :for="inputId">
+        {{ label }}
       </label>
     </div>
     <div
       :class="{
-        [b('form-item', 'content')]: true,
+        [ns.e('content')]: true,
+        [ns.is('error')]: !validateState,
       }">
       <slot></slot>
-      <Transition appear>
+      <Transition :name="`${basespace}-zoom-top`" appear>
         <div
           v-if="!validateState"
           :class="{
-            [b('form-item', 'content', 'error')]: true,
+            [ns.m('error')]: true,
           }">
           <slot name="error" :error="validateMessage">
             <span>{{ validateMessage }}</span>
@@ -45,37 +46,38 @@
   </div>
 </template>
 <script setup lang="ts">
-import { b, basespace, getSoleId, formIdKey, is } from '@pithy-ui/utils';
-import { formItemProps, commonPropsDefaults } from '.';
-import { formContextKey } from './constants';
+import { basespace, Bem, isDecimalNumber } from '@pithy-ui/utils';
+import { formItemProps, commonPropsDefaults, formItemEmits } from '.';
+import { formContextKey, formItemContextKey } from './constants';
 import {
   computed,
   inject,
   ref,
   provide,
-  useSlots,
   watch,
   onMounted,
+  reactive,
+  toRef,
 } from 'vue';
 import type {
   FormContext,
   FormItemContext,
   CommonPropsDefaults,
+  ScrollIntoViewArg,
 } from './types';
 import { cloneDeep, isArray } from 'lodash-unified';
+import { useSize } from '@pithy-ui/hooks';
+import type { ValidateResult } from '@pithy-ui/hooks';
 
 defineOptions({
   name: `${basespace}-form-item`,
 });
 
-const id = `pt-form-${getSoleId()}`;
-const defaultSlot = useSlots().default?.() || [];
-if (defaultSlot.length === 1) {
-  provide(formIdKey, id);
-}
+const ns = new Bem('form-item');
 
 let initialValue: any;
 
+const emit = defineEmits(formItemEmits);
 const props = defineProps(formItemProps);
 
 const {
@@ -84,7 +86,7 @@ const {
   appendFormItemContext,
 } = inject(formContextKey) as FormContext;
 
-const MergeProps = computed(() => {
+const mergeProps = computed(() => {
   const formItemContextProps = cloneDeep({
     ...formContextProps,
     ...props,
@@ -94,17 +96,16 @@ const MergeProps = computed(() => {
     const k = key as keyof CommonPropsDefaults;
     if (props[k] !== undefined) {
       (formItemContextProps[k] as any) = props[k];
-      console.log(props[k], 'props', k);
     } else if (formContextProps[k] !== undefined) {
       (formItemContextProps[k] as any) = formContextProps[k];
-      console.log(formContextProps[k], 'formContextProps', k);
     } else {
       (formItemContextProps[k] as any) = commonPropsDefaults[k];
     }
   }
-
   return formItemContextProps;
 });
+
+const compoutedSizeStyles = useSize(mergeProps, 'size');
 
 const validateValue = computed({
   get: () => {
@@ -116,76 +117,94 @@ const validateValue = computed({
   },
 });
 
+const rules = toRef(formContextProps, 'rules');
+
 const rule = computed(() => {
-  let rule = props.rule ?? formContextProps.rules?.[props.field] ?? [];
+  let rule = props.rule ?? rules.value?.[props.field] ?? [];
   if (!isArray(rule)) rule = [rule];
-  if (MergeProps.value.required)
+  if (mergeProps.value.required)
     rule.push({
       required: true,
     });
   return rule;
 });
 
+const isNumberRule = computed(() =>
+  rule.value.some(ruleItem => ruleItem.type === 'number'),
+);
+
 const validate = appendRule(
   rule.value,
   props.field,
   validateValue,
   async ValidateFn => {
-    if (props.field) {
-      return ValidateFn().then(
-        validateResult => {
-          validateMessage.value = '';
-          return (validateState.value = validateResult);
-        },
-        (validateResult: string) => {
-          validateState.value = false;
-          return Promise.reject((validateMessage.value = validateResult));
-        },
-      );
-    }
-    return true;
+    const validateResult = await ValidateFn(
+      isNumberRule.value &&
+        isDecimalNumber(validateValue.value) &&
+        mergeProps.value.numberTransform
+        ? Number(validateValue.value)
+        : undefined,
+    ).catch((errorResult: ValidateResult) => errorResult);
+    validateMessage.value = validateResult.message ?? '';
+    validateState.value = validateResult.state;
+
+    emit('validate', validateResult);
+
+    return validateResult;
   },
 );
+
+if (mergeProps.value.ruleChangeValidate && props.field)
+  watch(rules, validate, { deep: true });
 
 const clearValidate: FormItemContext['clearValidate'] = () => {
   validateState.value = true;
   validateMessage.value = '';
 };
 
-let stopValidate = false;
-
-const resetField: FormItemContext['resetField'] = (stop = false) => {
-  stopValidate = stop;
-  validateValue.value = initialValue;
-};
+const resetField: FormItemContext['resetField'] = () =>
+  (validateValue.value = initialValue);
 
 const updateInitialValue: FormItemContext['updateInitialValue'] = () =>
   (initialValue = cloneDeep(validateValue.value));
 
-const context: FormItemContext = {
-  ...props,
-  validate,
-  clearValidate,
-  resetField,
-  updateInitialValue,
-};
+const inputIds = reactive(new Set<string>());
+const inputId = computed<string | undefined>(() =>
+  mergeProps.value.labelFocus ? [...inputIds][0] ?? undefined : undefined,
+);
+
+const appendInputId: FormItemContext['appendInputId'] = id => inputIds.add(id);
+const clearInputId: FormItemContext['clearInputId'] = id => inputIds.delete(id);
 
 const validateState = ref(true);
 const validateMessage = ref('');
 
-if (props.validateAppear) validate();
+if (mergeProps.value.validateAppear) validate();
 
-if (props.validateTrigger === 'change')
-  watch(
-    validateValue,
-    () =>
-      !stopValidate ? validate().catch(err => err) : (stopValidate = false),
-    { deep: true },
-  );
+if (mergeProps.value.validateTrigger === 'change')
+  watch(validateValue, validate);
 
-const blur = () => {
-  if (props.validateTrigger === 'blur') validate();
+const formItem = ref<HTMLDivElement>();
+
+const scrollIntoView: FormItemContext['scrollIntoView'] = arg => {
+  const defaultArg: ScrollIntoViewArg = {
+    behavior: 'smooth',
+  };
+  formItem.value?.scrollIntoView(arg ?? defaultArg);
 };
+
+const context: FormItemContext = {
+  props: mergeProps,
+  scrollIntoView,
+  validate,
+  clearValidate,
+  resetField,
+  updateInitialValue,
+  appendInputId,
+  clearInputId,
+};
+
+provide(formItemContextKey, context);
 
 onMounted(() => {
   updateInitialValue();
@@ -197,5 +216,6 @@ defineExpose({
   clearValidate,
   resetField,
   updateInitialValue,
+  scrollIntoView,
 });
 </script>

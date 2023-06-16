@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
-import { PtForm, useTheme } from 'pithy-ui';
+import { reactive, ref } from 'vue';
+import { PtForm, useTheme, ValidateResult } from 'pithy-ui';
 import type { ValidatorFuntion } from 'pithy-ui';
+import { FormValidateResult } from 'packages/components/form/src/types';
 const { theme } = useTheme();
-const test = ref(0);
+const test = ref(NaN);
 
 const data = reactive({ theme, test, value: 0 });
 
@@ -12,14 +13,16 @@ const beforeChange = (): Promise<any> => {
 };
 
 const form = ref<InstanceType<typeof PtForm>>();
-onMounted(() => {
-  form.value?.validate();
-});
 
+const validate = () => {
+  form.value?.validate();
+};
 const reset = () => {
-  form.value?.resetFields(undefined, true);
+  form.value?.resetFields();
 };
 const update = () => form.value?.updateInitialValue();
+
+const jump = () => form.value?.scrollIntoView('theme');
 
 const validator: ValidatorFuntion = (_, value, callback) => {
   if (value !== 'dark') {
@@ -27,20 +30,35 @@ const validator: ValidatorFuntion = (_, value, callback) => {
   }
   callback();
 };
+
+const onValidate = (e: FormValidateResult | ValidateResult) => {
+  console.log(e);
+};
 </script>
 
 <template>
   <pt-form
     ref="form"
+    style="width: 400px"
     :model="data"
+    required-asterisk-location="left"
+    label-width="80px"
+    label-align="left"
     required
-    required-asterisk-location="right"
-    label-focus>
-    <pt-form-item label="字段2" :label-focus="false" field="test">
+    :size="1"
+    scroll-to-validate-error
+    @validate="onValidate">
+    <pt-form-item
+      label="字段2"
+      :rule="{
+        type: 'number',
+      }"
+      validate-trigger="blur"
+      field="test">
       <pt-switch
         v-model="data.test"
         :active-value="1"
-        :inactive-value="0"
+        inactive-value="0"
         :before-change="beforeChange"
         inactive-text="关闭"
         active-text="开启">
@@ -49,10 +67,12 @@ const validator: ValidatorFuntion = (_, value, callback) => {
     <pt-form-item
       label-focus
       label="字段1"
+      validate-trigger="change"
       :rule="{
         validator,
       }"
-      field="theme">
+      field="theme"
+      @validate="onValidate">
       <pt-switch
         v-model="data.theme"
         active-value="dark"
@@ -65,7 +85,13 @@ const validator: ValidatorFuntion = (_, value, callback) => {
         </template>
       </pt-switch>
     </pt-form-item>
-    <pt-form-item label-focus label="字段3" field="value">
+    <pt-form-item
+      :rule="{
+        type: 'number',
+      }"
+      label-focus
+      field="value"
+      label="字段3">
       <input v-model="data.value" type="text" />
     </pt-form-item>
   </pt-form>
@@ -74,13 +100,16 @@ const validator: ValidatorFuntion = (_, value, callback) => {
     <pt-sun></pt-sun>
   </pt-icon>
 
+  <button @click="validate">校验</button>
   <button @click="reset">重置</button>
   <button @click="update">更新</button>
+  <button @click="jump">跳转</button>
 </template>
 
 <style lang="scss">
 body {
   background-color: var(--pt-bg-color);
   transition: 0.3s;
+  height: 200vh;
 }
 </style>

@@ -2,19 +2,28 @@ import { SizeProp, buildProps } from '@pithy-ui/utils';
 import type { Align } from '@pithy-ui/utils';
 import { Rule, Rules } from 'async-validator';
 import { ExtractPropTypes, PropType } from 'vue';
-import { CommonPropsDefaults, ValidateTrigger } from './types';
+import type {
+  CommonPropsDefaults,
+  ValidateTrigger,
+  ScrollIntoViewArg,
+  ValidateResultGroup,
+} from './types';
+import { isValidateResult } from './utils';
+import type { ValidateResult } from '@pithy-ui/hooks';
 
 export const commonPropsDefaults: CommonPropsDefaults = {
-  size: 1,
+  size: undefined,
   labelFocus: true,
   labelWidth: '80px',
   verticalLabel: false,
   inline: false,
-  align: 'right',
+  labelAlign: 'right',
   validateTrigger: 'change',
-  validateAppear: true,
+  validateAppear: false,
   required: false,
   requiredAsteriskLocation: 'left',
+  ruleChangeValidate: false,
+  numberTransform: true,
 };
 
 const commonFormProps = buildProps({
@@ -23,17 +32,20 @@ const commonFormProps = buildProps({
   },
   labelFocus: {
     type: Boolean,
+    default: undefined,
   },
   labelWidth: {
     type: String,
   },
   verticalLabel: {
     type: Boolean,
+    default: undefined,
   },
   inline: {
     type: Boolean,
+    default: undefined,
   },
-  align: {
+  labelAlign: {
     type: String as PropType<Align>,
   },
   validateTrigger: {
@@ -41,12 +53,22 @@ const commonFormProps = buildProps({
   },
   validateAppear: {
     type: Boolean,
+    default: undefined,
   },
   required: {
     type: Boolean,
+    default: undefined,
   },
   requiredAsteriskLocation: {
     type: String as PropType<'left' | 'right'>,
+  },
+  ruleChangeValidate: {
+    type: Boolean,
+    default: undefined,
+  },
+  numberTransform: {
+    type: Boolean,
+    default: undefined,
   },
 });
 
@@ -58,6 +80,14 @@ export const formProps = buildProps({
   },
   rules: {
     type: Object as PropType<Rules>,
+  },
+  scrollToValidateError: {
+    type: Boolean,
+    default: false,
+  },
+  scrollToValidateErrorOptions: {
+    type: [Boolean, Object] as PropType<ScrollIntoViewArg>,
+    default: undefined,
   },
 });
 
@@ -75,6 +105,16 @@ export const formItemProps = buildProps({
     type: Object as PropType<Rule>,
   },
 });
+
+export const formItemEmits = {
+  validate: (val: ValidateResult) => isValidateResult(val),
+};
+
+export const formEmits = {
+  validate: (val: ValidateResultGroup) =>
+    (val.error.some(item => isValidateResult(item)) || !val.error.length) &&
+    (val.success.some(item => isValidateResult(item)) || !val.success.length),
+};
 
 export type FormProps = ExtractPropTypes<typeof formProps>;
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>;

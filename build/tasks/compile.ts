@@ -8,8 +8,13 @@ export const compile = (
   map: FormatType = formatMap.es,
 ): TaskFunction => {
   return async () => {
-    const rollupOptions = getMainOptions(input, output, map);
-    const bundle = await rollup(rollupOptions.inputOptions);
-    await bundle.write(rollupOptions.outputOptions);
+    try {
+      const rollupOptions = getMainOptions(input, output, map);
+      const bundle = await rollup(rollupOptions.inputOptions);
+      await bundle.write(rollupOptions.outputOptions);
+    } catch (error) {
+      console.log(error);
+      throw '1';
+    }
   };
 };

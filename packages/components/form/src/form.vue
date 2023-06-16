@@ -1,25 +1,33 @@
 <template>
   <form
     :class="{
-      [b('form')]: true,
+      [ns.b()]: true,
     }">
     <slot />
   </form>
 </template>
 <script setup lang="ts">
-import { b, basespace } from '@pithy-ui/utils';
+import { Bem, basespace } from '@pithy-ui/utils';
 import { provide } from 'vue';
 import { formContextKey } from './constants';
-import { formProps } from '.';
-import { useValidate, ValidateFn } from '@pithy-ui/hooks';
-import type { FormContext, FormItemContext } from './types';
+import { formEmits, formProps } from '.';
+import { useValidate } from '@pithy-ui/hooks';
+import type {
+  FormContext,
+  FormItemContext,
+  ValidateResultGroup,
+} from './types';
 import { getFormItemContexts } from './utils';
 
 defineOptions({
   name: `${basespace}-form`,
 });
 
+const ns = new Bem('form');
+
+const emit = defineEmits(formEmits);
 const props = defineProps(formProps);
+
 const appendRule = useValidate();
 
 const formItemContextMap = new Map<string, FormItemContext>();
@@ -29,22 +37,33 @@ const clearValidate = (fields?: string | string[]): void => {
   formItemContexts.forEach(formItemContext => formItemContext.clearValidate());
 };
 
-const validate = async (fields?: string | string[]): Promise<boolean> => {
+const validate = async (
+  fields?: string | string[],
+): Promise<ValidateResultGroup> => {
   const formItemContexts = getFormItemContexts(formItemContextMap, fields);
-  const tasks: ValidateFn[] = formItemContexts.map(
-    formItemContext => formItemContext.validate,
+
+  const validateResults = await Promise.all(
+    formItemContexts.map(formItemContext => formItemContext.validate()),
   );
-  const tasksResult = await Promise.all(
-    tasks.map(task => task().catch(err => err)),
-  );
-  const errorResult = tasksResult.filter(result => typeof result === 'string');
-  if (errorResult.length) return Promise.reject(errorResult);
-  return true;
+
+  const ValidateResultGroup: ValidateResultGroup = {
+    success: validateResults.filter(result => result.state),
+    error: validateResults.filter(result => !result.state),
+  };
+
+  if (props.scrollToValidateError && ValidateResultGroup.error.length) {
+    const firstError = ValidateResultGroup.error[0];
+    scrollIntoView(firstError.field, props.scrollToValidateErrorOptions);
+  }
+
+  emit('validate', ValidateResultGroup);
+
+  return ValidateResultGroup;
 };
 
-const resetFields = (fields?: string | string[], stop = false) => {
+const resetFields = (fields?: string | string[]) => {
   const formItemContexts = getFormItemContexts(formItemContextMap, fields);
-  formItemContexts.forEach(formItemContext => formItemContext.resetField(stop));
+  formItemContexts.forEach(formItemContext => formItemContext.resetField());
 };
 
 const updateInitialValue = (fields?: string | string[]) => {
@@ -55,13 +74,21 @@ const updateInitialValue = (fields?: string | string[]) => {
 };
 
 const appendFormItemContext: FormContext['appendFormItemContext'] = field => {
-  if (field.field) formItemContextMap.set(field.field, field);
+  if (field.props.value.field)
+    formItemContextMap.set(field.props.value.field, field);
+};
+
+const scrollIntoView: FormContext['scrollIntoView'] = (field, arg) => {
+  const formItemContext = formItemContextMap.get(field);
+  if (!formItemContext) return;
+  formItemContext.scrollIntoView(arg);
 };
 
 provide(formContextKey, {
   props,
   appendRule,
   appendFormItemContext,
+  scrollIntoView,
 });
 
 defineExpose({
@@ -69,5 +96,6 @@ defineExpose({
   clearValidate,
   resetFields,
   updateInitialValue,
+  scrollIntoView,
 });
 </script>

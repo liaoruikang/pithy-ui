@@ -1,17 +1,20 @@
 @use '../function/function' as f;
 @use '../mixins/mixins' as m;
+@use './mixin' as *;
 @use '../mixins/vars';
 @use '../common/config' as c;
 
 @include m.b('form-item') {
   display: flex;
-  line-height: f.get_var(form-item-height);
-  font-size: f.get_var(font-size);
+  line-height: f.compute_h_size(f.get_var(form-item-height));
+  font-size: f.compute_size(f.get_var(font-size));
+  margin-bottom: f.compute_size(15px);
 
   @include m.b('form-item', 'label') {
     @include m.center_flex('vertical');
-    padding-right: 20px;
-    height: f.get_var(form-item-height);
+    padding-right: f.compute_size(20px);
+    width: f.compute_size(f.get_var(form-label-width));
+    height: f.compute_h_size(f.get_var(form-item-height));
     box-sizing: border-box;
 
     @include m.b('form-item', 'label', 'text') {
@@ -23,14 +26,14 @@
       &.#{c.$state-prefix}required-left {
         &::before {
           content: '*';
-          margin-right: 4px;
+          margin-right: f.compute_size(4px);
           color: f.get_var(danger-color);
         }
       }
       &.#{c.$state-prefix}required-right {
         &::after {
           content: '*';
-          margin-left: 4px;
+          margin-left: f.compute_size(4px);
           color: f.get_var(danger-color);
         }
       }
@@ -38,29 +41,22 @@
   }
 
   @include m.b('form-item', 'content') {
+    position: relative;
     box-sizing: border-box;
     flex: 1;
     min-width: 0;
+
+    &.#{c.$state-prefix}error {
+      @include border_errors;
+    }
     @include m.b('form-item', 'content', 'error') {
+      position: absolute;
+      top: 100%;
+      left: 0;
       @include m.text_overflow();
       color: f.get_var(danger-color);
-      font-size: 12px;
+      font-size: f.compute_size(12px);
       line-height: 1;
-    }
-
-    .v-leave-active,
-    .v-enter-active {
-      @include m.transition(height opacity);
-    }
-
-    .v-enter-from,
-    .v-leave-to {
-      height: 0;
-      opacity: 0;
-    }
-    .v-enter-to,
-    .v-leave-from {
-      height: 1em;
     }
   }
 

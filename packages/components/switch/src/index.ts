@@ -3,11 +3,10 @@ import {
   SizeProp,
   buildProps,
   definePropType,
-  emitsVerify,
+  emitsValidate,
   events,
 } from '@pithy-ui/utils/vue';
-
-export type SwitchValue = boolean | string | number;
+import type { SwitchValue } from './types';
 
 export const switchProps = buildProps({
   modelValue: {
@@ -55,16 +54,15 @@ export const switchProps = buildProps({
   },
   size: {
     type: [String, Number, Array] as SizeProp,
-    default: 1,
   },
 });
 
-const verify = emitsVerify<SwitchValue>(['string', 'boolean', 'number']);
+const validate = emitsValidate(['string', 'boolean', 'number']);
 
 export const switchEmits = {
-  [events.VMODEL]: verify,
-  [events.CHANGE]: verify,
-  [events.BEFORECHANGE]: verify,
+  [events.VMODEL]: (val: SwitchValue) => validate(val),
+  [events.CHANGE]: (val: SwitchValue) => validate(val),
+  [events.BEFORECHANGE]: (val: SwitchValue) => validate(val),
 };
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;

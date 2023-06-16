@@ -1,7 +1,7 @@
 import { defineComponent, toRefs, computed } from 'vue';
 import { iconProps } from '.';
 import { createIconComponent } from '@pithy-ui/icons';
-import { b, basespace } from '@pithy-ui/utils/vue';
+import { Bem, basespace } from '@pithy-ui/utils/vue';
 
 const iconComponent = createIconComponent();
 
@@ -20,8 +20,10 @@ export default defineComponent({
       };
     });
 
+    const ns = new Bem('icon');
+
     return () => (
-      <i class={b('icon')} style={styles.value}>
+      <i class={ns.b()} style={styles.value}>
         {props.customIcon ? (
           <iconComponent icon={props.customIcon} />
         ) : (

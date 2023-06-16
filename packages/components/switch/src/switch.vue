@@ -1,15 +1,15 @@
 <template>
   <div
     :class="{
-      [b('switch')]: true,
-      [is('disabled')]: disabled,
+      [ns.b()]: true,
+      [ns.is('disabled')]: disabled,
     }"
-    :style="computedSize.styles">
+    :style="computedSizeStyles">
     <span
       v-if="inactiveText"
       :class="{
-        [b('switch', 'inactive')]: true,
-        [is('active')]: !activeState,
+        [ns.e('inactive')]: true,
+        [ns.is('active')]: !activeState,
       }"
       >{{ inactiveText }}</span
     >
@@ -20,33 +20,33 @@
       type="checkbox"
       :aria-checked="activeState"
       @change="change" />
-    <label
-      :for="id"
+    <button
       :class="{
-        [b('switch', 'box')]: true,
-        [is('loading')]: loading,
+        [ns.e('box')]: true,
+        [ns.is('loading')]: loading,
       }"
       tabindex="1"
-      @keyup.enter="change">
+      @blur="blurValidate"
+      @click.prevent="change">
       <span
         :class="{
-          [b('switch', 'check')]: true,
-          [is('active')]: activeState,
-          [is('animation')]: checkAnimation,
+          [ns.e('check')]: true,
+          [ns.is('active')]: activeState,
+          [ns.is('animation')]: checkAnimation,
         }">
         <span
           :class="{
-            [b('switch', 'check', 'box')]: true,
+            [ns.m('box')]: true,
           }">
           <i
             v-show="loading"
             class="loading-icon"
             :class="{
-              [b('switch', 'check', 'icon')]: true,
+              [ns.m('icon')]: true,
             }">
             <span
               :class="{
-                [b('switch', 'check', 'wrap')]: true,
+                [ns.m('wrap')]: true,
               }">
               <pt-loading2></pt-loading2>
             </span>
@@ -55,12 +55,12 @@
             v-show="!loading"
             class="inactive-icon"
             :class="{
-              [b('switch', 'check', 'icon')]: true,
+              [ns.m('icon')]: true,
             }"
             :aria-checked="!activeState">
             <span
               :class="{
-                [b('switch', 'check', 'wrap')]: true,
+                [ns.m('wrap')]: true,
               }">
               <slot name="check-inactive">
                 <pt-error></pt-error>
@@ -71,12 +71,12 @@
             v-show="!loading"
             class="active-icon"
             :class="{
-              [b('switch', 'check', 'icon')]: true,
+              [ns.m('icon')]: true,
             }"
             :aria-checked="activeState">
             <span
               :class="{
-                [b('switch', 'check', 'wrap')]: true,
+                [ns.m('wrap')]: true,
               }">
               <slot name="check-active">
                 <pt-success></pt-success>
@@ -85,12 +85,12 @@
           </i>
         </span>
       </span>
-    </label>
+    </button>
     <span
       v-if="activeText"
       :class="{
-        [b('switch', 'active')]: true,
-        [is('active')]: activeState,
+        [ns.e('active')]: true,
+        [ns.is('active')]: activeState,
       }"
       >{{ activeText }}</span
     >
@@ -98,45 +98,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, ref, watchEffect } from 'vue';
-import { switchProps, switchEmits, SwitchValue } from '.';
+import { computed, ref, watchEffect } from 'vue';
+import { switchProps, switchEmits } from '.';
 import { PtSuccess, PtError, PtLoading2 } from '@pithy-ui/icons';
-import {
-  isPromise,
-  getSoleId,
-  b,
-  is,
-  basespace,
-  formIdKey,
-} from '@pithy-ui/utils';
+import { isPromise, getInputId, basespace, Bem } from '@pithy-ui/utils';
 import { useSize } from '@pithy-ui/hooks';
+import { useFormItem } from '@pithy-ui/components/form';
+import type { SwitchValue } from './types';
 
 defineOptions({
   name: `${basespace}-switch`,
 });
 
-const id = inject(formIdKey, undefined) ?? `pt-form-${getSoleId()}`;
+const id = `${basespace}-input-${getInputId()}`;
+const blurValidate = useFormItem(id);
+const ns = new Bem('switch');
 
 const props = defineProps(switchProps);
 const emit = defineEmits(switchEmits);
 
-const computedSize = useSize(props, 'size');
+const computedSizeStyles = useSize(props, 'size');
 
 const switchValue = ref(props.value);
-watchEffect(() => {
-  switchValue.value = props.value;
-});
+watchEffect(() => (switchValue.value = props.value));
 
 const active = computed({
   get(): SwitchValue {
     return props.modelValue ?? switchValue.value ?? false;
   },
   set(value: SwitchValue) {
-    if (props.modelValue !== undefined) {
-      emit('update:model-value', value);
-    } else {
-      switchValue.value = value;
-    }
+    if (props.modelValue !== undefined)
+      return emit('update:model-value', value);
+    switchValue.value = value;
   },
 });
 

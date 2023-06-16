@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-
 import PithyUi from 'pithy-ui';
 import PithyIcons from '@pithy-ui/icons';
 import './index.scss';

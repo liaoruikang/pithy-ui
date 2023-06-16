@@ -1,45 +1,46 @@
-import type { AppendRule, ValidateFn } from '@pithy-ui/hooks';
+import type { AppendRule, ValidateFn, ValidateResult } from '@pithy-ui/hooks';
 import type { FormItemProps, FormProps } from '.';
 import { Align, Size } from '@pithy-ui/utils';
+import { Ref } from 'vue';
 
 export type ValidateTrigger = 'change' | 'blur';
 
-export interface FormItemContext extends FormItemProps {
+export interface FormItemContext {
+  props: Ref<FormItemProps>;
+  scrollIntoView: (arg?: boolean | ScrollIntoViewOptions | undefined) => void;
   validate: ValidateFn;
   clearValidate: () => void;
-  resetField: (stop?: boolean) => void;
+  resetField: () => void;
   updateInitialValue: () => void;
+  appendInputId: (id: string) => void;
+  clearInputId: (id: string) => void;
 }
+
+export type ScrollIntoViewArg = boolean | ScrollIntoViewOptions | undefined;
 
 export interface FormContext {
   props: FormProps;
   appendRule: AppendRule;
+  scrollIntoView: (field: string, arg?: ScrollIntoViewArg) => void;
   appendFormItemContext: (field: FormItemContext) => void;
 }
 
 export interface CommonPropsDefaults {
-  size: Size;
+  size: Size | undefined;
   labelFocus: boolean;
   labelWidth: string;
   verticalLabel: boolean;
   inline: boolean;
-  align: Align;
+  labelAlign: Align;
   validateTrigger: ValidateTrigger;
   validateAppear: boolean;
   required: boolean;
   requiredAsteriskLocation: 'left' | 'right';
+  ruleChangeValidate: boolean;
+  numberTransform: boolean;
 }
 
-const a = {
-  c: 'a',
-  b: '',
-};
-
-const b = {
-  c: 'a',
-};
-
-for (const key in b) {
-  const k = key as keyof typeof b;
-  a[k] = b[k];
+export interface ValidateResultGroup {
+  success: ValidateResult[];
+  error: ValidateResult[];
 }

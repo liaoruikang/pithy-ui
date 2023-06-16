@@ -3,7 +3,7 @@
   "compilerOptions": {
     "jsx": "preserve",
     "lib": ["DOM", "DOM.Iterable", "ES2018"],
-    "types": ["./types/vue-shims.d.ts"]
+    "types": ["./types/shims-vue.d.ts", "node"]
   },
   "include": ["packages"]
 }

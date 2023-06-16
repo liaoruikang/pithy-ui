@@ -1,6 +1,5 @@
 import { defineComponent, VNode, PropType, isVNode, watchEffect } from 'vue';
-import { isString } from '@pithy-ui/utils/vue';
-import { toVnode } from '@pithy-ui/utils';
+import { toVnode, isString } from '@pithy-ui/utils';
 
 const map = new Map<string, VNode>();
 
