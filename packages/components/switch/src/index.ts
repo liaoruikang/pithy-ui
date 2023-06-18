@@ -53,7 +53,11 @@ export const switchProps = buildProps({
     default: false,
   },
   size: {
-    type: [String, Number, Array] as SizeProp,
+    type: [Number, Array] as SizeProp,
+  },
+  tabindex: {
+    type: [Number, String],
+    default: 1,
   },
 });
 

@@ -25,8 +25,8 @@
         [ns.e('box')]: true,
         [ns.is('loading')]: loading,
       }"
-      tabindex="1"
-      @blur="blurValidate"
+      :tabindex="tabIndex"
+      @blur="!disabled && blurValidate"
       @click.prevent="change">
       <span
         :class="{
@@ -34,34 +34,18 @@
           [ns.is('active')]: activeState,
           [ns.is('animation')]: checkAnimation,
         }">
-        <span
-          :class="{
-            [ns.m('box')]: true,
-          }">
-          <i
-            v-show="loading"
-            class="loading-icon"
-            :class="{
-              [ns.m('icon')]: true,
-            }">
-            <span
-              :class="{
-                [ns.m('wrap')]: true,
-              }">
+        <span :class="ns.m('box')">
+          <i v-show="loading" class="loading-icon" :class="ns.m('icon')">
+            <span :class="ns.m('wrap')">
               <pt-loading2></pt-loading2>
             </span>
           </i>
           <i
             v-show="!loading"
             class="inactive-icon"
-            :class="{
-              [ns.m('icon')]: true,
-            }"
+            :class="ns.m('icon')"
             :aria-checked="!activeState">
-            <span
-              :class="{
-                [ns.m('wrap')]: true,
-              }">
+            <span :class="ns.m('wrap')">
               <slot name="check-inactive">
                 <pt-error></pt-error>
               </slot>
@@ -70,14 +54,9 @@
           <i
             v-show="!loading"
             class="active-icon"
-            :class="{
-              [ns.m('icon')]: true,
-            }"
+            :class="ns.m('icon')"
             :aria-checked="activeState">
-            <span
-              :class="{
-                [ns.m('wrap')]: true,
-              }">
+            <span :class="ns.m('wrap')">
               <slot name="check-active">
                 <pt-success></pt-success>
               </slot>
@@ -110,7 +89,7 @@ defineOptions({
   name: `${basespace}-switch`,
 });
 
-const id = `${basespace}-input-${getInputId()}`;
+const id = getInputId();
 const blurValidate = useFormItem(id);
 const ns = new Bem('switch');
 
@@ -118,6 +97,8 @@ const props = defineProps(switchProps);
 const emit = defineEmits(switchEmits);
 
 const computedSizeStyles = useSize(props, 'size');
+
+const tabIndex = computed(() => (props.disabled ? -1 : props.tabindex));
 
 const switchValue = ref(props.value);
 watchEffect(() => (switchValue.value = props.value));

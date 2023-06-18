@@ -1,0 +1,59 @@
+@use 'sass:string';
+@use '../common/config' as *;
+
+@mixin bem($block: null, $element: null, $modifier: null) {
+  $b: '';
+  @if $block {
+    $b: '.' + $prefix + $block;
+    @if $element {
+      $b: $b + $element-separator + $element;
+      @if $modifier {
+        $b: $b + $modifier-separator + $modifier;
+      }
+    }
+  }
+  #{string.unquote($b)} {
+    @content;
+  }
+}
+
+@mixin b($block) {
+  $selector: '.' + $prefix + $block;
+  #{string.unquote($selector)} {
+    @content;
+  }
+}
+
+@mixin e($element) {
+  $parent: '#{nth(&, 1)}';
+  $parent-selector: '.' +
+    nth(string.split(nth(string.split($parent, ' '), -1), '.'), 2);
+  $selector: $parent-selector + $element-separator + $element;
+  #{$selector} {
+    @content;
+  }
+}
+
+@mixin m($modifier) {
+  $parent: '#{nth(&, 1)}';
+  $parent-selector: '.' +
+    nth(string.split(nth(string.split($parent, ' '), -1), '.'), 2);
+  $selector: $parent-selector + $modifier-separator + $modifier;
+  #{string.unquote($selector)} {
+    @content;
+  }
+}
+
+@mixin is($state, $equative: true) {
+  @if $equative {
+    $selector: & + '.' + $state-prefix + $state;
+    @at-root #{string.unquote($selector)} {
+      @content;
+    }
+  } @else {
+    $selector: '.' + $state-prefix + $state;
+    #{string.unquote($selector)} {
+      @content;
+    }
+  }
+}

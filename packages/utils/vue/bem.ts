@@ -1,4 +1,4 @@
-import { debugWarn } from '../error';
+import { debugError } from '../error';
 import { isObject, isString } from '../typeGuard';
 import { basespace, globalOptions } from './globalOptions';
 import { BemChain, BemType } from './types';
@@ -26,13 +26,7 @@ class Bem {
   };
   #statePrefix = 'is-';
 
-  constructor(
-    bem?: BemChain | string,
-    namespace?: string,
-    statePrefix?: string,
-  ) {
-    if (namespace) this.#namespace = namespace;
-    if (statePrefix) this.#statePrefix = statePrefix;
+  constructor(bem?: BemChain | string) {
     if (bem)
       if (isString(bem)) this.#bemChain.block = bem;
       else this.#bemChain = bem;
@@ -55,7 +49,7 @@ class Bem {
 
   bem(BemChain: Partial<BemChain>, type: BemType = 'block') {
     if (!isBemChain(BemChain)) {
-      debugWarn("The 'BemChain' parameter does not meet expectations.");
+      debugError("The 'BemChain' parameter does not meet expectations.");
       return '';
     }
     this.#bemChain = { ...this.#bemChain, ...BemChain };
@@ -97,7 +91,7 @@ class Bem {
 
   getTaxon(type: BemType = 'block', name?: string) {
     if (!this.#exists(type)) {
-      debugWarn('The current chain does not exist.');
+      debugError('The current chain does not exist.');
       return '';
     }
     const taxon = `${this.#namespace}${this.#separator.common}`;
@@ -115,6 +109,14 @@ class Bem {
     }
   }
 
+  setNamespace(namespace: string) {
+    this.#namespace = namespace;
+  }
+
+  setStatePrefix(statePrefix: string) {
+    this.#statePrefix = statePrefix;
+  }
+
   #exists(type: BemType = 'block'): boolean {
     switch (type) {
       case 'block':
@@ -129,12 +131,10 @@ class Bem {
   }
 }
 
-const ns = new Bem();
-
 /**
  * @description Singleton cache, 'new' operation of the same parameter reuses previous instances.
  */
-const bemMap = new Map<any, Bem>();
+const bemMap = new Map<any[], Bem>();
 const ProxyBem = new Proxy(Bem, {
   construct(target, args) {
     for (const [argItem, bem] of bemMap) {
@@ -146,4 +146,4 @@ const ProxyBem = new Proxy(Bem, {
   },
 });
 
-export { ProxyBem as Bem, ns };
+export { ProxyBem as Bem };

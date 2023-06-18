@@ -28,7 +28,7 @@ export const commonPropsDefaults: CommonPropsDefaults = {
 
 const commonFormProps = buildProps({
   size: {
-    type: [String, Number, Array] as SizeProp,
+    type: [Number, Array] as SizeProp,
   },
   labelFocus: {
     type: Boolean,

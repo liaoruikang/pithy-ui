@@ -1,5 +1,5 @@
-@use '../common/config' as *;
 @use 'sass:string';
+@use '../common/config' as *;
 @use '../function/function' as *;
 
 @mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
@@ -8,31 +8,6 @@
     $str: $str + $value + ' ' + $duration + ' ' + $function + ',';
   }
   transition: string.unquote(string.slice($str, 1, -2));
-}
-
-// bem
-@mixin b($block: '', $element: '', $modifier: '', $state: '', $prefix: '') {
-  $b: '';
-  @if $block != '' {
-    $b: $namespace + $common-separator + $block;
-  }
-  @if $element != '' {
-    $b: $b + $element-separator + $element;
-  }
-  @if $modifier != '' {
-    $b: $b + $modifier-separator + $modifier;
-  }
-  @if $state != '' {
-    $b: $state-prefix + $state;
-  }
-  @if $prefix != '' {
-    $b: $prefix + $b;
-  } @else {
-    $b: '.' + $b;
-  }
-  #{string.unquote($b)} {
-    @content;
-  }
 }
 
 @mixin center_position($type: null) {

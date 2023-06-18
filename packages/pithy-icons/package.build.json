@@ -1,6 +1,6 @@
 {
   "name": "@pithy-ui/icons",
-  "description": "Vue3 icons framework",
+  "description": "Vue3 icons component library",
   "version": "1.0.2",
   "main": "lib/icons/index.js",
   "module": "es/icons/index.mjs",

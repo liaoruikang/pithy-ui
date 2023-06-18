@@ -1,8 +1,5 @@
 <template>
-  <form
-    :class="{
-      [ns.b()]: true,
-    }">
+  <form :class="ns.b()">
     <slot />
   </form>
 </template>

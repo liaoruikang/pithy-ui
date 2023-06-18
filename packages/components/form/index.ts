@@ -1,7 +1,7 @@
 import Form from './src/form.vue';
 import FormItem from './src/form-item.vue';
 
-import { withInstall } from '@pithy-ui/utils/vue';
+import { withInstall } from '@pithy-ui/utils';
 
 export * from './src/hooks';
 export * from './src/types';

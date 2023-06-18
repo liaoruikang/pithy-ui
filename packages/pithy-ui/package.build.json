@@ -1,6 +1,6 @@
 {
   "name": "pithy-ui",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Pithy-UI is an open source component library based on Vue3 that provides a variety of common UI components and tools to easily build great web applications.",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.7",
-    "pithy-icons": "^1.0.0",
+    "@pithy-ui/icons": "^1.0.0",
     "async-validator": "^4.2.5",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",

@@ -1,5 +1,5 @@
 import { ComputedRef, Ref, computed, isRef } from 'vue';
-import { ns } from '@pithy-ui/utils';
+import { Bem } from '@pithy-ui/utils';
 
 export type Size = number | [number, number];
 export interface SizeStyles {
@@ -7,9 +7,10 @@ export interface SizeStyles {
 }
 
 export const useSize = <T, K extends keyof T>(
-  props: T | Ref<T>,
+  props: T | Ref<T> | ComputedRef<T>,
   key: K,
 ): ComputedRef<SizeStyles> => {
+  const ns = new Bem();
   const sizeReturn = computed<SizeStyles>(() => {
     let size = isRef(props) ? (props.value[key] as Size) : (props[key] as Size);
     const styles: SizeStyles = {};

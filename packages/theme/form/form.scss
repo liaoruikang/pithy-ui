@@ -1,36 +1,37 @@
 @use '../function/function' as f;
 @use '../mixins/mixins' as m;
+@use '../mixins/bem' as bem;
 @use './mixin' as *;
 @use '../mixins/vars';
 @use '../common/config' as c;
 
-@include m.b('form-item') {
+@include bem.b('form-item') {
   display: flex;
   line-height: f.compute_h_size(f.get_var(form-item-height));
   font-size: f.compute_size(f.get_var(font-size));
   margin-bottom: f.compute_size(15px);
 
-  @include m.b('form-item', 'label') {
+  @include bem.e('label') {
     @include m.center_flex('vertical');
     padding-right: f.compute_size(20px);
     width: f.compute_size(f.get_var(form-label-width));
     height: f.compute_h_size(f.get_var(form-item-height));
     box-sizing: border-box;
 
-    @include m.b('form-item', 'label', 'text') {
+    @include bem.m('text') {
       @include m.text_overflow();
       @include m.transition(color);
       width: 100%;
       color: f.get_var(text-color);
 
-      &.#{c.$state-prefix}required-left {
+      @include bem.is('required-left') {
         &::before {
           content: '*';
           margin-right: f.compute_size(4px);
           color: f.get_var(danger-color);
         }
       }
-      &.#{c.$state-prefix}required-right {
+      @include bem.is('required-right') {
         &::after {
           content: '*';
           margin-left: f.compute_size(4px);
@@ -40,16 +41,16 @@
     }
   }
 
-  @include m.b('form-item', 'content') {
+  @include bem.e('content') {
     position: relative;
     box-sizing: border-box;
     flex: 1;
     min-width: 0;
 
-    &.#{c.$state-prefix}error {
+    @include bem.is('error') {
       @include border_errors;
     }
-    @include m.b('form-item', 'content', 'error') {
+    @include bem.m('error') {
       position: absolute;
       top: 100%;
       left: 0;
@@ -62,7 +63,7 @@
 
   &.vertical-label {
     flex-direction: column;
-    @include m.b('form-item', 'label') {
+    @include bem.e('label') {
       display: inline-flex;
       width: auto;
       padding-right: 0;

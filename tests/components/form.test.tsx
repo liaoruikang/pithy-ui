@@ -10,6 +10,8 @@ import { cloneDeep } from 'lodash-unified';
 describe('from', () => {
   const ns = new Bem('form');
 
+  ns.getTaxon('modifier');
+
   const model = reactive({
     number: 1,
     string: AXIOM,

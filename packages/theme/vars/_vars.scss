@@ -33,6 +33,7 @@ $light: map.deep-merge(
   (
     common: (
       text-color: #333,
+      bd-color: #b1b1b1,
       bg-color: #fff,
       active-text-color: map.get($colors, 'primary-color'),
       disabled-filter: grayscale(1),
@@ -40,7 +41,6 @@ $light: map.deep-merge(
     ),
     switch: (
       switch-bg-color: #f1f1f1,
-      switch-bd-color: #b1b1b1,
       switch-check-bg-color: #fff,
       switch-active-color: map.get($colors, 'primary-color'),
       switch-inactive-color: #333,
@@ -56,13 +56,13 @@ $drak: map.deep-merge(
   (
     common: (
       text-color: #eee,
+      bd-color: #646464,
       bg-color: #1a1a1a,
       disabled-filter: grayscale(0),
       disabled-opacity: 0.3,
     ),
     switch: (
       switch-bg-color: #3f3f3f,
-      switch-bd-color: #646464,
       switch-check-bg-color: #1a1a1a,
       switch-inactive-color: #eee,
       switch-hover-color: #999999,

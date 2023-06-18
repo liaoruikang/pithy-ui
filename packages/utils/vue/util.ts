@@ -1,5 +1,6 @@
 import { Prop, PropType } from 'vue';
 import { isArray, isObject } from '../typeGuard';
+import { basespace } from './globalOptions';
 
 export interface Events {
   VMODEL: 'update:model-value';
@@ -42,13 +43,15 @@ export const createInputId = (): (() => string) => {
   };
 };
 
-export const getInputId = createInputId();
+const getId = createInputId();
+
+export const getInputId = () => `${basespace}-input-${getId()}`;
 
 export const deepEqual = (val1: any, val2: any): boolean => {
   if (val1 === val2) return true;
   if (isArray(val1) && isArray(val2)) {
     if (val1.length !== val2.length) return false;
-    return val1.some((v, i) => deepEqual(v, val2[i]));
+    return val1.length === 0 || val1.some((v, i) => deepEqual(v, val2[i]));
   } else if (isObject(val1) && isObject(val2)) {
     if (Object.keys(val1).length !== Object.keys(val2).length) return false;
     for (const key in val1) {
@@ -58,3 +61,5 @@ export const deepEqual = (val1: any, val2: any): boolean => {
   }
   return false;
 };
+
+export const propDefaultValue = Symbol('defaultValue');

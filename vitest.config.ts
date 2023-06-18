@@ -11,6 +11,9 @@ export default defineConfig({
     transformMode: {
       web: [/\.[jt]sx$/],
     },
+    coverage: {
+      provider: 'istanbul',
+    },
   },
   plugins: [vue(), vueJsx()],
 });

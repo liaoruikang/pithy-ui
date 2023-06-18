@@ -8,9 +8,7 @@
     }"
     :style="compoutedSizeStyles">
     <div
-      :class="{
-        [ns.e('label')]: true,
-      }"
+      :class="ns.e('label')"
       :style="{
         [ns.cssVar('form-label-width')]: mergeProps.labelWidth,
         textAlign: mergeProps.labelAlign,
@@ -32,11 +30,7 @@
       }">
       <slot></slot>
       <Transition :name="`${basespace}-zoom-top`" appear>
-        <div
-          v-if="!validateState"
-          :class="{
-            [ns.m('error')]: true,
-          }">
+        <div v-if="!validateState" :class="ns.m('error')">
           <slot name="error" :error="validateMessage">
             <span>{{ validateMessage }}</span>
           </slot>

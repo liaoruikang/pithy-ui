@@ -1,7 +1,7 @@
 @use '../function/function' as f;
-@use '../mixins/mixins' as m;
+@use '../mixins/bem' as *;
 @mixin border_errors() {
-  @include m.b('switch', 'box') {
+  @include bem('switch', 'box') {
     border-color: f.get_var(danger-color);
   }
 }
