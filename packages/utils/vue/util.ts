@@ -61,5 +61,3 @@ export const deepEqual = (val1: any, val2: any): boolean => {
   }
   return false;
 };
-
-export const propDefaultValue = Symbol('defaultValue');

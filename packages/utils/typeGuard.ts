@@ -18,5 +18,5 @@ export const isPromise = (value: any): value is Promise<any> => {
 
 export const isObject = (value: any): value is { [key: string]: any } =>
   typeof value === 'object' && value !== null;
-export const isArray = (value: any): value is Array<any> =>
+export const isArray = <T>(value: any): value is Array<T> =>
   Object.prototype.toString.call(value) === '[object Array]';

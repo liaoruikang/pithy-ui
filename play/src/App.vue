@@ -37,12 +37,6 @@ const data = reactive({ theme, test, value: '' });
 // const onValidate = (e: ValidateResultGroup | ValidateResult) => {
 //   console.log(e);
 // };
-
-const formatter = (val: string | number) => {
-  console.log(typeof val);
-  console.log(val);
-  return val;
-};
 </script>
 
 <template>
@@ -97,12 +91,11 @@ const formatter = (val: string | number) => {
     <pt-form-item label-focus field="value" label="字段3">
       <pt-input
         v-model="data.value"
-        :min="-10"
-        :step="2"
-        strict-step
-        :max="1000"
-        type="number"
-        :formatter="formatter" />
+        type="text"
+        :max-length="10"
+        :formatter="[
+          val => (val.toString().includes('$') ? val : '$' + val),
+        ]" />
     </pt-form-item>
   </pt-form>
 

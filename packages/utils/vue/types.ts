@@ -1,6 +1,5 @@
 import { RuleItem } from 'async-validator';
 import { PropType } from 'vue';
-import { propDefaultValue } from './util';
 
 export type Size = number | [number, number];
 
@@ -18,5 +17,3 @@ export interface BemChain {
 }
 
 export type BemType = 'block' | 'element' | 'modifier';
-
-export type PropDefaultValue = typeof propDefaultValue;

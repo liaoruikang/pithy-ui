@@ -4,9 +4,10 @@
       <input
         :id="id"
         ref="input"
-        v-model="modelValue"
+        :value="modelValue"
         :class="ns.e('inner')"
         :type="inputType"
+        @input="onInput"
         @blur="onBlur" />
     </div>
   </div>
@@ -14,9 +15,9 @@
 <script setup lang="ts">
 import { useFormItem } from '../../form';
 import { inputProps, inputEmits } from '.';
-import { basespace, Bem, getInputId } from '@pithy-ui/utils';
+import { basespace, Bem, getInputId, isArray } from '@pithy-ui/utils';
 import { useSize, useModel } from '@pithy-ui/hooks';
-import type { ModelPlugin } from '@pithy-ui/hooks';
+import type { ModifierFunction, ModelValue } from '@pithy-ui/hooks';
 import { ref, computed } from 'vue';
 
 defineOptions({
@@ -40,39 +41,59 @@ const inputType = computed(() =>
 
 const input = ref<HTMLInputElement | HTMLTextAreaElement>();
 
-const disposeNumber: ModelPlugin = val => {
+const disposeNumber: ModifierFunction = val => {
   if (props.type !== 'number') return val;
   val = val.toString().replace(/[^\d.]/g, '');
   val = val.replace(/(?<=\..*)\./g, '');
-
-  const numVal = Number(val);
-  const max = props.max ?? Infinity;
-  const min = props.min ?? -Infinity;
-
-  if (numVal > max) val = max;
-  else if (numVal < min) val = min;
-
   return val;
 };
 
-const updateValue: ModelPlugin = val => (input.value!.value = val.toString());
+const limit: ModifierFunction = val => {
+  if (props.type === 'number') {
+    const numVal = Number(val);
+    if (numVal > props.max) val = props.max.toString();
+    else if (numVal < props.min) val = props.max.toString();
+    return val;
+  } else {
+    const strVal = val.toString();
+    if (strVal.length > props.maxLength) return modelValue.value;
+    return val;
+  }
+};
 
-const formatter: ModelPlugin = val => props.formatter?.(val) ?? val;
+const updateValue: ModifierFunction = val =>
+  (input.value!.value = val.toString());
 
-const modelValue = useModel(props, emit, [
+const formatter = computed(() => {
+  if (!props.formatter) return [];
+  return isArray<ModifierFunction>(props.formatter)
+    ? props.formatter
+    : [props.formatter];
+});
+
+const { modelValue, modelInputType } = useModel(props, emit, () => [
+  ...formatter.value,
   disposeNumber,
-  formatter,
+  limit,
   updateValue,
 ]);
 
 const onBlur = () => {
-  if (props.type === 'number')
-    modelValue.value = strictStepLimit(Number(modelValue.value)).toString();
+  if (props.type === 'number') {
+    modelValue.value = strictStepLimit(modelValue.value).toPrecision(
+      props.precision,
+    );
+  }
   blurValidate();
 };
 
-const strictStepLimit = (val: number) => {
-  if (!props.strictStep) return val;
-  return Math.round(val / props.step) * props.step;
+const onInput = (e: Event) => {
+  modelValue.value = input.value?.value ?? modelValue.value;
+  modelInputType.value = (e as InputEvent).inputType;
+};
+
+const strictStepLimit = (val: ModelValue) => {
+  if (!props.strictStep) return Number(val);
+  return Math.round(Number(val) / props.step) * props.step;
 };
 </script>

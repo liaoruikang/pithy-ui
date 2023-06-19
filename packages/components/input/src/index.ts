@@ -1,25 +1,12 @@
-import {
-  buildProps,
-  emitsValidate,
-  events,
-  propDefaultValue,
-} from '@pithy-ui/utils';
-import type { PropDefaultValue, Size } from '@pithy-ui/utils';
+import { buildProps, emitsValidate, events } from '@pithy-ui/utils';
+import type { Size } from '@pithy-ui/utils';
 import { Component, ExtractPropTypes, PropType, VNode } from 'vue';
 import { InputType } from './types';
+import type { ModifierFunction } from '@pithy-ui/hooks';
 
 export const inputProps = buildProps({
   modelValue: {
-    type: [String, Number, Symbol] as PropType<
-      string | number | PropDefaultValue
-    >,
-    default: propDefaultValue,
-  },
-  value: {
-    type: [String, Number, Symbol] as PropType<
-      string | number | PropDefaultValue
-    >,
-    default: propDefaultValue,
+    type: String,
   },
   type: {
     type: String as PropType<InputType>,
@@ -28,13 +15,17 @@ export const inputProps = buildProps({
   size: {
     type: [Number, Array] as PropType<Size>,
   },
+  maxLength: {
+    type: Number,
+    default: Infinity,
+  },
   max: {
     type: Number,
-    default: undefined,
+    default: Infinity,
   },
   min: {
     type: Number,
-    default: undefined,
+    default: -Infinity,
   },
   step: {
     type: Number,
@@ -44,8 +35,13 @@ export const inputProps = buildProps({
     type: Boolean,
     default: false,
   },
+  precision: {
+    type: Number,
+    default: 1,
+    validator: (val: number) => val > 0 && val <= 100,
+  },
   formatter: {
-    type: Function as PropType<(val: string | number) => string | number>,
+    type: [Function, Array] as PropType<ModifierFunction | ModifierFunction[]>,
   },
   placeholder: {
     type: String,

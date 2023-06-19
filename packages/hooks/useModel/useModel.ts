@@ -1,23 +1,40 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { ModelValue, UseModel } from './types';
-import { isArray, propDefaultValue } from '@pithy-ui/utils';
+import { isArray } from '@pithy-ui/utils';
 
-export const useModel: UseModel = (props, emit, plugin = []) => {
+export const useModel: UseModel = (props, emit, modifier) => {
+  const modelInputType = ref('');
   const updateValue = (val: ModelValue) => {
-    if (isArray(plugin)) {
-      val = plugin.reduce((prev, fn) => fn(prev, modelValue.value), val);
+    console.log(val);
+
+    let isStop = false;
+    const stop = () => {
+      isStop = true;
+    };
+    const modifierFn = modifier?.();
+    if (isArray(modifierFn)) {
+      val = modifierFn.reduce(
+        (prev, fn) =>
+          isStop ? '' : fn?.(prev, modelInputType.value, stop) ?? '',
+        val,
+      );
     } else {
-      val = plugin?.(val, modelValue.value);
+      val = modifierFn?.(val, modelInputType.value, stop) ?? val;
     }
-    if (props.modelValue !== propDefaultValue) emit('update:model-value', val);
+    if (props.modelValue === undefined || isStop || val === modelValue.value)
+      return;
+    emit('update:model-value', val);
   };
 
   const modelValue = computed({
     get(): ModelValue {
-      return props.modelValue !== propDefaultValue ? props.modelValue : '';
+      return props.modelValue !== undefined ? props.modelValue : '';
     },
     set: updateValue,
   });
 
-  return modelValue;
+  return {
+    modelValue,
+    modelInputType,
+  };
 };
