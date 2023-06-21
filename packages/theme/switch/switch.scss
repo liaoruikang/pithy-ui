@@ -1,16 +1,16 @@
 @use '../function/function' as f;
 @use '../mixins/mixins' as m;
-@use '../mixins/bem' as *;
+@use '../function/bem' as *;
 @use '../mixins/vars';
 @use '../common/config' as c;
 
 @include vars.set_css_vars('switch');
 
-@include b('switch') {
+#{b('switch')} {
   @include m.center_flex(null, inline-flex);
 
-  @include m.disabled('&.#{c.$state-prefix}disabled') {
-    @include e('box') {
+  @include m.disabled {
+    #{e('box')} {
       border: 1px solid f.get_var(bd-color) !important;
       cursor: not-allowed;
     }
@@ -18,7 +18,7 @@
 
   vertical-align: middle;
 
-  @include e('box') {
+  #{e('box')} {
     position: relative;
     min-width: f.compute_w_size(40px);
     height: f.compute_h_size(20px);
@@ -38,7 +38,7 @@
 
     @include m.transition((background-color, border));
 
-    @include bem('switch', 'check') {
+    #{bem('switch','check')} {
       @include m.center_position('vertical') {
         left: f.compute_size(1px);
       }
@@ -53,21 +53,21 @@
 
       @include m.transition((background-color, left, transform));
 
-      @include is('active') {
+      &#{is('active')} {
         transform: translate(calc(-100% - f.compute_size(1px)), -50%);
         left: 100%;
-        @include m('box') {
+        #{m('box')} {
           transform: translateX(-50%);
           .loading-icon {
             transform: translateX(100%);
           }
         }
       }
-      @include is('animation') {
-        @include bem('switch', 'check', 'box') {
+      &#{is('animation')} {
+        #{bem('switch', 'check', 'box')} {
           @include m.transition(transform, 0.3s, ease-in-out);
 
-          @include bem('switch', 'check', 'icon') {
+          #{bem('switch', 'check', 'icon')} {
             @include m.transition((opacity, color), 0.2s);
           }
           &.loading-icon {
@@ -75,12 +75,12 @@
           }
         }
       }
-      @include m('box') {
+      #{m('box')} {
         @include m.center_flex('vertical');
         width: calc(100% * 2);
         height: inherit;
 
-        @include bem('switch', 'check', 'icon') {
+        #{bem('switch', 'check', 'icon')} {
           @include m.center_flex;
 
           color: f.get_var(switch-inactive-color);
@@ -96,7 +96,7 @@
           &.active-icon {
             color: f.get_var(switch-active-color);
           }
-          @include bem('switch', 'check', 'wrap') {
+          #{bem('switch', 'check', 'wrap')} {
             @include m.center_flex;
 
             width: f.compute_size(1em);
@@ -106,7 +106,7 @@
             opacity: 1;
             color: f.get_var(switch-loading-color);
 
-            @include bem('switch', 'check', 'wrap') {
+            #{bem('switch', 'check', 'wrap')} {
               width: f.compute_size(1.25em);
               height: f.compute_size(1.25em);
             }

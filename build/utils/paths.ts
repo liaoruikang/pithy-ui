@@ -3,6 +3,7 @@ import { projectIconsName, projectName } from '../config';
 
 export const rootPath = resolve(__dirname, '..', '..');
 export const pkgPath = resolve(rootPath, 'packages');
+export const buildPath = resolve(rootPath, 'build');
 export const distPath = resolve(rootPath, 'dist');
 export const typesPath = resolve(rootPath, 'types');
 

@@ -1,4 +1,13 @@
-import { sun, moon, loading, loading2, error, success } from '../svg';
+import {
+  sun,
+  moon,
+  loading,
+  loading2,
+  error,
+  success,
+  add,
+  minus,
+} from '../svg';
 import { ComponentPlugin, basespace } from '@pithy-ui/utils/vue';
 
 const options = [
@@ -25,6 +34,14 @@ const options = [
   {
     name: `${basespace}-success`,
     url: success,
+  },
+  {
+    name: `${basespace}-add`,
+    url: add,
+  },
+  {
+    name: `${basespace}-minus`,
+    url: minus,
   },
 ];
 

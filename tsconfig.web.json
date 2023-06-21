@@ -2,8 +2,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ES2018"],
-    "types": ["./types/shims-vue.d.ts", "node"]
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["./types/env.d.ts"]
   },
   "include": ["packages"]
 }

@@ -1,6 +1,7 @@
 @use 'sass:string';
 @use '../common/config' as *;
 @use '../function/function' as *;
+@use '../function/bem' as *;
 
 @mixin transition($attrs: all, $duration: 0.3s, $function: ease) {
   $str: null;
@@ -39,8 +40,8 @@
   @content;
 }
 
-@mixin disabled($selector) {
-  #{unquote($selector)} {
+@mixin disabled {
+  &#{is('disabled')} {
     opacity: get_var(disabled-opacity);
     filter: get_var(disabled-filter);
     cursor: not-allowed;

@@ -1,0 +1,46 @@
+@use 'sass:string';
+@use '../common/config' as *;
+
+@function bem($block: null, $element: null, $modifier: null) {
+  $b: '';
+  @if $block {
+    $b: '.' + $prefix + $block;
+    @if $element {
+      $b: $b + $element-separator + $element;
+      @if $modifier {
+        $b: $b + $modifier-separator + $modifier;
+      }
+    }
+  }
+  @return string.unquote($b);
+}
+
+@function b($block) {
+  $selector: '.' + $prefix + $block;
+  @return string.unquote($selector);
+}
+
+@function e($element, $parent: null) {
+  @if $parent == null {
+    $parent: '#{nth(&, 1)}';
+  }
+  $parent-selector: '.' +
+    nth(string.split(nth(string.split($parent, ' '), -1), '.'), 2);
+  $selector: $parent-selector + $element-separator + $element;
+  @return $selector;
+}
+
+@function m($modifier, $parent: null) {
+  @if $parent == null {
+    $parent: '#{nth(&, 1)}';
+  }
+  $parent-selector: '.' +
+    nth(string.split(nth(string.split($parent, ' '), -1), '.'), 2);
+  $selector: $parent-selector + $modifier-separator + $modifier;
+  @return string.unquote($selector);
+}
+
+@function is($state) {
+  $selector: '.' + $state-prefix + $state;
+  @return string.unquote($selector);
+}

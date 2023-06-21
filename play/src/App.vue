@@ -66,16 +66,12 @@ const data = reactive({ theme, test, value: '' });
         inactive-text="关闭"
         active-text="开启">
       </pt-switch>
-    </pt-form-item>
+    </pt-form-item>  -->
     <pt-form-item
       label-focus
       label="字段1"
       validate-trigger="change"
-      :rule="{
-        validator,
-      }"
-      field="theme"
-      @validate="onValidate">
+      field="theme">
       <pt-switch
         v-model="data.theme"
         active-value="dark"
@@ -87,15 +83,18 @@ const data = reactive({ theme, test, value: '' });
           <pt-moon></pt-moon>
         </template>
       </pt-switch>
-    </pt-form-item> -->
+    </pt-form-item>
     <pt-form-item label-focus field="value" label="字段3">
       <pt-input
         v-model="data.value"
-        type="text"
-        :max-length="10"
-        :formatter="[
-          val => (val.toString().includes('$') ? val : '$' + val),
-        ]" />
+        :precision="5"
+        type="number"
+        tabindex="1"
+        align="right"
+        :formatter="[val => (val.toString().includes('$') ? val : '$' + val)]">
+        <!-- <template #prepend> 321 </template> -->
+        <!-- <template #append> 123 </template> -->
+      </pt-input>
     </pt-form-item>
   </pt-form>
 

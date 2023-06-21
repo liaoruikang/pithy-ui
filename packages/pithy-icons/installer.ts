@@ -6,10 +6,21 @@ import {
   PtMoon,
   PtSuccess,
   PtSun,
+  PtAdd,
+  PtMinus,
 } from './src';
 import { withInstallAll, setOptions } from '@pithy-ui/utils/vue';
 
-const components = [PtError, PtLoading, PtLoading2, PtMoon, PtSuccess, PtSun];
+const components = [
+  PtError,
+  PtLoading,
+  PtLoading2,
+  PtMoon,
+  PtSuccess,
+  PtSun,
+  PtAdd,
+  PtMinus,
+];
 
 export * from './src';
 

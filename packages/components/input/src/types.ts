@@ -21,3 +21,5 @@ export type InputType =
   | 'time'
   | 'url'
   | 'week';
+
+export type ComputeType = 'increase' | 'decrease';

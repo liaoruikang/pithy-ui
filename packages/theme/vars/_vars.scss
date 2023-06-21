@@ -47,6 +47,9 @@ $light: map.deep-merge(
       switch-loading-color: #f97b22,
       switch-hover-color: map.get($colors, 'primary-color'),
     ),
+    input: (
+      input-focus-color: map.get($colors, 'primary-color'),
+    ),
   ),
   $light
 );

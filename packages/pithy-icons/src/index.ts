@@ -12,5 +12,6 @@ export const PtLoading = iconComponents[`${basespace}-loading`];
 export const PtLoading2 = iconComponents[`${basespace}-loading2`];
 export const PtSuccess = iconComponents[`${basespace}-success`];
 export const PtError = iconComponents[`${basespace}-error`];
-
+export const PtAdd = iconComponents[`${basespace}-add`];
+export const PtMinus = iconComponents[`${basespace}-minus`];
 export { createIconComponent };

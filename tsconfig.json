@@ -5,13 +5,7 @@
       "path": "./tsconfig.web.json"
     },
     {
-      "path": "./tsconfig.type.json"
-    },
-    {
       "path": "./tsconfig.play.json"
-    },
-    {
-      "path": "./tsconfig.icons.json"
     },
     {
       "path": "./tsconfig.test.json"

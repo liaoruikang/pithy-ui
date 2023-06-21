@@ -61,3 +61,10 @@ export const deepEqual = (val1: any, val2: any): boolean => {
   }
   return false;
 };
+
+export const createPipe =
+  <P, A extends any[] = any[]>(
+    ...pipeFunctions: ((param: P, ...args: A) => P)[]
+  ) =>
+  (param: P, ...args: A) =>
+    pipeFunctions.reduce((prev, fn) => fn(prev, ...args), param);

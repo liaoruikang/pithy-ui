@@ -1,7 +1,7 @@
 import { buildProps, emitsValidate, events } from '@pithy-ui/utils';
-import type { Size } from '@pithy-ui/utils';
+import type { Align, Size } from '@pithy-ui/utils';
 import { Component, ExtractPropTypes, PropType, VNode } from 'vue';
-import { InputType } from './types';
+import type { InputType } from './types';
 import type { ModifierFunction } from '@pithy-ui/hooks';
 
 export const inputProps = buildProps({
@@ -14,6 +14,10 @@ export const inputProps = buildProps({
   },
   size: {
     type: [Number, Array] as PropType<Size>,
+  },
+  align: {
+    type: String as PropType<Align>,
+    default: 'left',
   },
   maxLength: {
     type: Number,
@@ -37,7 +41,6 @@ export const inputProps = buildProps({
   },
   precision: {
     type: Number,
-    default: 1,
     validator: (val: number) => val > 0 && val <= 100,
   },
   formatter: {

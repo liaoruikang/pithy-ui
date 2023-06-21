@@ -1,28 +1,11 @@
-import { computed, ref } from 'vue';
-import type { ModelValue, UseModel } from './types';
+import { computed, nextTick } from 'vue';
+import type { ModelValue, ModifierFunction, UseModel } from './types';
 import { isArray } from '@pithy-ui/utils';
 
-export const useModel: UseModel = (props, emit, modifier) => {
-  const modelInputType = ref('');
+export const useModel: UseModel = (props, emit, modifier, initModifier) => {
   const updateValue = (val: ModelValue) => {
-    console.log(val);
-
-    let isStop = false;
-    const stop = () => {
-      isStop = true;
-    };
-    const modifierFn = modifier?.();
-    if (isArray(modifierFn)) {
-      val = modifierFn.reduce(
-        (prev, fn) =>
-          isStop ? '' : fn?.(prev, modelInputType.value, stop) ?? '',
-        val,
-      );
-    } else {
-      val = modifierFn?.(val, modelInputType.value, stop) ?? val;
-    }
-    if (props.modelValue === undefined || isStop || val === modelValue.value)
-      return;
+    val = exec(val, modifier?.());
+    if (props.modelValue === undefined || val === modelValue.value) return;
     emit('update:model-value', val);
   };
 
@@ -33,8 +16,20 @@ export const useModel: UseModel = (props, emit, modifier) => {
     set: updateValue,
   });
 
-  return {
-    modelValue,
-    modelInputType,
-  };
+  nextTick(() => (modelValue.value = exec(modelValue.value, initModifier?.())));
+
+  return modelValue;
+};
+
+const exec = (
+  val: ModelValue,
+  modifier: ModifierFunction | ModifierFunction[] | undefined,
+): ModelValue => {
+  if (modifier === undefined) return val;
+  if (isArray(modifier)) {
+    val = modifier.reduce((prev, fn) => fn?.(prev) ?? '', val);
+  } else {
+    val = modifier?.(val) ?? val;
+  }
+  return val;
 };

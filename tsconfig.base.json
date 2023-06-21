@@ -13,7 +13,10 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "removeComments": false
+    "removeComments": false,
+    "paths": {
+      "@pithy-ui/*": ["packages/*"]
+    }
   },
   "exclude": []
 }
