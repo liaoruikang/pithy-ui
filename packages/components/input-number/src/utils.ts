@@ -14,5 +14,5 @@ export const computeNumber = (
   } else if (type === 'decrease') {
     sum = int1 - int2;
   }
-  return Number(sum) / 10 ** 17;
+  return (Number(sum) / 10 ** 17).toString();
 };

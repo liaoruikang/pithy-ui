@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { PtForm, useTheme } from 'pithy-ui';
-// import type { ValidateResult,ValidatorFuntion, ValidateResultGroup } from 'pithy-ui';
+import { PtAdd } from '@pithy-ui/icons';
 const { theme } = useTheme();
 const test = ref(NaN);
 
@@ -37,6 +37,9 @@ const data = reactive({ theme, test, value: '' });
 // const onValidate = (e: ValidateResultGroup | ValidateResult) => {
 //   console.log(e);
 // };
+const formatter = (val: string | number) => {
+  return `$${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 </script>
 
 <template>
@@ -84,18 +87,44 @@ const data = reactive({ theme, test, value: '' });
         </template>
       </pt-switch>
     </pt-form-item>
-    <pt-form-item label-focus field="value" label="字段3">
-      <pt-input
+    <pt-form-item label-focus label="字段4">
+      <!-- <pt-input
         v-model="data.value"
         :precision="5"
         type="number"
         tabindex="1"
         align="right"
         :formatter="[val => (val.toString().includes('$') ? val : '$' + val)]">
-        <!-- <template #prepend> 321 </template> -->
-        <!-- <template #append> 123 </template> -->
-      </pt-input>
+      </pt-input> -->
+      <pt-input
+        :value="data.value"
+        show-limit
+        placeholder="123"
+        clearable
+        resize="none"
+        type="textarea"
+        :autosize="{
+          minRows: 2,
+          maxRows: 6,
+        }"
+        :style="{ margin: '100px' }"
+        maxlength="50"
+        :formatter="[val => val.replace(/[$,]+/g, ''), formatter]"
+        :prefix-icon="PtAdd"></pt-input>
     </pt-form-item>
+    <!-- <pt-form-item label-focus field="value" label="字段3"> -->
+    <!-- <pt-input
+        v-model="data.value"
+        :precision="5"
+        type="number"
+        tabindex="1"
+        align="right"
+        :formatter="[val => (val.toString().includes('$') ? val : '$' + val)]">
+      </pt-input> -->
+    <!-- <pt-input-number
+        v-model="data.value"
+        controls-position="right"></pt-input-number> -->
+    <!-- </pt-form-item> -->
   </pt-form>
 
   <!-- <pt-icon color="red">
@@ -113,5 +142,7 @@ body {
   background-color: var(--pt-bg-color);
   transition: 0.3s;
   height: 200vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 </style>

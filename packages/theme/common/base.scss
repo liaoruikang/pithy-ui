@@ -12,3 +12,25 @@
   transform: scaleY(0);
   opacity: 0;
 }
+
+.#{$prefix}fade-enter-active,
+.#{$prefix}fade-leave-active {
+  @include transition(opacity);
+}
+.#{$prefix}fade-in-enter-active,
+.#{$prefix}fade-in-leave-active {
+  @include transition(opacity, $function: ease-in);
+}
+.#{$prefix}fade-out-enter-active,
+.#{$prefix}fade-out-leave-active {
+  @include transition(opacity, $function: ease-out);
+}
+
+.#{$prefix}fade-enter-from,
+.#{$prefix}fade-leave-to,
+.#{$prefix}fade-in-enter-from,
+.#{$prefix}fade-in-leave-to,
+.#{$prefix}fade-out-enter-from,
+.#{$prefix}fade-out-leave-to {
+  opacity: 0;
+}

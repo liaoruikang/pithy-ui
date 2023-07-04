@@ -1,17 +1,19 @@
-import { Prop, PropType } from 'vue';
+import type { Prop, PropType } from 'vue';
 import { isArray, isObject } from '../typeGuard';
 import { basespace } from './globalOptions';
-
-export interface Events {
-  VMODEL: 'update:model-value';
-  CHANGE: 'change';
-  BEFORECHANGE: 'beforChange';
-}
+import type { Events } from './types';
 
 export const events: Events = {
   VMODEL: 'update:model-value',
   CHANGE: 'change',
   BEFORECHANGE: 'beforChange',
+  BLUR: 'blur',
+  MOUSEUP: 'mouseup',
+  MOUSEDOWN: 'mousedown',
+  KEYUP: 'keyup',
+  KEYDOWN: 'keydown',
+  INPUT: 'input',
+  FOCUS: 'focus',
 };
 
 export const definePropType = <T>(val: any): PropType<T> => val;
@@ -68,3 +70,9 @@ export const createPipe =
   ) =>
   (param: P, ...args: A) =>
     pipeFunctions.reduce((prev, fn) => fn(prev, ...args), param);
+
+export const numberFilter = (val: string | number) => {
+  val = val.toString().replace(/[^\d.e+-]/g, '');
+  val = val.replace(/((?<=\..*)\.)|((?<![e]|(^))[-+])|((?<!\d+\.\d+)e)/g, '');
+  return val;
+};

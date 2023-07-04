@@ -6,17 +6,20 @@ export const isDecimalNumber = (str: string): boolean => {
   return !isNaN(num) && num.toString() === (str.replace(/^0+/, '') || '0');
 };
 
-export const isPromise = (value: any): value is Promise<any> => {
+export const isPromise = (val: any): val is Promise<any> => {
   return (
-    typeof value === 'object' &&
-    value !== null &&
-    typeof value.then === 'function' &&
-    typeof value.catch === 'function' &&
-    typeof value.finally === 'function'
+    typeof val === 'object' &&
+    val !== null &&
+    typeof val.then === 'function' &&
+    typeof val.catch === 'function' &&
+    typeof val.finally === 'function'
   );
 };
 
-export const isObject = (value: any): value is { [key: string]: any } =>
-  typeof value === 'object' && value !== null;
-export const isArray = <T>(value: any): value is Array<T> =>
-  Object.prototype.toString.call(value) === '[object Array]';
+export const isObject = (val: any): val is { [key: string]: any } =>
+  typeof val === 'object' && val !== null;
+export const isArray = <T>(val: any): val is Array<T> =>
+  Object.prototype.toString.call(val) === '[object Array]';
+
+export const isUndefined = (val: any): val is undefined =>
+  typeof val === 'undefined';

@@ -1,6 +1,6 @@
 import type { WritableComputedRef } from 'vue';
 
-export type ModelValue = string | number;
+export type ModelValue = string;
 
 export interface ModelProps {
   value?: ModelValue;

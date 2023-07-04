@@ -1,0 +1,114 @@
+@use '../function/function' as f;
+@use '../mixins/mixins' as m;
+@use '../function/bem' as *;
+@use '../mixins/vars';
+@use '../common/config' as c;
+
+#{b('input-number')} {
+  #{bem('input')} {
+    #{bem('input-number','decrease')},
+    #{bem('input-number','increase')} {
+      @include m.transition(color);
+      @include m.center_flex('vertical');
+
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+
+      &:hover {
+        color: f.get_var(primary-color);
+      }
+    }
+  }
+  &:not(#{is('controls-left'), is('controls-right')}) {
+    #{bem('input')} {
+      @include m.transition(border);
+
+      border: 1px solid f.get_var(bd-color);
+      border-radius: 4px;
+
+      &:focus-within {
+        border: 1px solid f.get_var(input-focus-color);
+      }
+
+      #{e('wrapper')} {
+        border: none;
+        border-radius: 0;
+      }
+
+      &#{is('prepend')} {
+        #{e('prepend')} {
+          border-width: 0 1px 0 0;
+        }
+      }
+      &#{is('append')} {
+        #{e('append')} {
+          border-width: 0 0 0 1px;
+        }
+      }
+
+      #{e('append')},
+      #{e('prepend')} {
+        border: 1px solid f.get_var(bd-color);
+
+        #{bem('input-number','decrease')},
+        #{bem('input-number','increase')} {
+          @include m.transition(color);
+          @include m.center_flex('vertical');
+
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+
+          &:hover {
+            color: f.get_var(primary-color);
+          }
+        }
+      }
+    }
+  }
+
+  &#{is('controls-left')},
+  &#{is('controls-right')} {
+    #{b('input')} {
+      #{e('prefix')},
+      #{e('subffix')} {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        #{bem('input-number','decrease')},
+        #{bem('input-number','increase')} {
+          @include m.transition(color flex);
+
+          flex: 5;
+          font-size: f.compute_size(12px);
+          padding: 0 f.compute_size(6px);
+          box-sizing: border-box;
+        }
+        #{bem('input-number','line')} {
+          width: 100%;
+          height: 1px;
+          background-color: f.get_var(bd-color);
+        }
+      }
+      &:not(#{is('disabled')}) {
+        #{bem('input-number','decrease')},
+        #{bem('input-number','increase')} {
+          &:hover {
+            flex: 7;
+          }
+        }
+      }
+    }
+  }
+  &#{is('controls-left')} {
+    #{bem('input','prefix')} {
+      border-right: 1px solid f.get_var(bd-color);
+    }
+  }
+  &#{is('controls-right')} {
+    #{bem('input','subffix')} {
+      border-left: 1px solid f.get_var(bd-color);
+    }
+  }
+}

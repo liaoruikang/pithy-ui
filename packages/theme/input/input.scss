@@ -9,20 +9,18 @@
 #{b('input')} {
   display: inline-flex;
   height: f.compute_h_size(30px);
-  line-height: f.compute_h_size(30px - 2px);
-  min-width: f.compute_w_size(170px);
+  line-height: f.compute_h_size(28px);
   box-sizing: border-box;
   font-size: f.compute_size(14px);
   vertical-align: middle;
+  background-color: f.get_var(bg-color);
 
   #{e('wrapper')} {
     @include m.transition(border);
-
     @include m.center_flex('vertical');
 
     width: 100%;
     height: 100%;
-    padding: 0 f.compute_size(6px);
     box-sizing: border-box;
     border: 1px solid f.get_var(bd-color);
     border-radius: 4px;
@@ -32,12 +30,15 @@
     }
 
     #{bem('input', 'inner')} {
+      @include m.transition(color);
+
       width: 100%;
       height: 100%;
       background-color: transparent;
-      padding: 0;
+      padding: 0 f.compute_size(6px);
       border: 0;
       font-size: inherit;
+      color: f.get_var(text-color);
       outline: 0;
       box-sizing: border-box;
       -moz-appearance: textfield;
@@ -47,11 +48,48 @@
         -webkit-appearance: none;
         margin: 0;
       }
+
+      &::placeholder,
+      &::-moz-placeholder {
+        color: f.get_var(text-color2);
+      }
+    }
+
+    #{bem('input', 'suffix')},
+    #{bem('input', 'limit')},
+    #{bem('input', 'password')},
+    #{bem('input', 'clear')} {
+      @include m.center_flex;
+
+      padding-right: f.compute_size(6px);
+      height: 100%;
+      line-height: 1;
+    }
+    #{bem('input', 'prefix')} {
+      @include m.center_flex;
+
+      padding-left: f.compute_size(6px);
+      height: 100%;
+      line-height: 1;
+    }
+
+    #{bem('input', 'limit')} {
+      @include m.transition(color);
+      font-size: f.compute_size(12px);
+      color: f.get_var(text-color2);
+      white-space: nowrap;
+    }
+    #{bem('input', 'password')},
+    #{bem('input', 'clear')} {
+      @include m.transition(color opacity, 0.2s);
+
+      color: f.get_var(text-color2);
+      user-select: none;
+      cursor: pointer;
     }
   }
 
-  &#{is('prepend')},
-  &#{is('number')} {
+  &#{is('prepend')} {
     #{e('wrapper')} {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
@@ -62,8 +100,7 @@
     }
   }
 
-  &#{is('append')},
-  &#{is('number')} {
+  &#{is('append')} {
     #{e('wrapper')} {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
@@ -76,25 +113,64 @@
   #{e('append')},
   #{e('prepend')} {
     @include m.transition(border color);
+    @include m.center_flex;
 
     padding: 0 f.compute_size(4px);
     border: 1px solid f.get_var(bd-color);
     color: f.get_var(text-color);
+    line-height: 1;
     user-select: none;
+  }
 
-    @each $selector in & {
-      #{m('number', '#{$selector}')} {
-        @include m.center_flex('vertical');
-        @include m.transition(color);
-
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-
-        &:hover {
-          color: f.get_var(input-focus-color);
-        }
+  &#{is('disabled')} {
+    @include m.disabled {
+      border-color: f.get_var(bd-color) !important;
+      * {
+        cursor: not-allowed !important;
+        border-color: f.get_var(bd-color) !important;
+        color: f.get_var(text-color) !important;
       }
     }
+  }
+}
+
+#{b('textarea')} {
+  @include m.transition(border);
+
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  width: fit-content;
+  border: 1px solid f.get_var(bd-color);
+  background-color: f.get_var(bg-color);
+  font-size: f.compute_size(14px);
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  &:focus-within {
+    border: 1px solid f.get_var(input-focus-color);
+  }
+
+  #{e('inner')} {
+    width: 100%;
+    padding: f.compute_size(2px) f.compute_size(6px);
+    border: 0;
+    font-size: inherit;
+    line-height: 1.5;
+    outline: 0;
+    box-sizing: border-box;
+  }
+
+  #{e( 'limit')} {
+    @include m.transition(color);
+
+    position: absolute;
+    bottom: f.compute_size(6px);
+    right: f.compute_size(6px);
+    font-size: f.compute_size(12px);
+    color: f.get_var(text-color2);
+    white-space: nowrap;
+    line-height: 1;
+    pointer-events: none;
   }
 }

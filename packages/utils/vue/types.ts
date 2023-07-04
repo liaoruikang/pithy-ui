@@ -17,3 +17,16 @@ export interface BemChain {
 }
 
 export type BemType = 'block' | 'element' | 'modifier';
+
+export interface Events {
+  VMODEL: 'update:model-value';
+  CHANGE: 'change';
+  BEFORECHANGE: 'beforChange';
+  BLUR: 'blur';
+  MOUSEUP: 'mouseup';
+  MOUSEDOWN: 'mousedown';
+  KEYUP: 'keyup';
+  KEYDOWN: 'keydown';
+  INPUT: 'input';
+  FOCUS: 'focus';
+}

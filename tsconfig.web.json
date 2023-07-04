@@ -5,5 +5,5 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["./types/env.d.ts"]
   },
-  "include": ["packages"]
+  "include": ["packages", "types/env.d.ts"]
 }

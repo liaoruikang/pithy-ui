@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.web.json",
-  "compilerOptions": {
-    "types": ["./types/global.d.ts", "./types/global-icons.d.ts"]
-  },
-  "include": ["play", "types/global.d.ts", "types/global-icons.d.ts"]
+  "include": [
+    "play",
+    "packages",
+    "types/global.d.ts",
+    "types/global-icons.d.ts"
+  ]
 }

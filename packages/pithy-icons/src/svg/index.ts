@@ -5,3 +5,6 @@ export * from './error';
 export * from './success';
 export * from './add';
 export * from './minus';
+export * from './arrows';
+export * from './eye';
+export * from './clear';

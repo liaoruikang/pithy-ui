@@ -1,47 +1,123 @@
 <template>
   <div
+    v-if="type !== 'textarea'"
     :class="{
-      [ns.b()]: true,
-      [ns.is('prepend')]: !!slots.prepend && type !== 'number',
-      [ns.is('append')]: !!slots.append && type !== 'number',
-      [ns.is('number')]: type === 'number',
+      [iNs.b()]: true,
+      [iNs.is('prepend')]: !!slots.prepend,
+      [iNs.is('append')]: !!slots.append,
+      [iNs.is('disabled')]: disabled,
+      [iNs.is('clearable')]: clearable,
     }"
     :style="computedSizeStyles">
-    <div v-if="slots.prepend || type === 'number'" :class="ns.e('prepend')">
-      <slot name="prepend">
-        <div
-          v-if="type === 'number'"
-          :class="ns.m('number')"
-          @mousedown="onMousedown('decrease')"
-          @mouseup="onMouseup">
-          <pt-icon><pt-minus /></pt-icon>
-        </div>
-      </slot>
+    <div v-if="slots.prepend" :class="iNs.e('prepend')">
+      <slot name="prepend" />
     </div>
-    <div :class="ns.e('wrapper')">
+    <div :class="iNs.e('wrapper')">
+      <div v-if="slots.prefix || prefixIcon" :class="iNs.e('prefix')">
+        <slot name="prefix">
+          <pt-icon
+            :custom-icon="!isIconComponent(prefixIcon) ? (prefixIcon as string | SVGElement | VNode) : undefined">
+            <component
+              :is="prefixIcon"
+              v-if="isIconComponent(prefixIcon)"></component>
+          </pt-icon>
+        </slot>
+      </div>
       <input
         :id="id"
         ref="input"
-        v-bind="attrs"
+        :name="name"
         :value="modelValue"
-        :class="ns.e('inner')"
+        :class="iNs.e('inner')"
         :type="inputType"
         :style="{
           textAlign: align,
         }"
+        :minlength="minlength"
+        :maxlength="maxlength"
+        :placeholder="placeholder"
+        :readonly="disabled || readonly"
+        :autocomplete="autocomplete"
+        :autofocus="autofocus"
+        :tabindex="tabindex"
+        :aria-label="label"
+        @keydown="emit('keydown', $event)"
+        @keyup="emit('keyup', $event)"
         @blur="onBlur"
-        @input="onInput" />
+        @focus="emit('focus', modelValue)"
+        @input="onInput"
+        @change="emit('change', modelValue)" />
+      <div
+        v-if="slots.suffix || suffixIcon"
+        :class="iNs.e('suffix')"
+        @mousedown.prevent>
+        <slot name="suffix">
+          <pt-icon
+            :custom-icon="!isIconComponent(suffixIcon) ? (suffixIcon as string | SVGElement | VNode) : undefined">
+            <component
+              :is="suffixIcon"
+              v-if="isIconComponent(suffixIcon)"></component>
+          </pt-icon>
+        </slot>
+      </div>
+      <div
+        v-if="type === 'password' && showPassword"
+        :class="iNs.e('password')"
+        @mousedown.prevent
+        @click="isShowPassword = !isShowPassword">
+        <pt-icon>
+          <pt-eye v-if="isShowPassword" />
+          <pt-close-eye v-else />
+        </pt-icon>
+      </div>
+      <div
+        v-if="clearable"
+        :class="iNs.e('clear')"
+        @mousedown.prevent
+        @click="modelValue = ''">
+        <pt-icon>
+          <pt-clear />
+        </pt-icon>
+      </div>
+      <div
+        v-if="showLimit && maxlength"
+        :class="iNs.e('limit')"
+        @mousedown.prevent>
+        <span>{{ modelValue.length }} / {{ maxlength }}</span>
+      </div>
     </div>
-    <div v-if="slots.append || type === 'number'" :class="ns.e('append')">
-      <slot name="append">
-        <div
-          v-if="type === 'number'"
-          :class="ns.m('number')"
-          @mousedown="onMousedown('increase')"
-          @mouseup="onMouseup">
-          <pt-icon><pt-add /></pt-icon>
-        </div>
-      </slot>
+    <div v-if="slots.append" :class="iNs.e('append')">
+      <slot name="append" />
+    </div>
+  </div>
+  <div v-else :class="iaNs.b('textarea')" :style="computedSizeStyles">
+    <textarea
+      :id="id"
+      ref="textarea"
+      :value="modelValue"
+      :name="name"
+      :class="iaNs.e('inner')"
+      :minlength="minlength"
+      :maxlength="maxlength"
+      :placeholder="placeholder"
+      :readonly="disabled || readonly"
+      :style="{ resize }"
+      :rows="rows"
+      :autocomplete="autocomplete"
+      :autofocus="autofocus"
+      :tabindex="tabindex"
+      :aria-label="label"
+      @keydown="emit('keydown', $event)"
+      @keyup="emit('keyup', $event)"
+      @blur="onBlur"
+      @focus="emit('focus', modelValue)"
+      @input="onInput"
+      @change="emit('change', modelValue)"></textarea>
+    <div
+      v-if="showLimit && maxlength"
+      :class="iaNs.e('limit')"
+      @mousedown.prevent>
+      <span>{{ modelValue.length }} / {{ maxlength }}</span>
     </div>
   </div>
 </template>
@@ -54,27 +130,28 @@ import {
   getInputId,
   isArray,
   createPipe,
+  numberFilter,
+  isString,
+  isObject,
 } from '@pithy-ui/utils';
 import { useSize, useModel } from '@pithy-ui/hooks';
+import { isBoolean, isElement, isNaN } from 'lodash-es';
+import { ref, computed, useSlots, isVNode, watchEffect } from 'vue';
+import { PtIcon } from '../../icon';
+import { PtEye, PtCloseEye, PtClear } from '@pithy-ui/icons';
 import type { ModifierFunction, ModelValue } from '@pithy-ui/hooks';
-import { ref, computed, useSlots, useAttrs } from 'vue';
-import PtIcon from '../../icon';
-import { PtAdd, PtMinus } from '@pithy-ui/icons';
-import { debounce, isUndefined } from 'lodash-unified';
-import { computeNumber } from './utils';
-import type { ComputeType } from './types';
-
+import type { VNode, Component } from 'vue';
+import type { Autosize, InputType } from './types';
 defineOptions({
   name: `${basespace}-input`,
-  inheritAttrs: false,
 });
 
 const id = getInputId();
 
-const ns = new Bem('input');
+const iNs = new Bem('input');
+const iaNs = new Bem('textarea');
 
 const slots = useSlots();
-const attrs = useAttrs();
 
 const props = defineProps(inputProps);
 const emit = defineEmits(inputEmits);
@@ -83,11 +160,59 @@ const computedSizeStyles = useSize(props, 'size');
 
 const blurValidate = useFormItem(id);
 
+const isShowPassword = ref(false);
+
 const inputType = computed(() =>
-  props.type === 'number' ? 'text' : props.type,
+  props.type === 'number' || isShowPassword.value ? 'text' : props.type,
 );
 
-const input = ref<HTMLInputElement | HTMLTextAreaElement>();
+const showLimit = computed(() => {
+  const includeType: InputType[] = ['password', 'text', 'textarea'];
+  return includeType.includes(props.type) && props.showLimit;
+});
+
+const isIconComponent = (icon: any): icon is Component => {
+  return (
+    !isString(icon) && !isElement(icon) && !isVNode(icon) && isObject(icon)
+  );
+};
+const input = ref<HTMLInputElement>();
+const textarea = ref<HTMLTextAreaElement>();
+
+const verticalPadding = (padding: string[]) => {
+  if (padding.length < 3) return Number(numberFilter(padding[0])) * 2;
+  return (
+    Number(numberFilter(padding[0])) +
+    Number(numberFilter(padding[padding.length - 1]))
+  );
+};
+
+const autoSize = () => {
+  if (!textarea.value || !props.autosize) return;
+  const autosize: Autosize = {
+    minRows: -Infinity,
+    maxRows: Infinity,
+  };
+  if (!isBoolean(props.autosize)) {
+    autosize.minRows = props.autosize?.minRows ?? -Infinity;
+    autosize.maxRows = props.autosize?.maxRows ?? Infinity;
+  }
+  textarea.value.style.height = 'auto';
+  const scrollHeight = textarea.value.scrollHeight;
+  const computedStyles = getComputedStyle(textarea.value);
+  const padding = verticalPadding(computedStyles.padding.split(' '));
+  const lineHeight = Number(numberFilter(computedStyles.lineHeight));
+  const rawRows = (scrollHeight - padding) / lineHeight;
+  if (rawRows < autosize.maxRows) {
+    textarea.value.style.overflow = 'hidden';
+  } else {
+    textarea.value.style.overflow = '';
+  }
+
+  const rows = Math.max(autosize.minRows, Math.min(rawRows, autosize.maxRows));
+
+  textarea.value.style.height = rows * lineHeight + padding + 'px';
+};
 
 const formatter = computed(() => {
   if (!props.formatter) return [];
@@ -96,98 +221,64 @@ const formatter = computed(() => {
     : [props.formatter];
 });
 
-const disposeNumber: ModifierFunction = val => {
-  if (props.type !== 'number') return val;
-  val = val.toString().replace(/[^\d.e-|+]/g, '');
-  val = val.replace(/((?<=\..*)\.)|((?<=[^])[-+])/g, '');
-  return val;
-};
+const disposeNumber: ModifierFunction = val =>
+  props.type !== 'number' ? val : numberFilter(val);
 
-const disposeString: ModifierFunction = val => {
-  if (props.type === 'number') return val;
-  const strVal = val.toString();
-  if (strVal.length > props.maxLength) return modelValue.value;
+const disposeDisabled: ModifierFunction = val => {
+  if (props.disabled) return modelValue.value;
   return val;
 };
 
 const updateValue: ModifierFunction = val =>
-  (input.value!.value = val.toString());
-
-const toPrecision = (val: ModelValue) => {
-  if (isUndefined(props.precision)) return val.toString();
-  if (typeof val === 'string') return Number(val).toFixed(props.precision);
-  return val.toFixed(props.precision);
-};
+  props.type === 'textarea'
+    ? (textarea.value!.value = val)
+    : (input.value!.value = val);
 
 const numberLimit = (val: ModelValue) => {
   const numVal = Number(val);
   if (numVal > props.max) val = props.max.toString();
   else if (numVal < props.min) val = props.min.toString();
+  if (isNaN(val) || val === '') val = '0';
   return val;
 };
 
-const strictStepLimit = (val: ModelValue): ModelValue => {
-  if (!props.strictStep) return val;
-  return (Math.round(Number(val) / props.step) * props.step).toString();
-};
-
-/**
- * @description number类型限制函数
- */
-const limitPipe = createPipe<ModelValue>(
-  strictStepLimit,
-  numberLimit,
-  toPrecision,
-);
-
-/**
- * @description 将非数值的字符串过滤
- */
-const mainPipe = createPipe<ModelValue>(disposeNumber, limitPipe);
-
-/**
- * @description 计算数值
- */
-const computePipe = createPipe<ModelValue, [ModelValue, ComputeType]>(
-  disposeNumber,
-  computeNumber,
-  limitPipe,
-);
+const limitPipe = createPipe<ModelValue>(disposeNumber, numberLimit);
 
 const modelValue = useModel(
   props,
   emit,
-  () => [disposeNumber, disposeString, ...formatter.value, updateValue],
-  () => val => props.type === 'number' ? mainPipe(val) : val,
+  () => [disposeDisabled, disposeNumber, ...formatter.value, updateValue],
+  () => [
+    val => (props.type === 'number' ? limitPipe(val) : val),
+    ...formatter.value,
+  ],
 );
 
 const onBlur = () => {
-  if (props.type === 'number') modelValue.value = mainPipe(modelValue.value);
   blurValidate();
+  if (props.type === 'number')
+    modelValue.value = modelValue.value.replace(/e(?![-+])/g, '');
+  emit('blur', modelValue.value);
 };
 
 const onInput = () => {
+  if (props.type === 'textarea') {
+    autoSize();
+    modelValue.value = textarea.value?.value ?? modelValue.value;
+    emit('input', textarea.value?.value ?? modelValue.value);
+    return;
+  }
   modelValue.value = input.value?.value ?? modelValue.value;
+  emit('input', input.value?.value ?? modelValue.value);
 };
 
-let mouseTimer: number;
-let isDown = false;
-const onMousedown = (type: ComputeType) => {
-  isDown = true;
-  const fn = type == 'decrease' ? decrease : increase;
-  fn();
-  sustain(fn);
-};
-
-const sustain = debounce((fn: () => ModelValue) => {
-  if (!isDown) return;
-  mouseTimer = setInterval(fn, 100);
-}, 300);
-
-const onMouseup = () => (clearInterval(mouseTimer), (isDown = false));
-
-const increase = () =>
-  (modelValue.value = computePipe(modelValue.value, props.step, 'increase'));
-const decrease = () =>
-  (modelValue.value = computePipe(modelValue.value, props.step, 'decrease'));
+watchEffect(() => {
+  if (!textarea.value) return;
+  if (props.autosize) {
+    textarea.value.style.overflow = 'hidden';
+    autoSize();
+  } else {
+    textarea.value.style.overflow = '';
+  }
+});
 </script>

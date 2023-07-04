@@ -8,6 +8,10 @@ import {
   PtSun,
   PtAdd,
   PtMinus,
+  PtArrowsBottom,
+  PtArrowsTop,
+  PtCloseEye,
+  PtEye,
 } from './src';
 import { withInstallAll, setOptions } from '@pithy-ui/utils/vue';
 
@@ -20,6 +24,10 @@ const components = [
   PtSun,
   PtAdd,
   PtMinus,
+  PtArrowsBottom,
+  PtArrowsTop,
+  PtCloseEye,
+  PtEye,
 ];
 
 export * from './src';

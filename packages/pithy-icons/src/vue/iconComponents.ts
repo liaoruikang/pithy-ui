@@ -7,6 +7,11 @@ import {
   success,
   add,
   minus,
+  arrowsTop,
+  arrowsBottom,
+  eye,
+  closeEye,
+  clear,
 } from '../svg';
 import { ComponentPlugin, basespace } from '@pithy-ui/utils/vue';
 
@@ -42,6 +47,26 @@ const options = [
   {
     name: `${basespace}-minus`,
     url: minus,
+  },
+  {
+    name: `${basespace}-arrows-top`,
+    url: arrowsTop,
+  },
+  {
+    name: `${basespace}-arrows-bottom`,
+    url: arrowsBottom,
+  },
+  {
+    name: `${basespace}-eye`,
+    url: eye,
+  },
+  {
+    name: `${basespace}-close-eye`,
+    url: closeEye,
+  },
+  {
+    name: `${basespace}-clear`,
+    url: clear,
   },
 ];
 
