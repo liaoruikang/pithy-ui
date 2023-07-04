@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "dist/types",
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "noUnusedLocals": false
   },
   "exclude": ["packages/icons"]
 }
